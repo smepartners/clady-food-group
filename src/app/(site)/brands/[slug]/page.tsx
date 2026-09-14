@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { Section, Pending, ImageFrame } from "@/components/ui";
+import { Section, Pending, ImageFrame, AccentRule } from "@/components/ui";
+import { Reveal } from "@/components/reveal";
 
 type Brand = {
   name: string;
@@ -90,11 +91,12 @@ export default async function BrandPage({
     <>
       <Section pad="pt-14 sm:pt-16 pb-20 sm:pb-28">
         <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
-          <div>
+          <Reveal>
             <h1 className="text-4xl font-semibold leading-[1.05] text-green-700 sm:text-5xl">
               {brand.name}
             </h1>
-            <p className="mt-3 text-lg italic text-ink-soft">{brand.strap}</p>
+            <AccentRule className="mt-6" />
+            <p className="mt-6 text-lg italic text-ink-soft">{brand.strap}</p>
             <div className="mt-6 space-y-4 text-ink-soft">
               {brand.paragraphs.map((p, i) => (
                 <p key={i}>{p}</p>
@@ -103,17 +105,21 @@ export default async function BrandPage({
             <p className="mt-6 text-xs uppercase tracking-wide text-olive-600">
               Focus: {brand.focus}
             </p>
-          </div>
-          <ImageFrame seed={brand.seed} alt={brand.name} aspect="aspect-[4/5]" />
+          </Reveal>
+          <Reveal delay={0.1}>
+            <ImageFrame seed={brand.seed} alt={brand.name} aspect="aspect-[4/5]" />
+          </Reveal>
         </div>
       </Section>
 
       <Section className="bg-cream-200/40">
-        <Pending>
-          No photography or sub-brand logo supplied for {brand.name} yet
-          (Build Plan §06, open question 04) - hero image and logo slots are
-          scaffolded in the <code>brand</code> Sanity schema, ready to fill in.
-        </Pending>
+        <Reveal>
+          <Pending>
+            No photography or sub-brand logo supplied for {brand.name} yet
+            (Build Plan §06, open question 04) - hero image and logo slots are
+            scaffolded in the <code>brand</code> Sanity schema, ready to fill in.
+          </Pending>
+        </Reveal>
       </Section>
     </>
   );

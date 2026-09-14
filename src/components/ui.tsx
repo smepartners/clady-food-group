@@ -19,7 +19,7 @@ export function Section({
   pad?: string;
 }) {
   return (
-    <section className={`${pad} ${className}`}>
+    <section className={`relative ${pad} ${className}`}>
       <Container>{children}</Container>
     </section>
   );
@@ -36,50 +36,48 @@ export function Pending({ children }: { children: ReactNode }) {
 }
 
 /** Small uppercase label. Rationed per the design system - max one per 3 sections. */
-export function Eyebrow({ children }: { children: ReactNode }) {
+export function Eyebrow({
+  children,
+  tone = "light",
+}: {
+  children: ReactNode;
+  tone?: "light" | "dark";
+}) {
   return (
-    <p className="text-xs font-semibold uppercase tracking-[0.16em] text-olive-600">
+    <p
+      className={`text-xs font-semibold uppercase tracking-[0.16em] ${
+        tone === "dark" ? "text-gold-500" : "text-olive-600"
+      }`}
+    >
       {children}
     </p>
   );
 }
 
-export function SectionHeading({
-  eyebrow,
-  title,
-  className = "",
-}: {
-  eyebrow?: string;
-  title: string;
-  className?: string;
-}) {
-  return (
-    <div className={className}>
-      {eyebrow ? <Eyebrow>{eyebrow}</Eyebrow> : null}
-      <h2 className={`text-2xl font-semibold text-green-700 sm:text-3xl ${eyebrow ? "mt-2" : ""}`}>
-        {title}
-      </h2>
-    </div>
-  );
+/** Short gold accent rule - the site's one recurring decorative flourish. */
+export function AccentRule({ className = "" }: { className?: string }) {
+  return <div className={`h-1 w-14 rounded-full bg-gold-500 ${className}`} />;
 }
 
 /**
  * Photography placeholder. Real client photography is still pending (Build
  * Plan §06, open question 04) - this is a deliberate empty-state treatment
- * (brand-tinted gradient, no unrelated stock imagery) rather than a fake
- * photo. Swap for an <Image> pointed at the real asset once supplied; the
- * `seed` prop is kept as a stable key so each slot is easy to find and
- * replace individually.
+ * (an animated brand-gradient wash, no unrelated stock imagery) rather than
+ * a fake photo. Swap for an <Image> pointed at the real asset once supplied;
+ * the `seed` prop is kept as a stable key so each slot is easy to find and
+ * replace individually. `tone="dark"` is for use on a green/dark section.
  */
 export function ImageFrame({
   seed,
   alt,
   aspect = "aspect-[4/5]",
+  tone = "light",
   className = "",
 }: {
   seed: string;
   alt: string;
   aspect?: string;
+  tone?: "light" | "dark";
   className?: string;
 }) {
   return (
@@ -87,11 +85,28 @@ export function ImageFrame({
       role="img"
       aria-label={alt}
       data-placeholder-seed={seed}
-      className={`relative flex items-center justify-center overflow-hidden rounded-2xl border border-cream-200 bg-gradient-to-br from-green-700/15 via-olive-400/15 to-gold-500/15 ${aspect} ${className}`}
+      className={`animate-gradient-pan relative flex items-center justify-center overflow-hidden rounded-2xl ${aspect} ${
+        tone === "dark"
+          ? "bg-gradient-to-br from-green-900 via-green-700 to-olive-600"
+          : "border border-cream-200 bg-gradient-to-br from-green-700/25 via-gold-500/20 to-olive-400/25"
+      } ${className}`}
     >
-      <div className="flex flex-col items-center gap-2 px-6 text-center">
-        <Camera size={28} weight="light" className="text-green-700/50" />
-        <p className="text-xs font-medium uppercase tracking-wide text-green-700/50">
+      <div
+        className={`absolute -right-10 -top-10 h-40 w-40 rounded-full blur-3xl ${
+          tone === "dark" ? "bg-gold-500/25" : "bg-gold-500/30"
+        }`}
+      />
+      <div className="animate-float relative flex flex-col items-center gap-2 px-6 text-center">
+        <Camera
+          size={28}
+          weight="light"
+          className={tone === "dark" ? "text-cream-100/70" : "text-green-700/60"}
+        />
+        <p
+          className={`text-xs font-medium uppercase tracking-wide ${
+            tone === "dark" ? "text-cream-100/70" : "text-green-700/60"
+          }`}
+        >
           Photography pending
         </p>
       </div>
@@ -99,18 +114,28 @@ export function ImageFrame({
   );
 }
 
+const ICON_TONES = {
+  green: "bg-green-700/10 text-green-700",
+  olive: "bg-olive-600/10 text-olive-600",
+  gold: "bg-gold-500/15 text-gold-700",
+} as const;
+
 export function IconFeature({
   icon,
   name,
   body,
+  tone = "green",
 }: {
   icon: ReactNode;
   name: string;
   body: string;
+  tone?: keyof typeof ICON_TONES;
 }) {
   return (
-    <div className="flex flex-col gap-3">
-      <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-green-700/10 text-green-700">
+    <div className="group flex flex-col gap-3">
+      <div
+        className={`flex h-11 w-11 items-center justify-center rounded-xl transition duration-300 group-hover:-translate-y-0.5 group-hover:scale-105 ${ICON_TONES[tone]}`}
+      >
         {icon}
       </div>
       <h3 className="font-semibold text-ink">{name}</h3>
@@ -121,7 +146,7 @@ export function IconFeature({
 
 export function StatTile({ value, label }: { value: string; label: string }) {
   return (
-    <div className="border-t border-cream-200 pt-4">
+    <div className="border-t-2 border-gold-500 pt-4">
       <p className="text-3xl font-semibold text-green-700 sm:text-4xl">{value}</p>
       <p className="mt-1 text-sm text-ink-soft">{label}</p>
     </div>
@@ -130,7 +155,7 @@ export function StatTile({ value, label }: { value: string; label: string }) {
 
 export function Pill({ children }: { children: ReactNode }) {
   return (
-    <span className="rounded-full border border-olive-600/30 bg-cream-100 px-4 py-1.5 text-sm text-olive-600">
+    <span className="rounded-full border border-olive-600/30 bg-cream-100 px-4 py-1.5 text-sm text-olive-600 transition hover:border-olive-600 hover:bg-olive-600/10">
       {children}
     </span>
   );
@@ -139,14 +164,20 @@ export function Pill({ children }: { children: ReactNode }) {
 export function CTAButton({
   href,
   children,
+  tone = "solid",
 }: {
   href: string;
   children: ReactNode;
+  tone?: "solid" | "inverted";
 }) {
   return (
     <Link
       href={href}
-      className="inline-flex w-fit items-center justify-center rounded-full bg-green-700 px-6 py-3 text-sm font-medium text-cream-100 transition hover:bg-green-900 active:scale-[0.98]"
+      className={`inline-flex w-fit items-center justify-center rounded-full px-6 py-3 text-sm font-medium transition duration-300 hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98] ${
+        tone === "inverted"
+          ? "bg-cream-100 text-green-700 shadow-lg shadow-green-900/20 hover:bg-cream-200"
+          : "bg-green-700 text-cream-100 shadow-lg shadow-green-700/20 hover:bg-green-900 hover:shadow-xl hover:shadow-green-700/30"
+      }`}
     >
       {children}
     </Link>

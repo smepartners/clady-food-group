@@ -31,7 +31,11 @@ export function SiteHeader() {
 
         <nav className="hidden items-center gap-x-7 text-sm font-medium text-ink-soft lg:flex">
           {NAV.map((item) => (
-            <Link key={item.href} href={item.href} className="transition hover:text-green-700">
+            <Link
+              key={item.href}
+              href={item.href}
+              className="relative py-1 transition hover:text-green-700 after:absolute after:-bottom-0.5 after:left-0 after:h-0.5 after:w-0 after:rounded-full after:bg-gold-500 after:transition-all after:duration-300 hover:after:w-full"
+            >
               {item.label}
             </Link>
           ))}
