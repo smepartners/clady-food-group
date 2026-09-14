@@ -1,0 +1,48 @@
+@import "tailwindcss";
+
+:root {
+  --color-green-900: #1c2e21;
+  --color-green-700: #32533a;
+  --color-green-500: #4a6b52;
+  --color-olive-600: #7c7f3d;
+  --color-olive-400: #9a9a5f;
+  --color-gold-500: #f4bf44;
+  --color-gold-700: #b8860f;
+  --color-cream-100: #f5f4e5;
+  --color-cream-200: #ece9d4;
+  --color-ink: #232a20;
+  --color-ink-soft: #55604f;
+
+  --background: var(--color-cream-100);
+  --foreground: var(--color-ink);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  --color-green-900: var(--color-green-900);
+  --color-green-700: var(--color-green-700);
+  --color-green-500: var(--color-green-500);
+  --color-olive-600: var(--color-olive-600);
+  --color-olive-400: var(--color-olive-400);
+  --color-gold-500: var(--color-gold-500);
+  --color-gold-700: var(--color-gold-700);
+  --color-cream-100: var(--color-cream-100);
+  --color-cream-200: var(--color-cream-200);
+  --color-ink: var(--color-ink);
+  --color-ink-soft: var(--color-ink-soft);
+
+  --font-display: var(--font-poppins);
+  --font-body: var(--font-poppins);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-display), ui-sans-serif, system-ui, sans-serif;
+}
