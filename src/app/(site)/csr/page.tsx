@@ -35,7 +35,7 @@ const TONE_ICON_BG = {
 export default function CsrPage() {
   return (
     <>
-      <Section pad="pt-14 sm:pt-16 pb-20 sm:pb-28">
+      <Section pad="pt-14 sm:pt-16 pb-12 sm:pb-16">
         <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
           <Reveal>
             <h1 className="text-4xl font-semibold leading-[1.05] text-green-700 sm:text-5xl">

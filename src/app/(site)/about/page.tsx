@@ -7,7 +7,7 @@ export const metadata: Metadata = { title: "About Us" };
 export default function AboutPage() {
   return (
     <>
-      <Section pad="pt-14 sm:pt-16 pb-20 sm:pb-28">
+      <Section pad="pt-14 sm:pt-16 pb-12 sm:pb-16">
         <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
           <Reveal>
             <h1 className="text-4xl font-semibold leading-[1.05] text-green-700 sm:text-5xl">
@@ -51,7 +51,7 @@ export default function AboutPage() {
         </Reveal>
       </Section>
 
-      <Section className="bg-cream-200/40" pad="py-12 sm:py-16">
+      <Section className="bg-cream-200/40" pad="py-10 sm:py-14">
         <Reveal>
           <h2 className="text-2xl font-semibold text-green-700 sm:text-3xl">At a glance</h2>
           <div className="mt-8">

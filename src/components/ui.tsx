@@ -9,13 +9,16 @@ export function Container({ children }: { children: ReactNode }) {
 export function Section({
   children,
   className = "",
-  pad = "py-20 sm:py-28",
+  pad = "py-14 sm:py-20",
 }: {
   children: ReactNode;
   className?: string;
   // Full padding utility string - replaces the default rather than merging
   // with it, since layering py- and pt-/pb- overrides in one class list
-  // has no reliable winner in Tailwind's generated cascade.
+  // has no reliable winner in Tailwind's generated cascade. Kept deliberately
+  // tight: two adjacent sections both carrying this default stack their
+  // padding at the shared boundary, so a generous per-side value balloons
+  // into an oversized gap between sections very fast.
   pad?: string;
 }) {
   return (
