@@ -1,71 +1,79 @@
 import type { Metadata } from "next";
-import { Section, Pending } from "@/components/ui";
+import { UsersThree, Handshake, Leaf } from "@phosphor-icons/react/dist/ssr";
+import { Section, Pending, ImageFrame } from "@/components/ui";
 
 export const metadata: Metadata = { title: "CSR" };
+
+const PILLARS = [
+  {
+    icon: UsersThree,
+    name: "Our people",
+    body: "Our business is built by people. We want to create an environment where our teams can contribute, develop and take pride in what they do. We value collaboration, respect and accountability, and recognise the importance of strong relationships across our business.",
+  },
+  {
+    icon: Handshake,
+    name: "Our customers and partners",
+    body: "Responsible business starts with doing what we say we will do. We aim to build long-term relationships based on trust, transparency and consistent delivery. We work collaboratively with customers and partners to understand expectations and continually improve the way we operate.",
+  },
+  {
+    icon: Leaf,
+    name: "Our products",
+    body: "Consumer expectations are changing, and we believe businesses have a responsibility to respond. Across our portfolio, we are exploring opportunities to develop products that reflect changing preferences, including growing interest in wellness, functionality, convenience and evolving taste profiles. We also recognise the importance of responsible sourcing, with a particular focus on ethical and responsible supply chains across key commodities such as coffee.",
+  },
+];
 
 export default function CsrPage() {
   return (
     <>
-      <Section className="pt-20 sm:pt-24">
-        <h1 className="max-w-3xl text-4xl font-semibold text-green-700 sm:text-5xl">
-          Doing business responsibly
-        </h1>
-        <div className="mt-6 max-w-2xl space-y-4 text-ink-soft">
-          <p>
-            At Clady Group, we believe responsible business is about making
-            the right decisions for our people, our customers, our partners
-            and the communities in which we operate.
-          </p>
-          <p>
-            As our group develops, we are committed to building responsible
-            practices into the way we work, from the products we develop and
-            the partners we work with to the way we support our people and
-            manage our impact.
-          </p>
+      <Section pad="pt-14 sm:pt-16 pb-20 sm:pb-28">
+        <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
+          <div>
+            <h1 className="text-4xl font-semibold leading-[1.05] text-green-700 sm:text-5xl">
+              Doing business responsibly
+            </h1>
+            <div className="mt-6 space-y-4 text-ink-soft">
+              <p>
+                At Clady Group, we believe responsible business is about making
+                the right decisions for our people, our customers, our partners
+                and the communities in which we operate.
+              </p>
+              <p>
+                As our group develops, we are committed to building responsible
+                practices into the way we work, from the products we develop and
+                the partners we work with to the way we support our people and
+                manage our impact.
+              </p>
+            </div>
+          </div>
+          <ImageFrame
+            seed="clady-csr-responsible-sourcing"
+            alt="Responsible sourcing at Clady Group"
+            aspect="aspect-[4/5]"
+          />
         </div>
       </Section>
 
       <Section className="bg-cream-200/40">
-        <div className="grid gap-10 sm:grid-cols-3">
-          <div>
-            <h2 className="font-semibold text-green-700">Our people</h2>
-            <p className="mt-2 text-sm text-ink-soft">
-              Our business is built by people. We want to create an
-              environment where our teams can contribute, develop and take
-              pride in what they do. We value collaboration, respect and
-              accountability, and recognise the importance of strong
-              relationships across our business.
-            </p>
-          </div>
-          <div>
-            <h2 className="font-semibold text-green-700">Our customers and partners</h2>
-            <p className="mt-2 text-sm text-ink-soft">
-              Responsible business starts with doing what we say we will do.
-              We aim to build long-term relationships based on trust,
-              transparency and consistent delivery. We work collaboratively
-              with customers and partners to understand expectations and
-              continually improve the way we operate.
-            </p>
-          </div>
-          <div>
-            <h2 className="font-semibold text-green-700">Our products</h2>
-            <p className="mt-2 text-sm text-ink-soft">
-              Consumer expectations are changing, and we believe businesses
-              have a responsibility to respond. Across our portfolio, we are
-              exploring opportunities to develop products that reflect
-              changing preferences, including growing interest in wellness,
-              functionality, convenience and evolving taste profiles. We also
-              recognise the importance of responsible sourcing, with a
-              particular focus on ethical and responsible supply chains
-              across key commodities such as coffee.
-            </p>
-          </div>
+        <div className="divide-y divide-cream-200">
+          {PILLARS.map((p) => (
+            <div key={p.name} className="grid gap-4 py-10 first:pt-0 last:pb-0 sm:grid-cols-[minmax(0,1fr)_2fr] sm:gap-10">
+              <div className="flex items-center gap-3">
+                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-green-700/10 text-green-700">
+                  <p.icon size={22} weight="bold" />
+                </div>
+                <h3 className="font-semibold text-ink">{p.name}</h3>
+              </div>
+              <p className="text-ink-soft">{p.body}</p>
+            </div>
+          ))}
         </div>
       </Section>
 
       <Section>
-        <h2 className="text-2xl font-semibold text-green-700">Our impact</h2>
-        <p className="mt-4 max-w-2xl text-ink-soft">
+        <h2 className="mx-auto max-w-2xl text-center text-2xl font-semibold text-green-700 sm:text-3xl">
+          Our impact
+        </h2>
+        <p className="mx-auto mt-4 max-w-2xl text-center text-ink-soft">
           We recognise that every business has an impact. As Clady Group
           continues to grow, we are focused on understanding where we can
           make the greatest difference and building responsible practices
@@ -73,7 +81,7 @@ export default function CsrPage() {
           improvement: setting meaningful priorities, measuring progress and
           taking practical action.
         </p>
-        <div className="mt-6">
+        <div className="mx-auto mt-8 max-w-2xl">
           <Pending>
             Sustainability initiatives - the source copy literally says
             &ldquo;insert sustainability initiatives here&rdquo; (Build Plan
@@ -84,16 +92,20 @@ export default function CsrPage() {
       </Section>
 
       <Section className="bg-cream-200/40">
-        <h2 className="text-2xl font-semibold text-green-700">Our responsibility</h2>
-        <div className="mt-4 max-w-2xl space-y-4 text-ink-soft">
-          <p>
-            For us, responsible business is not a standalone initiative. It
-            is part of how we operate. Our values of excellence, innovation,
-            consistency, agility and collaboration guide the way we work and
-            provide the foundation for building a business that is
-            successful for the long term.
-          </p>
-          <p className="font-semibold text-green-700">Building better, responsibly.</p>
+        <div className="mx-auto max-w-2xl text-center">
+          <h2 className="text-2xl font-semibold text-green-700 sm:text-3xl">
+            Our responsibility
+          </h2>
+          <div className="mt-4 space-y-4 text-ink-soft">
+            <p>
+              For us, responsible business is not a standalone initiative. It
+              is part of how we operate. Our values of excellence, innovation,
+              consistency, agility and collaboration guide the way we work and
+              provide the foundation for building a business that is
+              successful for the long term.
+            </p>
+            <p className="font-semibold text-green-700">Building better, responsibly.</p>
+          </div>
         </div>
       </Section>
     </>

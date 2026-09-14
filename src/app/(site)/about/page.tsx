@@ -1,26 +1,37 @@
 import type { Metadata } from "next";
-import { Section, Pending } from "@/components/ui";
+import { Section, Pending, ImageFrame } from "@/components/ui";
 
 export const metadata: Metadata = { title: "About Us" };
 
 export default function AboutPage() {
   return (
     <>
-      <Section className="pt-20 sm:pt-24">
-        <h1 className="max-w-3xl text-4xl font-semibold text-green-700 sm:text-5xl">
-          A group built around beverage expertise
-        </h1>
-        <div className="mt-6 max-w-2xl space-y-4 text-ink-soft">
-          <p>
-            Clady Group is the parent company behind a growing portfolio of
-            specialist food and drink businesses, bringing together
-            complementary brands, capabilities and expertise.
-          </p>
-          <p>
-            Established in 2014 through Slumberjack, the group has developed
-            from its family-business roots into a broader platform serving
-            customers across branded and private label markets.
-          </p>
+      <Section pad="pt-14 sm:pt-16 pb-20 sm:pb-28">
+        <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
+          <div>
+            <h1 className="text-4xl font-semibold leading-[1.05] text-green-700 sm:text-5xl">
+              A group built around beverage expertise
+            </h1>
+            <div className="mt-6 space-y-4 text-ink-soft">
+              <p>
+                Clady Group is the parent company behind a growing portfolio of
+                specialist food and drink businesses, bringing together
+                complementary brands, capabilities and expertise.
+              </p>
+              <p>
+                Established in 2014 through Slumberjack, the group has developed
+                from its family-business roots into a broader platform serving
+                customers across branded and private label markets.
+              </p>
+            </div>
+          </div>
+          <ImageFrame
+            seed="clady-about-team"
+            alt="The Clady Group team at work"
+            aspect="aspect-[4/5]"
+          />
+        </div>
+        <div className="mt-12 max-w-2xl space-y-4 border-t border-cream-200 pt-8 text-ink-soft">
           <p>
             Today, our portfolio spans coffee, tea, hot chocolate, functional
             beverages, wellness products, soluble drinks and beverage
@@ -35,8 +46,8 @@ export default function AboutPage() {
       </Section>
 
       <Section className="bg-cream-200/40">
-        <h2 className="text-2xl font-semibold text-green-700">At a glance</h2>
-        <div className="mt-6">
+        <h2 className="text-2xl font-semibold text-green-700 sm:text-3xl">At a glance</h2>
+        <div className="mt-8">
           <Pending>
             Stats strip - years established, number of markets served,
             manufacturing locations, certifications, production capabilities,
@@ -48,30 +59,41 @@ export default function AboutPage() {
       </Section>
 
       <Section>
-        <h2 className="text-2xl font-semibold text-green-700">
-          From family business to group
-        </h2>
-        <div className="mt-4 max-w-2xl space-y-4 text-ink-soft">
-          <p>Our heritage as a family business remains central to how we operate.</p>
-          <p>
-            From the beginning, our focus has been on building lasting
-            relationships and creating products that deliver for our customers.
-            As the group has grown, we have retained that approach while
-            developing a broader portfolio and greater capability across the
-            food and drink sector.
-          </p>
-          <p>
-            Our ambition is to continue growing a group of specialist brands
-            that can respond to changing markets while maintaining the
-            personal approach and commercial focus that have shaped our
-            business from the outset.
-          </p>
+        <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
+          <ImageFrame
+            seed="clady-family-business-heritage"
+            alt="Clady Group's family-business heritage"
+            aspect="aspect-[4/3]"
+          />
+          <div>
+            <h2 className="text-2xl font-semibold text-green-700 sm:text-3xl">
+              From family business to group
+            </h2>
+            <div className="mt-4 space-y-4 text-ink-soft">
+              <p>Our heritage as a family business remains central to how we operate.</p>
+              <p>
+                From the beginning, our focus has been on building lasting
+                relationships and creating products that deliver for our customers.
+                As the group has grown, we have retained that approach while
+                developing a broader portfolio and greater capability across the
+                food and drink sector.
+              </p>
+              <p>
+                Our ambition is to continue growing a group of specialist brands
+                that can respond to changing markets while maintaining the
+                personal approach and commercial focus that have shaped our
+                business from the outset.
+              </p>
+            </div>
+          </div>
         </div>
       </Section>
 
       <Section className="bg-cream-200/40">
-        <h2 className="text-2xl font-semibold text-green-700">How we work</h2>
-        <div className="mt-4 max-w-2xl space-y-4 text-ink-soft">
+        <h2 className="mx-auto max-w-2xl text-center text-2xl font-semibold text-green-700 sm:text-3xl">
+          How we work
+        </h2>
+        <div className="mx-auto mt-6 max-w-2xl space-y-4 text-center text-ink-soft">
           <p>
             We combine the scale and breadth of an ambitious and capable group
             with the responsiveness of a family business.
@@ -87,7 +109,7 @@ export default function AboutPage() {
             We stay close to changing consumer tastes and market trends, while
             maintaining a consistent focus on quality and service.
           </p>
-          <p>
+          <p className="font-semibold text-green-700">
             The result is a business that is ambitious enough to grow, but
             agile enough to respond.
           </p>

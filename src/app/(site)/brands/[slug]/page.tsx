@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { Section, Pending } from "@/components/ui";
+import { Section, Pending, ImageFrame } from "@/components/ui";
 
 type Brand = {
   name: string;
   strap: string;
   focus: string;
   paragraphs: string[];
+  seed: string;
 };
 
 // TODO: once the Sanity project is provisioned, replace this map with a
@@ -19,6 +20,7 @@ const BRANDS: Record<string, Brand> = {
     name: "Evolving State",
     strap: "Everyday wellness made easy.",
     focus: "Functional drinks · Supplements · Natural wellness · Performance",
+    seed: "clady-evolving-state-wellness",
     paragraphs: [
       "Evolving State is focused on natural and functional products designed to enhance everyday health and wellbeing.",
       "Its portfolio spans functional drinks, supplements, natural wellness and performance, bringing together products that fit naturally into modern lifestyles.",
@@ -28,6 +30,7 @@ const BRANDS: Record<string, Brand> = {
     name: "Galway Roast",
     strap: "Coffee with a taste of Galway.",
     focus: "Coffee · B2B · B2C · Irish heritage",
+    seed: "clady-galway-roast-coffee",
     paragraphs: [
       "Rooted in place, Galway Roast celebrates Irish heritage, local character and a hint of the Galway coastline in every roast.",
       "The brand brings an authentic sense of Galway to the coffee category, with a focus on quality, flavour and keeping it local.",
@@ -39,6 +42,7 @@ const BRANDS: Record<string, Brand> = {
     strap: "Convenience made simple.",
     focus:
       "Instant coffee · Hot chocolate · Milk & whitener · Cappuccino topping · Soluble ingredients · Private label",
+    seed: "clady-dutch-maid-soluble",
     paragraphs: [
       "Dutch Maid brings ease, convenience and on-trend flavours together in a versatile range of soluble drinks and ingredients.",
       "As a private label manufacturer, Dutch Maid supplies premium soluble beverage solutions across a wide range of industries and channels, including vending, catering and foodservice, retail, wholesale and food manufacturing.",
@@ -49,6 +53,7 @@ const BRANDS: Record<string, Brand> = {
     name: "Slumberjack",
     strap: "Our signature beverage brand.",
     focus: "Coffee · Tea · Hot chocolate · B2B · B2C",
+    seed: "clady-slumberjack-coffee",
     paragraphs: [
       "Our signature beverage brand. Slumberjack is the brand from which the Clady Group story began.",
       "Established in 2014, Slumberjack has grown from its family-business roots to offer a broad range of high-quality hot and cold beverage products.",
@@ -83,19 +88,24 @@ export default async function BrandPage({
 
   return (
     <>
-      <Section className="pt-20 sm:pt-24">
-        <h1 className="text-4xl font-semibold text-green-700 sm:text-5xl">
-          {brand.name}
-        </h1>
-        <p className="mt-3 max-w-2xl text-lg italic text-ink-soft">{brand.strap}</p>
-        <div className="mt-6 max-w-2xl space-y-4 text-ink-soft">
-          {brand.paragraphs.map((p, i) => (
-            <p key={i}>{p}</p>
-          ))}
+      <Section pad="pt-14 sm:pt-16 pb-20 sm:pb-28">
+        <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
+          <div>
+            <h1 className="text-4xl font-semibold leading-[1.05] text-green-700 sm:text-5xl">
+              {brand.name}
+            </h1>
+            <p className="mt-3 text-lg italic text-ink-soft">{brand.strap}</p>
+            <div className="mt-6 space-y-4 text-ink-soft">
+              {brand.paragraphs.map((p, i) => (
+                <p key={i}>{p}</p>
+              ))}
+            </div>
+            <p className="mt-6 text-xs uppercase tracking-wide text-olive-600">
+              Focus: {brand.focus}
+            </p>
+          </div>
+          <ImageFrame seed={brand.seed} alt={brand.name} aspect="aspect-[4/5]" />
         </div>
-        <p className="mt-6 text-xs uppercase tracking-wide text-olive-600">
-          Focus: {brand.focus}
-        </p>
       </Section>
 
       <Section className="bg-cream-200/40">
