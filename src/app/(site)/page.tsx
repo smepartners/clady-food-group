@@ -48,7 +48,7 @@ const BRAND_TEASERS = [
 export default function HomePage() {
   return (
     <>
-      <Section pad="pt-14 sm:pt-16 pb-0">
+      <Section pad="pt-14 sm:pt-16 pb-12 sm:pb-16">
         <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
           <Reveal>
             <h1 className="max-w-xl text-4xl font-semibold leading-[1.05] text-green-700 sm:text-5xl">

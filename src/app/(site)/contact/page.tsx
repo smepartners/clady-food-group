@@ -6,7 +6,7 @@ export const metadata: Metadata = { title: "Contact" };
 
 export default function ContactPage() {
   return (
-    <Section pad="pt-14 sm:pt-16 pb-20 sm:pb-28">
+    <Section pad="pt-14 sm:pt-16 pb-12 sm:pb-16">
       <Reveal>
         <h1 className="max-w-xl text-4xl font-semibold leading-[1.05] text-green-700 sm:text-5xl">
           Talk to <em className="italic text-gold-700">us</em>
