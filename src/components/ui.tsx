@@ -120,27 +120,95 @@ const ICON_TONES = {
   gold: "bg-gold-500/15 text-gold-700",
 } as const;
 
+/** Small tabular numeral badge - ties a feature back to its position in a
+ * numbered sequence (01, 02, 03...) rather than leaving it as an anonymous
+ * grid item. */
+export function NumberMark({
+  index,
+  tone = "light",
+  className = "",
+}: {
+  index: number;
+  tone?: "light" | "dark";
+  className?: string;
+}) {
+  return (
+    <span
+      className={`text-sm font-semibold tabular-nums ${
+        tone === "dark" ? "text-cream-100/35" : "text-ink-soft/35"
+      } ${className}`}
+    >
+      {String(index).padStart(2, "0")}
+    </span>
+  );
+}
+
 export function IconFeature({
   icon,
   name,
   body,
   tone = "green",
+  index,
 }: {
   icon: ReactNode;
   name: string;
   body: string;
   tone?: keyof typeof ICON_TONES;
+  index?: number;
 }) {
   return (
     <div className="group flex flex-col gap-3">
-      <div
-        className={`flex h-11 w-11 items-center justify-center rounded-xl transition duration-300 group-hover:-translate-y-0.5 group-hover:scale-105 ${ICON_TONES[tone]}`}
-      >
-        {icon}
+      <div className="flex items-center justify-between">
+        <div
+          className={`flex h-11 w-11 items-center justify-center rounded-xl transition duration-300 group-hover:-translate-y-0.5 group-hover:scale-105 ${ICON_TONES[tone]}`}
+        >
+          {icon}
+        </div>
+        {index !== undefined ? <NumberMark index={index} /> : null}
       </div>
       <h3 className="font-semibold text-ink">{name}</h3>
       <p className="text-sm leading-relaxed text-ink-soft">{body}</p>
     </div>
+  );
+}
+
+/** Isolated emphasis treatment for one strong statement - a left accent bar
+ * with larger italic type, used to give a closing line its own moment
+ * instead of letting it blend into a run of plain paragraphs. */
+export function PullQuote({
+  children,
+  tone = "light",
+  className = "",
+}: {
+  children: ReactNode;
+  tone?: "light" | "dark";
+  className?: string;
+}) {
+  return (
+    <p
+      className={`border-l-4 border-gold-500 pl-5 text-xl italic leading-snug sm:text-2xl ${
+        tone === "dark" ? "text-cream-100" : "text-green-700"
+      } ${className}`}
+    >
+      {children}
+    </p>
+  );
+}
+
+/** First paragraph of a stacked prose block, set larger and medium-weight
+ * so a run of body copy opens with a clear lead line instead of uniform
+ * paragraph-after-paragraph text. */
+export function Lede({
+  children,
+  className = "",
+}: {
+  children: ReactNode;
+  className?: string;
+}) {
+  return (
+    <p className={`text-lg font-medium leading-relaxed text-ink sm:text-xl ${className}`}>
+      {children}
+    </p>
   );
 }
 

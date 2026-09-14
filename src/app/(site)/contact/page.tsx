@@ -9,10 +9,10 @@ export default function ContactPage() {
     <Section pad="pt-14 sm:pt-16 pb-20 sm:pb-28">
       <Reveal>
         <h1 className="max-w-xl text-4xl font-semibold leading-[1.05] text-green-700 sm:text-5xl">
-          Talk to us
+          Talk to <em className="italic text-gold-700">us</em>
         </h1>
-        <AccentRule className="mt-6" />
-        <div className="mt-8 max-w-xl">
+        <AccentRule className="mt-7" />
+        <div className="mt-9 max-w-xl">
           <Pending>
             No copy exists for this page in the source doc - it's only implied
             by two &ldquo;[LINK]&rdquo; call-outs on the Homepage and Private

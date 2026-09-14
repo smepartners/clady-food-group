@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { UsersThree, Handshake, Leaf } from "@phosphor-icons/react/dist/ssr";
-import { Section, Pending, ImageFrame, AccentRule } from "@/components/ui";
+import { Section, Pending, ImageFrame, AccentRule, Lede, NumberMark } from "@/components/ui";
 import { Reveal, RevealStagger } from "@/components/reveal";
 
 export const metadata: Metadata = { title: "CSR" };
@@ -39,16 +39,16 @@ export default function CsrPage() {
         <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
           <Reveal>
             <h1 className="text-4xl font-semibold leading-[1.05] text-green-700 sm:text-5xl">
-              Doing business responsibly
+              Doing business <em className="italic text-gold-700">responsibly</em>
             </h1>
-            <AccentRule className="mt-6" />
-            <div className="mt-6 space-y-4 text-ink-soft">
-              <p>
+            <AccentRule className="mt-7" />
+            <div className="mt-7 space-y-4">
+              <Lede>
                 At Clady Group, we believe responsible business is about making
                 the right decisions for our people, our customers, our partners
                 and the communities in which we operate.
-              </p>
-              <p>
+              </Lede>
+              <p className="text-ink-soft">
                 As our group develops, we are committed to building responsible
                 practices into the way we work, from the products we develop and
                 the partners we work with to the way we support our people and
@@ -68,13 +68,14 @@ export default function CsrPage() {
 
       <Section className="bg-cream-200/40">
         <RevealStagger className="divide-y divide-cream-200">
-          {PILLARS.map((p) => (
+          {PILLARS.map((p, i) => (
             <div key={p.name} className="grid gap-4 py-10 first:pt-0 last:pb-0 sm:grid-cols-[minmax(0,1fr)_2fr] sm:gap-10">
               <div className="flex items-center gap-3">
                 <div className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl ${TONE_ICON_BG[p.tone]}`}>
                   <p.icon size={22} weight="bold" />
                 </div>
                 <h3 className="font-semibold text-ink">{p.name}</h3>
+                <NumberMark index={i + 1} className="ml-auto" />
               </div>
               <p className="text-ink-soft">{p.body}</p>
             </div>
@@ -112,16 +113,16 @@ export default function CsrPage() {
             <h2 className="text-2xl font-semibold text-cream-100 sm:text-3xl">
               Our responsibility
             </h2>
-            <div className="mt-4 space-y-4 text-cream-100/75">
-              <p>
-                For us, responsible business is not a standalone initiative. It
-                is part of how we operate. Our values of excellence, innovation,
-                consistency, agility and collaboration guide the way we work and
-                provide the foundation for building a business that is
-                successful for the long term.
-              </p>
-              <p className="font-semibold text-gold-500">Building better, responsibly.</p>
-            </div>
+            <p className="mt-4 text-cream-100/75">
+              For us, responsible business is not a standalone initiative. It
+              is part of how we operate. Our values of excellence, innovation,
+              consistency, agility and collaboration guide the way we work and
+              provide the foundation for building a business that is
+              successful for the long term.
+            </p>
+            <p className="mt-8 text-xl italic leading-snug text-gold-500 sm:text-2xl">
+              Building better, responsibly.
+            </p>
           </div>
         </Reveal>
       </Section>

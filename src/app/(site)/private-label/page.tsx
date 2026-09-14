@@ -6,7 +6,7 @@ import {
   CheckCircle,
   UsersThree,
 } from "@phosphor-icons/react/dist/ssr";
-import { Section, ImageFrame, IconFeature, Pill, CTAButton, AccentRule } from "@/components/ui";
+import { Section, ImageFrame, IconFeature, Pill, CTAButton, AccentRule, Lede } from "@/components/ui";
 import { Reveal, RevealStagger } from "@/components/reveal";
 
 export const metadata: Metadata = { title: "Private Label" };
@@ -28,10 +28,10 @@ export default function PrivateLabelPage() {
         <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
           <Reveal>
             <h1 className="text-4xl font-semibold leading-[1.05] text-green-700 sm:text-5xl">
-              Your brand. Our expertise.
+              Your brand. <em className="italic text-gold-700">Our expertise.</em>
             </h1>
-            <AccentRule className="mt-6" />
-            <div className="mt-6 space-y-4 text-ink-soft">
+            <AccentRule className="mt-7" />
+            <div className="mt-7 space-y-4 text-ink-soft">
               <p>
                 From concept to finished product, Clady Group provides private
                 label beverage solutions designed around your requirements.
@@ -52,13 +52,13 @@ export default function PrivateLabelPage() {
           </Reveal>
         </div>
         <Reveal delay={0.15}>
-          <div className="mt-12 max-w-2xl space-y-4 border-t border-cream-200 pt-8 text-ink-soft">
-            <p>
+          <div className="mt-16 max-w-2xl space-y-4 border-t border-cream-200 pt-10">
+            <Lede>
               Through our portfolio of specialist businesses, we bring together
               expertise across coffee, hot beverages, soluble drinks, functional
               products and beverage ingredients.
-            </p>
-            <p>
+            </Lede>
+            <p className="text-ink-soft">
               This gives our customers the flexibility to develop propositions
               across categories, formats, flavours and price points.
             </p>
@@ -92,13 +92,14 @@ export default function PrivateLabelPage() {
           </h2>
         </Reveal>
         <RevealStagger className="mt-10 grid gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-5">
-          {PILLARS.map((p) => (
+          {PILLARS.map((p, i) => (
             <IconFeature
               key={p.name}
               icon={<p.icon size={22} weight="bold" />}
               name={p.name}
               body={p.body}
               tone={p.tone}
+              index={i + 1}
             />
           ))}
         </RevealStagger>

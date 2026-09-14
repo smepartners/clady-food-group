@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Section, Pending, ImageFrame, AccentRule } from "@/components/ui";
+import { Section, Pending, ImageFrame, AccentRule, Lede, PullQuote } from "@/components/ui";
 import { Reveal } from "@/components/reveal";
 
 export const metadata: Metadata = { title: "About Us" };
@@ -11,16 +11,16 @@ export default function AboutPage() {
         <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
           <Reveal>
             <h1 className="text-4xl font-semibold leading-[1.05] text-green-700 sm:text-5xl">
-              A group built around beverage expertise
+              A group built around <em className="italic text-gold-700">beverage expertise</em>
             </h1>
-            <AccentRule className="mt-6" />
-            <div className="mt-6 space-y-4 text-ink-soft">
-              <p>
+            <AccentRule className="mt-7" />
+            <div className="mt-7 space-y-4">
+              <Lede>
                 Clady Group is the parent company behind a growing portfolio of
                 specialist food and drink businesses, bringing together
                 complementary brands, capabilities and expertise.
-              </p>
-              <p>
+              </Lede>
+              <p className="text-ink-soft">
                 Established in 2014 through Slumberjack, the group has developed
                 from its family-business roots into a broader platform serving
                 customers across branded and private label markets.
@@ -36,13 +36,13 @@ export default function AboutPage() {
           </Reveal>
         </div>
         <Reveal delay={0.15}>
-          <div className="mt-12 max-w-2xl space-y-4 border-t border-cream-200 pt-8 text-ink-soft">
-            <p>
+          <div className="mt-16 max-w-2xl space-y-4 border-t border-cream-200 pt-10">
+            <Lede>
               Today, our portfolio spans coffee, tea, hot chocolate, functional
               beverages, wellness products, soluble drinks and beverage
               ingredients.
-            </p>
-            <p>
+            </Lede>
+            <p className="text-ink-soft">
               Each business has its own identity and area of expertise. Together,
               they give our customers access to a broader range of products,
               capabilities and commercial opportunities.
@@ -77,10 +77,12 @@ export default function AboutPage() {
           </Reveal>
           <Reveal delay={0.1}>
             <h2 className="text-2xl font-semibold text-green-700 sm:text-3xl">
-              From family business to group
+              From family business <em className="italic text-gold-700">to group</em>
             </h2>
-            <div className="mt-4 space-y-4 text-ink-soft">
-              <p>Our heritage as a family business remains central to how we operate.</p>
+            <PullQuote className="mt-6">
+              Our heritage as a family business remains central to how we operate.
+            </PullQuote>
+            <div className="mt-6 space-y-4 text-ink-soft">
               <p>
                 From the beginning, our focus has been on building lasting
                 relationships and creating products that deliver for our customers.
@@ -120,11 +122,11 @@ export default function AboutPage() {
               We stay close to changing consumer tastes and market trends, while
               maintaining a consistent focus on quality and service.
             </p>
-            <p className="font-semibold text-gold-500">
-              The result is a business that is ambitious enough to grow, but
-              agile enough to respond.
-            </p>
           </div>
+          <p className="mx-auto mt-10 max-w-xl text-center text-xl italic leading-snug text-gold-500 sm:text-2xl">
+            The result is a business that is ambitious enough to grow, but
+            agile enough to respond.
+          </p>
         </Reveal>
       </Section>
     </>

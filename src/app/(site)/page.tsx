@@ -16,6 +16,14 @@ import {
 } from "@/components/ui";
 import { Reveal, RevealStagger } from "@/components/reveal";
 
+// Verbatim from the approved copy doc - kept as an array so the intro can
+// render as a numbered sequence instead of three plain paragraphs in a row.
+const INTRO_POINTS = [
+  "From freshly roasted coffee and indulgent hot beverages to functional wellness products and bespoke private label solutions, our businesses combine specialist knowledge with a practical understanding of what customers need.",
+  "We believe great partnerships are built on more than great products. They depend on consistency, responsiveness and the ability to move with a changing market.",
+  "That is why we work across categories, formats and price points, helping our customers create, source and grow beverage propositions that perform.",
+];
+
 const VALUES = [
   { icon: Sparkle, tone: "gold" as const, name: "Excellence", body: "High standards in everything we do, whether that's branded or white labelled." },
   { icon: Lightbulb, tone: "green" as const, name: "Innovation", body: "Looking ahead to what's next, keeping our customers ahead of the trends." },
@@ -44,15 +52,15 @@ export default function HomePage() {
         <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
           <Reveal>
             <h1 className="max-w-xl text-4xl font-semibold leading-[1.05] text-green-700 sm:text-5xl">
-              Built around your business.
+              Built around <em className="italic text-gold-700">your business.</em>
             </h1>
-            <AccentRule className="mt-6" />
-            <p className="mt-6 max-w-lg text-lg leading-relaxed text-ink-soft">
+            <AccentRule className="mt-7" />
+            <p className="mt-7 max-w-lg text-lg leading-relaxed text-ink-soft">
               Clady Group brings together a portfolio of specialist food, confectionery
               and beverage brands and capabilities, delivering quality, choice and
               flexibility to customers across B2B and B2C markets.
             </p>
-            <div className="mt-8">
+            <div className="mt-10">
               <CTAButton href="/brands">Explore our brands</CTAButton>
             </div>
           </Reveal>
@@ -65,26 +73,16 @@ export default function HomePage() {
           </Reveal>
         </div>
 
-        <Reveal delay={0.15}>
-          <div className="mt-16 grid gap-6 border-t border-cream-200 pt-16 sm:grid-cols-3">
-            <p className="text-ink-soft">
-              From freshly roasted coffee and indulgent hot beverages to functional
-              wellness products and bespoke private label solutions, our businesses
-              combine specialist knowledge with a practical understanding of what
-              customers need.
-            </p>
-            <p className="text-ink-soft">
-              We believe great partnerships are built on more than great products.
-              They depend on consistency, responsiveness and the ability to move
-              with a changing market.
-            </p>
-            <p className="text-ink-soft">
-              That is why we work across categories, formats and price points,
-              helping our customers create, source and grow beverage propositions
-              that perform.
-            </p>
-          </div>
-        </Reveal>
+        <RevealStagger className="mt-20 grid gap-x-8 gap-y-10 border-t border-cream-200 pt-16 sm:grid-cols-3">
+          {INTRO_POINTS.map((point, i) => (
+            <div key={i} className="flex flex-col gap-3">
+              <span className="text-sm font-semibold tabular-nums text-gold-700/70">
+                {String(i + 1).padStart(2, "0")}
+              </span>
+              <p className="text-ink-soft">{point}</p>
+            </div>
+          ))}
+        </RevealStagger>
       </Section>
 
       <Section className="bg-green-700">
@@ -99,9 +97,9 @@ export default function HomePage() {
           </Reveal>
           <Reveal delay={0.1} className="order-1 lg:order-2">
             <h2 className="text-2xl font-semibold text-cream-100 sm:text-3xl">
-              One group. Multiple capabilities.
+              One group. <em className="italic text-gold-500">Multiple capabilities.</em>
             </h2>
-            <div className="mt-4 space-y-4 text-cream-100/75">
+            <div className="mt-5 space-y-4 text-cream-100/75">
               <p>
                 With manufacturing operations across England and Northern Ireland,
                 Clady Group brings together a broad portfolio of complementary
@@ -149,13 +147,14 @@ export default function HomePage() {
           <h2 className="text-2xl font-semibold text-green-700 sm:text-3xl">What drives us</h2>
         </Reveal>
         <RevealStagger className="mt-10 grid gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-5">
-          {VALUES.map((v) => (
+          {VALUES.map((v, i) => (
             <IconFeature
               key={v.name}
               icon={<v.icon size={22} weight="bold" />}
               name={v.name}
               body={v.body}
               tone={v.tone}
+              index={i + 1}
             />
           ))}
         </RevealStagger>

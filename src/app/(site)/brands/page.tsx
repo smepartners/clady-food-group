@@ -42,10 +42,10 @@ export default function BrandsIndexPage() {
       <Section pad="pt-14 sm:pt-16 pb-20 sm:pb-28">
         <Reveal>
           <h1 className="max-w-2xl text-4xl font-semibold leading-[1.05] text-green-700 sm:text-5xl">
-            A portfolio with a purpose
+            A portfolio with <em className="italic text-gold-700">a purpose</em>
           </h1>
-          <AccentRule className="mt-6" />
-          <p className="mt-6 max-w-xl text-lg leading-relaxed text-ink-soft">
+          <AccentRule className="mt-7" />
+          <p className="mt-7 max-w-xl text-lg leading-relaxed text-ink-soft">
             Our brands operate across complementary areas of the food and drink
             market, each with a clear proposition and specialist focus.
           </p>
