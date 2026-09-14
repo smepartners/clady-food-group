@@ -89,7 +89,7 @@ export default async function BrandPage({
 
   return (
     <>
-      <Section pad="pt-14 sm:pt-16 pb-20 sm:pb-28">
+      <Section pad="pt-14 sm:pt-16 pb-12 sm:pb-16">
         <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
           <Reveal>
             <h1 className="text-4xl font-semibold leading-[1.05] text-green-700 sm:text-5xl">
@@ -116,7 +116,7 @@ export default async function BrandPage({
         </div>
       </Section>
 
-      <Section className="bg-cream-200/40">
+      <Section className="bg-cream-200/40" pad="py-10 sm:py-14">
         <Reveal>
           <Pending>
             No photography or sub-brand logo supplied for {brand.name} yet

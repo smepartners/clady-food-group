@@ -8,7 +8,6 @@ import {
 } from "@phosphor-icons/react/dist/ssr";
 import {
   Section,
-  Pending,
   ImageFrame,
   IconFeature,
   CTAButton,
@@ -33,7 +32,6 @@ const VALUES = [
     icon: UsersThree,
     tone: "green" as const,
     name: "Collaboration",
-    // Two copy options exist in the source doc - see Build Plan §06, open question 03.
     body: "Building strong, lasting partnerships that grow with our customers.",
   },
 ];
@@ -73,7 +71,7 @@ export default function HomePage() {
           </Reveal>
         </div>
 
-        <RevealStagger className="mt-20 grid gap-x-8 gap-y-10 border-t border-cream-200 pt-16 sm:grid-cols-3">
+        <RevealStagger className="mt-12 grid gap-x-8 gap-y-10 border-t border-cream-200 pt-12 sm:grid-cols-3">
           {INTRO_POINTS.map((point, i) => (
             <div key={i} className="flex flex-col gap-3">
               <span className="text-sm font-semibold tabular-nums text-gold-700/70">
@@ -147,23 +145,16 @@ export default function HomePage() {
           <h2 className="text-2xl font-semibold text-green-700 sm:text-3xl">What drives us</h2>
         </Reveal>
         <RevealStagger className="mt-10 grid gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-5">
-          {VALUES.map((v, i) => (
+          {VALUES.map((v) => (
             <IconFeature
               key={v.name}
               icon={<v.icon size={22} weight="bold" />}
               name={v.name}
               body={v.body}
               tone={v.tone}
-              index={i + 1}
             />
           ))}
         </RevealStagger>
-        <div className="mt-10">
-          <Pending>
-            Collaboration copy has two options in the source doc - confirm which
-            one ships (Build Plan, open question 03).
-          </Pending>
-        </div>
       </Section>
 
       <Section>

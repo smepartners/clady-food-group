@@ -51,7 +51,7 @@ export default function AboutPage() {
         </Reveal>
       </Section>
 
-      <Section className="bg-cream-200/40">
+      <Section className="bg-cream-200/40" pad="py-12 sm:py-16">
         <Reveal>
           <h2 className="text-2xl font-semibold text-green-700 sm:text-3xl">At a glance</h2>
           <div className="mt-8">
