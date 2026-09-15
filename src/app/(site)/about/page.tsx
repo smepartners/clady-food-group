@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Section, Pending, ImageFrame, AccentRule, Lede, PullQuote, StatTile, Pill, BrandStrip } from "@/components/ui";
+import { Section, Pending, ImageFrame, AccentRule, Lede, PullQuote, StatTile, Pill, BrandGrid } from "@/components/ui";
 import { Reveal, RevealStagger } from "@/components/reveal";
 
 export const metadata: Metadata = { title: "About Us" };
@@ -163,7 +163,7 @@ export default function AboutPage() {
 
       <Section pad="py-10 sm:py-14">
         <Reveal>
-          <BrandStrip />
+          <BrandGrid />
         </Reveal>
       </Section>
     </>

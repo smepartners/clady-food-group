@@ -7,14 +7,25 @@ export function Container({ children }: { children: ReactNode }) {
   return <div className="mx-auto max-w-6xl px-4 sm:px-6">{children}</div>;
 }
 
-/** Lightweight name-only row of brand links - for pages that need a nod to
- * the portfolio without the full imagery/strap grid on the homepage and
- * /brands index. */
-export function BrandStrip({
+const BRAND_DOT_TONE = {
+  green: "bg-green-700",
+  gold: "bg-gold-500",
+  olive: "bg-olive-600",
+} as const;
+
+/** Compact 4-up brand grid - a nod to the portfolio on pages that don't need
+ * the full imagery/strap treatment on the homepage and /brands index, but
+ * where plain text links would sell the brands short. */
+export function BrandGrid({
   label = "Part of the Clady Group portfolio",
+  cols = 4,
   className = "",
 }: {
   label?: string;
+  // Pass 2 in a narrower container (e.g. a form-page copy column) so the
+  // thumbnails don't get squeezed - Tailwind's grid-cols breakpoints are
+  // viewport-, not container-, based, so this can't just be responsive.
+  cols?: 2 | 4;
   className?: string;
 }) {
   return (
@@ -22,19 +33,24 @@ export function BrandStrip({
       <p className="text-xs font-semibold uppercase tracking-[0.16em] text-olive-600">
         {label}
       </p>
-      <ul className="mt-4 flex flex-wrap gap-x-8 gap-y-3">
+      <ul className={`mt-5 grid grid-cols-2 gap-4 ${cols === 4 ? "sm:grid-cols-4" : ""}`}>
         {BRANDS.map((b) => (
           <li key={b.slug}>
-            <Link
-              href={`/brands/${b.slug}`}
-              className="group inline-flex items-center gap-1 font-semibold text-ink transition hover:text-green-700"
-            >
-              {b.name}
-              <ArrowUpRight
-                size={14}
-                weight="bold"
-                className="opacity-0 transition duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:opacity-100"
-              />
+            <Link href={`/brands/${b.slug}`} className="group block">
+              <div className="overflow-hidden rounded-xl transition duration-300 group-hover:-translate-y-1">
+                <ImageFrame seed={b.seed} alt={b.name} aspect="aspect-square" />
+              </div>
+              <div className="mt-3 flex items-center gap-2">
+                <span className={`h-1.5 w-1.5 shrink-0 rounded-full ${BRAND_DOT_TONE[b.tone]}`} />
+                <span className="truncate text-sm font-semibold text-ink transition group-hover:text-green-700">
+                  {b.name}
+                </span>
+                <ArrowUpRight
+                  size={13}
+                  weight="bold"
+                  className="ml-auto shrink-0 text-ink-soft opacity-0 transition duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:opacity-100"
+                />
+              </div>
             </Link>
           </li>
         ))}

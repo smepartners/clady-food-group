@@ -1,10 +1,30 @@
 // Shared brand list - single source of truth for anywhere the site needs
-// just the name/slug pairing (nav, footer, lightweight brand strips).
-// The homepage and /brands index carry their own richer copies of this
-// list (straps, seeds, imagery) since they need more than name + slug.
+// more than just a name/slug pairing (nav, footer, the compact brand grid).
+// The homepage and /brands index carry their own richer copies (straps,
+// longer descriptions) since they need more than this.
 export const BRANDS = [
-  { slug: "evolving-state", name: "Evolving State" },
-  { slug: "galway-roast", name: "Galway Roast" },
-  { slug: "dutch-maid", name: "Dutch Maid" },
-  { slug: "slumberjack", name: "Slumberjack" },
+  {
+    slug: "evolving-state",
+    name: "Evolving State",
+    seed: "clady-evolving-state-wellness",
+    tone: "green" as const,
+  },
+  {
+    slug: "galway-roast",
+    name: "Galway Roast",
+    seed: "clady-galway-roast-coffee",
+    tone: "gold" as const,
+  },
+  {
+    slug: "dutch-maid",
+    name: "Dutch Maid",
+    seed: "clady-dutch-maid-soluble",
+    tone: "olive" as const,
+  },
+  {
+    slug: "slumberjack",
+    name: "Slumberjack",
+    seed: "clady-slumberjack-coffee",
+    tone: "green" as const,
+  },
 ] as const;

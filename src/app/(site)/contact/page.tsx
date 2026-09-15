@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Section, AccentRule, BrandStrip } from "@/components/ui";
+import { Section, AccentRule, BrandGrid } from "@/components/ui";
 import { Reveal } from "@/components/reveal";
 
 export const metadata: Metadata = { title: "Contact" };
@@ -40,7 +40,7 @@ export default function ContactPage() {
             </a>
             .
           </p>
-          <BrandStrip className="mt-12 border-t border-cream-200 pt-8" />
+          <BrandGrid cols={2} className="mt-12 border-t border-cream-200 pt-8" />
         </Reveal>
 
         <Reveal delay={0.1}>
