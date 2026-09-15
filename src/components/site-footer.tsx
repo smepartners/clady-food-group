@@ -1,9 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
+import { BRANDS } from "@/lib/brands";
 
 const NAV = [
   { href: "/about", label: "About Us" },
-  { href: "/brands", label: "Our Brands" },
   { href: "/private-label", label: "Private Label" },
   { href: "/csr", label: "CSR" },
   { href: "/contact", label: "Contact" },
@@ -21,13 +21,32 @@ export function SiteFooter() {
             height={749}
             className="h-10 w-auto opacity-90"
           />
-          <nav className="flex flex-wrap gap-x-8 gap-y-2 text-sm text-ink-soft">
-            {NAV.map((item) => (
-              <Link key={item.href} href={item.href} className="transition hover:text-green-700">
-                {item.label}
+          <div className="flex flex-col gap-8 sm:flex-row sm:gap-16">
+            <nav className="flex flex-wrap gap-x-8 gap-y-2 text-sm text-ink-soft">
+              {NAV.map((item) => (
+                <Link key={item.href} href={item.href} className="transition hover:text-green-700">
+                  {item.label}
+                </Link>
+              ))}
+            </nav>
+            <nav>
+              <Link
+                href="/brands"
+                className="text-xs font-semibold uppercase tracking-wide text-olive-600 transition hover:text-green-700"
+              >
+                Our Brands
               </Link>
-            ))}
-          </nav>
+              <ul className="mt-2 flex flex-wrap gap-x-6 gap-y-2 text-sm text-ink-soft sm:flex-col sm:gap-y-1.5">
+                {BRANDS.map((b) => (
+                  <li key={b.slug}>
+                    <Link href={`/brands/${b.slug}`} className="transition hover:text-green-700">
+                      {b.name}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          </div>
         </div>
         <div className="mt-10 border-t border-cream-200 pt-6 text-sm text-ink-soft">
           <p>&copy; {new Date().getFullYear()} Clady Group.</p>

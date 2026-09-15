@@ -1,9 +1,46 @@
 import type { ReactNode } from "react";
 import Link from "next/link";
-import { Camera } from "@phosphor-icons/react/dist/ssr";
+import { Camera, ArrowUpRight } from "@phosphor-icons/react/dist/ssr";
+import { BRANDS } from "@/lib/brands";
 
 export function Container({ children }: { children: ReactNode }) {
   return <div className="mx-auto max-w-6xl px-4 sm:px-6">{children}</div>;
+}
+
+/** Lightweight name-only row of brand links - for pages that need a nod to
+ * the portfolio without the full imagery/strap grid on the homepage and
+ * /brands index. */
+export function BrandStrip({
+  label = "Part of the Clady Group portfolio",
+  className = "",
+}: {
+  label?: string;
+  className?: string;
+}) {
+  return (
+    <div className={className}>
+      <p className="text-xs font-semibold uppercase tracking-[0.16em] text-olive-600">
+        {label}
+      </p>
+      <ul className="mt-4 flex flex-wrap gap-x-8 gap-y-3">
+        {BRANDS.map((b) => (
+          <li key={b.slug}>
+            <Link
+              href={`/brands/${b.slug}`}
+              className="group inline-flex items-center gap-1 font-semibold text-ink transition hover:text-green-700"
+            >
+              {b.name}
+              <ArrowUpRight
+                size={14}
+                weight="bold"
+                className="opacity-0 transition duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:opacity-100"
+              />
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
 }
 
 export function Section({

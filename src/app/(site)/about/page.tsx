@@ -1,8 +1,18 @@
 import type { Metadata } from "next";
-import { Section, Pending, ImageFrame, AccentRule, Lede, PullQuote } from "@/components/ui";
-import { Reveal } from "@/components/reveal";
+import { Section, Pending, ImageFrame, AccentRule, Lede, PullQuote, StatTile, Pill, BrandStrip } from "@/components/ui";
+import { Reveal, RevealStagger } from "@/components/reveal";
 
 export const metadata: Metadata = { title: "About Us" };
+
+// Established 2014 (Slumberjack) - kept as a literal rather than computed
+// from the current date, so the stat doesn't silently drift as years pass.
+// Update by hand at the next content refresh.
+const STATS = [
+  { value: "12+", label: "Years established, since 2014" },
+  { value: "2", label: "Manufacturing locations, England & Northern Ireland" },
+];
+
+const SECTORS = ["Retail", "Cafés", "Food service", "Hospitality"];
 
 export default function AboutPage() {
   return (
@@ -54,13 +64,34 @@ export default function AboutPage() {
       <Section className="bg-cream-200/40" pad="py-10 sm:py-14">
         <Reveal>
           <h2 className="text-2xl font-semibold text-green-700 sm:text-3xl">At a glance</h2>
+        </Reveal>
+        <RevealStagger className="mt-8 grid gap-x-8 gap-y-10 sm:grid-cols-2">
+          {STATS.map((s) => (
+            <StatTile key={s.label} value={s.value} label={s.label} />
+          ))}
+        </RevealStagger>
+        <Reveal delay={0.1}>
+          <div className="mt-10 border-t border-cream-200 pt-8">
+            <p className="text-sm font-semibold uppercase tracking-wide text-olive-600">
+              Sectors we serve
+            </p>
+            <ul className="mt-4 flex flex-wrap gap-2">
+              {SECTORS.map((s) => (
+                <li key={s}>
+                  <Pill>{s}</Pill>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </Reveal>
+        <Reveal delay={0.15}>
           <div className="mt-8">
             <Pending>
-              Stats strip - years established, number of markets served,
-              manufacturing locations, certifications, production capabilities,
-              annual production volumes, customer sectors and team size (Build
-              Plan, open question 01). Renders from the <code>stat</code> Sanity
-              schema once populated.
+              Still to confirm: certifications and team size (Build Plan, open
+              question 01). Production capabilities and annual production
+              volumes are only available for the coffee side of the business
+              currently, so have been left out as a group-wide stat pending
+              confirmation on the rest of the portfolio.
             </Pending>
           </div>
         </Reveal>
@@ -127,6 +158,12 @@ export default function AboutPage() {
             The result is a business that is ambitious enough to grow, but
             agile enough to respond.
           </p>
+        </Reveal>
+      </Section>
+
+      <Section pad="py-10 sm:py-14">
+        <Reveal>
+          <BrandStrip />
         </Reveal>
       </Section>
     </>

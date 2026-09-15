@@ -8,7 +8,6 @@ import {
 } from "@phosphor-icons/react/dist/ssr";
 import {
   Section,
-  Pending,
   ImageFrame,
   IconFeature,
   CTAButton,
@@ -33,7 +32,6 @@ const VALUES = [
     icon: UsersThree,
     tone: "green" as const,
     name: "Collaboration",
-    // Two copy options exist in the source doc - see Build Plan §06, open question 03.
     body: "Building strong, lasting partnerships that grow with our customers.",
   },
 ];
@@ -157,12 +155,6 @@ export default function HomePage() {
             />
           ))}
         </RevealStagger>
-        <div className="mt-10">
-          <Pending>
-            Collaboration copy has two options in the source doc - confirm which
-            one ships (Build Plan, open question 03).
-          </Pending>
-        </div>
       </Section>
 
       <Section>
