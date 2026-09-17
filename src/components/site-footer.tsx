@@ -19,7 +19,7 @@ export function SiteFooter() {
             alt="Clady Group"
             width={1399}
             height={749}
-            className="h-10 w-auto opacity-90"
+            className="h-14 w-auto opacity-90"
           />
           <div className="flex flex-col gap-8 sm:flex-row sm:gap-16">
             <nav className="flex flex-wrap gap-x-8 gap-y-2 text-sm text-ink-soft">

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Section, Pending, ImageFrame, AccentRule, Lede, PullQuote, StatTile, Pill, BrandGrid } from "@/components/ui";
+import { Section, Pending, ImageFrame, AccentRule, Lede, PullQuote, StatTile, Pill, BrandGrid, TextureOverlay } from "@/components/ui";
 import { Reveal, RevealStagger } from "@/components/reveal";
 
 export const metadata: Metadata = { title: "About Us" };
@@ -9,10 +9,16 @@ export const metadata: Metadata = { title: "About Us" };
 // Update by hand at the next content refresh.
 const STATS = [
   { value: "12+", label: "Years established, since 2014" },
-  { value: "2", label: "Manufacturing locations, England & Northern Ireland" },
+  { value: "3", label: "Manufacturing locations: Buxton, Belfast & Galway" },
 ];
 
 const SECTORS = ["Retail", "Cafés", "Food service", "Hospitality"];
+
+// Accreditations confirmed by the client (Zoe, SME Partners) - held across
+// the portfolio rather than by any single brand, so presented as a
+// group-wide list rather than attributed brand-by-brand pending further
+// guidance on how the client wants that split shown.
+const ACCREDITATIONS = ["Rainforest Alliance", "Fairtrade", "BRCGS Start Basic", "SALSA"];
 
 export default function AboutPage() {
   return (
@@ -84,14 +90,28 @@ export default function AboutPage() {
             </ul>
           </div>
         </Reveal>
+        <Reveal delay={0.12}>
+          <div className="mt-8 border-t border-cream-200 pt-8">
+            <p className="text-sm font-semibold uppercase tracking-wide text-olive-600">
+              Accreditations across our portfolio
+            </p>
+            <ul className="mt-4 flex flex-wrap gap-2">
+              {ACCREDITATIONS.map((a) => (
+                <li key={a}>
+                  <Pill>{a}</Pill>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </Reveal>
         <Reveal delay={0.15}>
           <div className="mt-8">
             <Pending>
-              Still to confirm: certifications and team size (Build Plan, open
-              question 01). Production capabilities and annual production
-              volumes are only available for the coffee side of the business
-              currently, so have been left out as a group-wide stat pending
-              confirmation on the rest of the portfolio.
+              Still to confirm: team size (Build Plan, open question 01).
+              Production capabilities and annual production volumes are only
+              available for the coffee side of the business currently, so
+              have been left out as a group-wide stat pending confirmation on
+              the rest of the portfolio.
             </Pending>
           </div>
         </Reveal>
@@ -132,8 +152,9 @@ export default function AboutPage() {
         </div>
       </Section>
 
-      <Section className="bg-green-700">
-        <Reveal>
+      <Section className="relative overflow-hidden bg-green-700">
+        <TextureOverlay />
+        <Reveal className="relative">
           <h2 className="mx-auto max-w-2xl text-center text-2xl font-semibold text-cream-100 sm:text-3xl">
             How we work
           </h2>

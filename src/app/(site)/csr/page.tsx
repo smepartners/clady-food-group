@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import { UsersThree, Handshake, Leaf } from "@phosphor-icons/react/dist/ssr";
-import { Section, Pending, ImageFrame, AccentRule, Lede, NumberMark } from "@/components/ui";
+import { UsersThree, Handshake, Leaf, SunHorizon, CloudCheck } from "@phosphor-icons/react/dist/ssr";
+import { Section, Pending, ImageFrame, AccentRule, Lede, NumberMark, TextureOverlay } from "@/components/ui";
 import { Reveal, RevealStagger } from "@/components/reveal";
 
 export const metadata: Metadata = { title: "CSR" };
@@ -31,6 +31,22 @@ const TONE_ICON_BG = {
   green: "bg-green-700/10 text-green-700",
   olive: "bg-olive-600/10 text-olive-600",
 } as const;
+
+// Green credentials confirmed by the client (Zoe, SME Partners). The wider
+// list of sustainability initiatives is still being confirmed - these two
+// are established facts, not part of that pending roadmap.
+const GREEN_CREDENTIALS = [
+  {
+    icon: CloudCheck,
+    name: "Carbon neutral",
+    body: "As a company, and across our carbon neutral product range, we measure our emissions through My Emissions and offset them through verified projects on the Ecologi platform.",
+  },
+  {
+    icon: SunHorizon,
+    name: "Solar-powered manufacturing",
+    body: "Solar panels on the roof of our Belfast factory generate green energy for our manufacturing operations.",
+  },
+];
 
 export default function CsrPage() {
   return (
@@ -96,19 +112,31 @@ export default function CsrPage() {
             improvement: setting meaningful priorities, measuring progress and
             taking practical action.
           </p>
-          <div className="mx-auto mt-8 max-w-2xl">
+          <RevealStagger className="mx-auto mt-10 grid max-w-2xl gap-8 sm:grid-cols-2">
+            {GREEN_CREDENTIALS.map((c) => (
+              <div key={c.name} className="flex flex-col items-center gap-3 text-center">
+                <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-green-700/10 text-green-700">
+                  <c.icon size={22} weight="bold" />
+                </div>
+                <h3 className="font-semibold text-ink">{c.name}</h3>
+                <p className="text-sm leading-relaxed text-ink-soft">{c.body}</p>
+              </div>
+            ))}
+          </RevealStagger>
+          <div className="mx-auto mt-10 max-w-2xl">
             <Pending>
-              Sustainability initiatives - the source copy literally says
-              &ldquo;insert sustainability initiatives here&rdquo; (Build Plan
-              §06, open question 02). Renders from the{" "}
+              Further sustainability initiatives beyond our carbon neutral
+              status and solar-powered Belfast site are still being confirmed
+              (Build Plan §06, open question 02). Renders from the{" "}
               <code>csrInitiative</code> Sanity schema once populated.
             </Pending>
           </div>
         </Reveal>
       </Section>
 
-      <Section className="bg-green-700">
-        <Reveal>
+      <Section className="relative overflow-hidden bg-green-700">
+        <TextureOverlay />
+        <Reveal className="relative">
           <div className="mx-auto max-w-2xl text-center">
             <h2 className="text-2xl font-semibold text-cream-100 sm:text-3xl">
               Our responsibility

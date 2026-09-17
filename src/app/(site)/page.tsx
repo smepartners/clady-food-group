@@ -12,6 +12,7 @@ import {
   IconFeature,
   CTAButton,
   AccentRule,
+  TextureOverlay,
 } from "@/components/ui";
 import { Reveal, RevealStagger } from "@/components/reveal";
 
@@ -83,12 +84,13 @@ export default function HomePage() {
         </RevealStagger>
       </Section>
 
-      <Section className="bg-green-700">
-        <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
+      <Section className="relative overflow-hidden bg-green-700">
+        <TextureOverlay />
+        <div className="relative grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
           <Reveal className="order-2 lg:order-1">
             <ImageFrame
               seed="clady-manufacturing-northern-ireland"
-              alt="Manufacturing operations across England and Northern Ireland"
+              alt="Manufacturing operations across England, Northern Ireland and Ireland"
               aspect="aspect-[4/3]"
               tone="dark"
             />
@@ -99,7 +101,7 @@ export default function HomePage() {
             </h2>
             <div className="mt-5 space-y-4 text-cream-100/75">
               <p>
-                With manufacturing operations across England and Northern Ireland,
+                With manufacturing operations in Buxton, Belfast and Galway,
                 Clady Group brings together a broad portfolio of complementary
                 expertise across branded beverages, wellness, soluble drinks and
                 private label manufacturing.
@@ -160,6 +162,7 @@ export default function HomePage() {
       <Section>
         <Reveal>
           <div className="relative overflow-hidden rounded-2xl bg-green-700 px-8 py-14 text-center sm:px-16">
+            <TextureOverlay />
             <div className="absolute -left-16 -top-16 h-56 w-56 rounded-full bg-gold-500/15 blur-3xl" />
             <div className="absolute -bottom-20 -right-10 h-56 w-56 rounded-full bg-olive-400/15 blur-3xl" />
             <div className="relative">
