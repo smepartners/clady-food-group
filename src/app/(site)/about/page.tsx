@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
-import { Section, ImageFrame, AccentRule, Lede, PullQuote, StatTile, Pill, AccreditationBadges, BrandGrid, TextureOverlay } from "@/components/ui";
+import { Section, ImageFrame, AccentRule, Lede, PullQuote, StatTile, Pill, BrandGrid, TextureOverlay } from "@/components/ui";
 import { Reveal, RevealStagger } from "@/components/reveal";
+import { AccreditationGrid, type Accreditation } from "@/components/accreditation";
 
 export const metadata: Metadata = { title: "About Us" };
 
@@ -17,7 +18,9 @@ const SECTORS = ["Retail", "Cafés", "Food service", "Hospitality"];
 // Accreditations confirmed by the client (Zoe, SME Partners) - held across
 // the portfolio rather than by any single brand, so presented as a
 // group-wide list rather than attributed brand-by-brand pending further
-// guidance on how the client wants that split shown.
+// guidance on how the client wants that split shown. `note` is a plain,
+// factual one-line description of what each scheme covers, not a claim
+// about Clady beyond holding the accreditation itself.
 //
 // `logo` is each certifying body's mark. Rainforest Alliance, Fairtrade and
 // SALSA below are placeholder artwork pulled from each body's own public
@@ -25,13 +28,28 @@ const SECTORS = ["Retail", "Cafés", "Food service", "Hospitality"];
 // swap the file once received. BRCGS has no logo here: BRCGS's own brand
 // guidelines state their certificated-site logo is only issued on request,
 // tied to the site's certificate number, so there is no generic public
-// version to place - it renders as a text Pill via AccreditationBadges
-// until BRCGS (or Zoe) supplies Clady's actual certificate-linked artwork.
-const ACCREDITATIONS: { name: string; logo?: string }[] = [
-  { name: "Rainforest Alliance", logo: "/logo-rainforest-alliance.png" },
-  { name: "Fairtrade", logo: "/logo-fairtrade.png" },
-  { name: "BRCGS Start Basic" },
-  { name: "SALSA", logo: "/logo-salsa.png" },
+// version to place - it renders as a text Pill via AccreditationGrid until
+// BRCGS (or Zoe) supplies Clady's actual certificate-linked artwork.
+const ACCREDITATIONS: Accreditation[] = [
+  {
+    name: "Rainforest Alliance",
+    note: "Certified sustainable and responsible sourcing",
+    logo: "/logo-rainforest-alliance.png",
+  },
+  {
+    name: "Fairtrade",
+    note: "Certified fair trading practices across our supply chain",
+    logo: "/logo-fairtrade.png",
+  },
+  {
+    name: "BRCGS Start Basic",
+    note: "Independently audited food safety standard",
+  },
+  {
+    name: "SALSA",
+    note: "Safe and Local Supplier Approval accreditation",
+    logo: "/logo-salsa.png",
+  },
 ];
 
 export default function AboutPage() {
@@ -107,10 +125,7 @@ export default function AboutPage() {
         </Reveal>
         <Reveal delay={0.12}>
           <div className="mt-8 border-t border-cream-200 pt-8">
-            <p className="text-sm font-semibold uppercase tracking-wide text-olive-600">
-              Accreditations across our portfolio
-            </p>
-            <AccreditationBadges items={ACCREDITATIONS} className="mt-5" />
+            <AccreditationGrid items={ACCREDITATIONS} label="Accreditations across our portfolio" />
           </div>
         </Reveal>
       </Section>

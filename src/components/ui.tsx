@@ -4,25 +4,34 @@ import Image from "next/image";
 import { Camera, ArrowUpRight } from "@phosphor-icons/react/dist/ssr";
 import { BRANDS } from "@/lib/brands";
 
-/** Leather texture + icon-mark watermark, dropped into a solid green block
- * for depth - the brand pack's "texture backgrounds" (p.12) and "logo
- * icons" (p.14, background logo for depth) treatments, using the real
- * texture photography and icon-mark asset supplied by Zoe (SME Partners).
- * Sits behind `relative` content via z-index, so wrap sibling content in a
+/** Leather texture + icon-mark watermark, dropped into a solid block for
+ * depth - the brand pack's "texture backgrounds" (p.12) and "logo icons"
+ * (p.14, background logo for depth) treatments, using the real texture
+ * photography and icon-mark assets supplied by Zoe (SME Partners). Sits
+ * behind `relative` content via z-index, so wrap sibling content in a
  * `relative` wrapper (most callers already have one for their own glow
- * blobs). Built for use on `bg-green-700` blocks specifically - the texture
- * photo is the green leather swatch. */
-export function TextureOverlay({ className = "" }: { className?: string }) {
+ * blobs). Defaults to the green leather swatch on `mix-blend-multiply` -
+ * the original treatment, built for `bg-green-700` blocks. Pass `texture`/
+ * `watermark`/`blend`/`opacity` to use the gold leather swatch on a darker
+ * base instead (see the accreditation panel). */
+export function TextureOverlay({
+  className = "",
+  texture = "/texture-leather-green.jpg",
+  watermark = "/logo-icon-watermark.png",
+  blend = "mix-blend-multiply",
+  opacity = "opacity-70",
+}: {
+  className?: string;
+  texture?: string;
+  watermark?: string;
+  blend?: string;
+  opacity?: string;
+}) {
   return (
     <div className={`pointer-events-none absolute inset-0 overflow-hidden ${className}`} aria-hidden="true">
+      <Image src={texture} alt="" fill className={`object-cover ${opacity} ${blend}`} />
       <Image
-        src="/texture-leather-green.jpg"
-        alt=""
-        fill
-        className="object-cover opacity-70 mix-blend-multiply"
-      />
-      <Image
-        src="/logo-icon-watermark.png"
+        src={watermark}
         alt=""
         width={900}
         height={900}
@@ -325,45 +334,6 @@ export function Pill({ children }: { children: ReactNode }) {
     <span className="rounded-full border border-olive-600/30 bg-cream-100 px-4 py-1.5 text-sm text-olive-600 transition hover:border-olive-600 hover:bg-olive-600/10">
       {children}
     </span>
-  );
-}
-
-/**
- * Trust-badge row for third-party accreditations/certifications. Pass a
- * `logo` per item (the certifying body's official mark - use the exact
- * artwork/usage terms supplied under Clady's licence, never a lookalike
- * sourced elsewhere) to render it in a consistent-height row; items without
- * a `logo` fall back to a text Pill so the row still reads correctly before
- * every mark is supplied. Logos render in grayscale at rest and colour on
- * hover, matching this design system's restrained trust-signal treatment.
- */
-export function AccreditationBadges({
-  items,
-  className = "",
-}: {
-  items: { name: string; logo?: string }[];
-  className?: string;
-}) {
-  return (
-    <ul className={`flex flex-wrap items-center gap-x-10 gap-y-6 ${className}`}>
-      {items.map((a) => (
-        <li key={a.name} className="flex h-12 items-center" title={a.name}>
-          {a.logo ? (
-            <div className="relative h-full w-32">
-              <Image
-                src={a.logo}
-                alt={`${a.name} certified`}
-                fill
-                sizes="128px"
-                className="object-contain object-left grayscale transition duration-300 hover:grayscale-0"
-              />
-            </div>
-          ) : (
-            <Pill>{a.name}</Pill>
-          )}
-        </li>
-      ))}
-    </ul>
   );
 }
 
