@@ -67,7 +67,9 @@ export default function HomePage() {
             <ImageFrame
               seed="clady-group-coffee-roastery"
               alt="Coffee roasting and beverage production at a Clady Group facility"
+              src="/photo-home-hero.jpg"
               aspect="aspect-[4/5] lg:aspect-square"
+              priority
             />
           </Reveal>
         </div>
@@ -91,6 +93,7 @@ export default function HomePage() {
             <ImageFrame
               seed="clady-manufacturing-northern-ireland"
               alt="Manufacturing operations across England, Northern Ireland and Ireland"
+              src="/photo-home-manufacturing.jpg"
               aspect="aspect-[4/3]"
               tone="dark"
             />

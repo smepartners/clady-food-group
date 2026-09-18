@@ -47,6 +47,7 @@ export default function AboutPage() {
             <ImageFrame
               seed="clady-about-team"
               alt="The Clady Group team at work"
+              src="/photo-about-team.jpg"
               aspect="aspect-[4/5]"
             />
           </Reveal>
@@ -123,6 +124,7 @@ export default function AboutPage() {
             <ImageFrame
               seed="clady-family-business-heritage"
               alt="Clady Group's family-business heritage"
+              src="/photo-about-heritage.jpg"
               aspect="aspect-[4/3]"
             />
           </Reveal>

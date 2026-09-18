@@ -12,6 +12,7 @@ const BRANDS = [
     strap: "Everyday wellness made easy.",
     focus: "Functional drinks · Supplements · Natural wellness · Performance",
     seed: "clady-evolving-state-wellness",
+    photo: "/photo-brand-evolving-state.jpg",
   },
   {
     slug: "galway-roast",
@@ -19,6 +20,7 @@ const BRANDS = [
     strap: "Coffee with a taste of Galway.",
     focus: "Coffee · B2B · B2C · Irish heritage",
     seed: "clady-galway-roast-coffee",
+    photo: "/photo-brand-galway-roast.jpg",
   },
   {
     slug: "dutch-maid",
@@ -26,6 +28,7 @@ const BRANDS = [
     strap: "Convenience made simple.",
     focus: "Instant coffee · Hot chocolate · Milk & whitener · Cappuccino topping · Private label",
     seed: "clady-dutch-maid-soluble",
+    photo: "/photo-brand-dutch-maid.jpg",
   },
   {
     slug: "slumberjack",
@@ -33,6 +36,7 @@ const BRANDS = [
     strap: "Our signature beverage brand.",
     focus: "Coffee · Tea · Hot chocolate · B2B · B2C",
     seed: "clady-slumberjack-coffee",
+    photo: "/photo-brand-slumberjack.jpg",
   },
 ];
 
@@ -57,7 +61,7 @@ export default function BrandsIndexPage() {
           {BRANDS.map((b) => (
             <Link key={b.slug} href={`/brands/${b.slug}`} className="group block">
               <div className="overflow-hidden rounded-2xl transition duration-300 group-hover:-translate-y-1">
-                <ImageFrame seed={b.seed} alt={b.name} aspect="aspect-[16/10]" />
+                <ImageFrame seed={b.seed} alt={b.name} src={b.photo} aspect="aspect-[16/10]" />
               </div>
               <h2 className="mt-4 text-lg font-semibold text-ink transition group-hover:text-green-700">
                 {b.name}

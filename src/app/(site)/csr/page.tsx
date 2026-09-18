@@ -76,6 +76,7 @@ export default function CsrPage() {
             <ImageFrame
               seed="clady-csr-responsible-sourcing"
               alt="Responsible sourcing at Clady Group"
+              src="/photo-csr-sourcing.jpg"
               aspect="aspect-[4/5]"
             />
           </Reveal>

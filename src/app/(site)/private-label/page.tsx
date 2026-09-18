@@ -47,6 +47,7 @@ export default function PrivateLabelPage() {
             <ImageFrame
               seed="clady-private-label-bottling"
               alt="Private label beverage production line"
+              src="/photo-private-label-bottling.jpg"
               aspect="aspect-[4/5]"
             />
           </Reveal>

@@ -8,23 +8,27 @@ export const BRANDS = [
     name: "Evolving State",
     seed: "clady-evolving-state-wellness",
     tone: "green" as const,
+    photo: "/photo-brand-evolving-state.jpg",
   },
   {
     slug: "galway-roast",
     name: "Galway Roast",
     seed: "clady-galway-roast-coffee",
     tone: "gold" as const,
+    photo: "/photo-brand-galway-roast.jpg",
   },
   {
     slug: "dutch-maid",
     name: "Dutch Maid",
     seed: "clady-dutch-maid-soluble",
     tone: "olive" as const,
+    photo: "/photo-brand-dutch-maid.jpg",
   },
   {
     slug: "slumberjack",
     name: "Slumberjack",
     seed: "clady-slumberjack-coffee",
     tone: "green" as const,
+    photo: "/photo-brand-slumberjack.jpg",
   },
 ] as const;

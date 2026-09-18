@@ -67,7 +67,7 @@ export function BrandGrid({
           <li key={b.slug}>
             <Link href={`/brands/${b.slug}`} className="group block">
               <div className="overflow-hidden rounded-xl transition duration-300 group-hover:-translate-y-1">
-                <ImageFrame seed={b.seed} alt={b.name} aspect="aspect-square" />
+                <ImageFrame seed={b.seed} alt={b.name} src={b.photo} aspect="aspect-square" />
               </div>
               <div className="mt-3 flex items-center gap-2">
                 <span className={`h-1.5 w-1.5 shrink-0 rounded-full ${BRAND_DOT_TONE[b.tone]}`} />
@@ -145,26 +145,50 @@ export function AccentRule({ className = "" }: { className?: string }) {
 }
 
 /**
- * Photography placeholder. Real client photography is still pending (Build
- * Plan §06, open question 04) - this is a deliberate empty-state treatment
- * (an animated brand-gradient wash, no unrelated stock imagery) rather than
- * a fake photo. Swap for an <Image> pointed at the real asset once supplied;
- * the `seed` prop is kept as a stable key so each slot is easy to find and
- * replace individually. `tone="dark"` is for use on a green/dark section.
+ * Photography slot. Pass `src` to render the real photo (currently sourced,
+ * free-licence stock photography via Unsplash/Pexels - see
+ * public/PHOTO-CREDITS.md - standing in until real Clady Group photography
+ * is supplied, Build Plan §06 open question 04). Omit `src` to fall back to
+ * the empty-state placeholder treatment (an animated brand-gradient wash, no
+ * unrelated imagery). The `seed` prop is kept as a stable key so each slot is
+ * easy to find and replace individually. `tone="dark"` is for use on a
+ * green/dark section.
  */
 export function ImageFrame({
   seed,
   alt,
+  src,
   aspect = "aspect-[4/5]",
   tone = "light",
   className = "",
+  priority = false,
 }: {
   seed: string;
   alt: string;
+  src?: string;
   aspect?: string;
   tone?: "light" | "dark";
   className?: string;
+  priority?: boolean;
 }) {
+  if (src) {
+    return (
+      <div
+        data-photo-seed={seed}
+        className={`relative overflow-hidden rounded-2xl ${aspect} ${className}`}
+      >
+        <Image
+          src={src}
+          alt={alt}
+          fill
+          priority={priority}
+          sizes="(min-width: 1024px) 50vw, 100vw"
+          className="object-cover"
+        />
+      </div>
+    );
+  }
+
   return (
     <div
       role="img"
