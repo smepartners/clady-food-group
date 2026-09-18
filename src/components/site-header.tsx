@@ -26,12 +26,12 @@ export function SiteHeader() {
       <div className="mx-auto flex h-24 max-w-6xl items-center justify-between gap-6 px-4 sm:px-6">
         <Link href="/" className="flex items-center" aria-label="Clady Group home">
           <Image
-            src="/clady-logo.png"
+            src="/clady-logo-landscape.png"
             alt="Clady Group"
-            width={1399}
-            height={749}
+            width={1600}
+            height={317}
             priority
-            className="h-20 w-auto"
+            className="h-14 w-auto sm:h-16"
           />
         </Link>
 

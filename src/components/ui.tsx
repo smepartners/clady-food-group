@@ -4,23 +4,29 @@ import Image from "next/image";
 import { Camera, ArrowUpRight } from "@phosphor-icons/react/dist/ssr";
 import { BRANDS } from "@/lib/brands";
 
-/** Grain + rotated watermark logo, dropped into a solid-colour block to add
- * depth - the CSS analogue of the brand pack's "texture backgrounds" (p.12)
- * and "logo icons" (p.14, background logo rotated 90deg) treatments. Real
- * leather-texture and logo-mark assets are still with Zoe; swap the grain
- * class and the <Image> source for those once supplied. Sits behind
- * `relative` content via z-index, so wrap sibling content in a `relative`
- * wrapper (most callers already have one for their own glow blobs). */
+/** Leather texture + icon-mark watermark, dropped into a solid green block
+ * for depth - the brand pack's "texture backgrounds" (p.12) and "logo
+ * icons" (p.14, background logo for depth) treatments, using the real
+ * texture photography and icon-mark asset supplied by Zoe (SME Partners).
+ * Sits behind `relative` content via z-index, so wrap sibling content in a
+ * `relative` wrapper (most callers already have one for their own glow
+ * blobs). Built for use on `bg-green-700` blocks specifically - the texture
+ * photo is the green leather swatch. */
 export function TextureOverlay({ className = "" }: { className?: string }) {
   return (
     <div className={`pointer-events-none absolute inset-0 overflow-hidden ${className}`} aria-hidden="true">
-      <div className="absolute inset-0 bg-grain" />
       <Image
-        src="/clady-logo.png"
+        src="/texture-leather-green.jpg"
         alt=""
-        width={1399}
-        height={749}
-        className="absolute -right-24 top-1/2 w-[28rem] -translate-y-1/2 rotate-[15deg] opacity-[0.06] mix-blend-overlay sm:w-[36rem]"
+        fill
+        className="object-cover opacity-70 mix-blend-multiply"
+      />
+      <Image
+        src="/logo-icon-watermark.png"
+        alt=""
+        width={900}
+        height={900}
+        className="absolute -right-20 top-1/2 w-[24rem] -translate-y-1/2 opacity-80 sm:w-[30rem]"
       />
     </div>
   );

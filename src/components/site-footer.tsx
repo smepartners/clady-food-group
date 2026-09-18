@@ -15,11 +15,11 @@ export function SiteFooter() {
       <div className="mx-auto max-w-6xl px-4 py-14 sm:px-6">
         <div className="flex flex-col gap-10 sm:flex-row sm:items-start sm:justify-between">
           <Image
-            src="/clady-logo.png"
+            src="/clady-logo-landscape.png"
             alt="Clady Group"
-            width={1399}
-            height={749}
-            className="h-14 w-auto opacity-90"
+            width={1600}
+            height={317}
+            className="h-10 w-auto opacity-90 sm:h-11"
           />
           <div className="flex flex-col gap-8 sm:flex-row sm:gap-16">
             <nav className="flex flex-wrap gap-x-8 gap-y-2 text-sm text-ink-soft">
