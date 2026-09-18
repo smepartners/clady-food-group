@@ -110,16 +110,6 @@ export function Section({
   );
 }
 
-/** Flags a spot where copy is still an open question - see Build Plan §06. */
-export function Pending({ children }: { children: ReactNode }) {
-  return (
-    <div className="rounded-xl border border-dashed border-gold-500 bg-gold-500/10 px-5 py-4 text-sm text-ink-soft">
-      <span className="font-semibold text-gold-700">[PENDING] </span>
-      {children}
-    </div>
-  );
-}
-
 /** Small uppercase label. Rationed per the design system - max one per 3 sections. */
 export function Eyebrow({
   children,
@@ -335,6 +325,45 @@ export function Pill({ children }: { children: ReactNode }) {
     <span className="rounded-full border border-olive-600/30 bg-cream-100 px-4 py-1.5 text-sm text-olive-600 transition hover:border-olive-600 hover:bg-olive-600/10">
       {children}
     </span>
+  );
+}
+
+/**
+ * Trust-badge row for third-party accreditations/certifications. Pass a
+ * `logo` per item (the certifying body's official mark - use the exact
+ * artwork/usage terms supplied under Clady's licence, never a lookalike
+ * sourced elsewhere) to render it in a consistent-height row; items without
+ * a `logo` fall back to a text Pill so the row still reads correctly before
+ * every mark is supplied. Logos render in grayscale at rest and colour on
+ * hover, matching this design system's restrained trust-signal treatment.
+ */
+export function AccreditationBadges({
+  items,
+  className = "",
+}: {
+  items: { name: string; logo?: string }[];
+  className?: string;
+}) {
+  return (
+    <ul className={`flex flex-wrap items-center gap-x-10 gap-y-6 ${className}`}>
+      {items.map((a) => (
+        <li key={a.name} className="flex h-12 items-center" title={a.name}>
+          {a.logo ? (
+            <div className="relative h-full w-32">
+              <Image
+                src={a.logo}
+                alt={`${a.name} certified`}
+                fill
+                sizes="128px"
+                className="object-contain object-left grayscale transition duration-300 hover:grayscale-0"
+              />
+            </div>
+          ) : (
+            <Pill>{a.name}</Pill>
+          )}
+        </li>
+      ))}
+    </ul>
   );
 }
 

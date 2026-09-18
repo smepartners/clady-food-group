@@ -20,5 +20,7 @@ See PRD.md, ARCHITECTURE.md, TASKS.md, DECISIONS.md for full context.
 ## Current state
 Static copy on all 9 routes (approved content from the source doc), Sanity
 schemas/Studio scaffolded but not yet fetched from - no Sanity project
-exists yet. `[PENDING]` badges mark every open content gap. Full detail in
-ARCHITECTURE.md.
+exists yet. The on-page `[PENDING]` warning badges have been removed for
+launch; remaining open content gaps (team size, registered company details,
+wider sustainability initiatives, sub-brand logo marks) are tracked in
+ARCHITECTURE.md instead, not flagged in the UI.

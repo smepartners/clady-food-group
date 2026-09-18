@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Section, Pending, ImageFrame, AccentRule, Lede, PullQuote, StatTile, Pill, BrandGrid, TextureOverlay } from "@/components/ui";
+import { Section, ImageFrame, AccentRule, Lede, PullQuote, StatTile, Pill, AccreditationBadges, BrandGrid, TextureOverlay } from "@/components/ui";
 import { Reveal, RevealStagger } from "@/components/reveal";
 
 export const metadata: Metadata = { title: "About Us" };
@@ -18,7 +18,21 @@ const SECTORS = ["Retail", "Cafés", "Food service", "Hospitality"];
 // the portfolio rather than by any single brand, so presented as a
 // group-wide list rather than attributed brand-by-brand pending further
 // guidance on how the client wants that split shown.
-const ACCREDITATIONS = ["Rainforest Alliance", "Fairtrade", "BRCGS Start Basic", "SALSA"];
+//
+// `logo` is each certifying body's mark. Rainforest Alliance, Fairtrade and
+// SALSA below are placeholder artwork pulled from each body's own public
+// site/Wikimedia, standing in until Clady/Zoe supply the licensed versions -
+// swap the file once received. BRCGS has no logo here: BRCGS's own brand
+// guidelines state their certificated-site logo is only issued on request,
+// tied to the site's certificate number, so there is no generic public
+// version to place - it renders as a text Pill via AccreditationBadges
+// until BRCGS (or Zoe) supplies Clady's actual certificate-linked artwork.
+const ACCREDITATIONS: { name: string; logo?: string }[] = [
+  { name: "Rainforest Alliance", logo: "/logo-rainforest-alliance.png" },
+  { name: "Fairtrade", logo: "/logo-fairtrade.png" },
+  { name: "BRCGS Start Basic" },
+  { name: "SALSA", logo: "/logo-salsa.png" },
+];
 
 export default function AboutPage() {
   return (
@@ -96,24 +110,7 @@ export default function AboutPage() {
             <p className="text-sm font-semibold uppercase tracking-wide text-olive-600">
               Accreditations across our portfolio
             </p>
-            <ul className="mt-4 flex flex-wrap gap-2">
-              {ACCREDITATIONS.map((a) => (
-                <li key={a}>
-                  <Pill>{a}</Pill>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </Reveal>
-        <Reveal delay={0.15}>
-          <div className="mt-8">
-            <Pending>
-              Still to confirm: team size (Build Plan, open question 01).
-              Production capabilities and annual production volumes are only
-              available for the coffee side of the business currently, so
-              have been left out as a group-wide stat pending confirmation on
-              the rest of the portfolio.
-            </Pending>
+            <AccreditationBadges items={ACCREDITATIONS} className="mt-5" />
           </div>
         </Reveal>
       </Section>

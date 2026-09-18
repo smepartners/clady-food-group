@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { Section, Pending, ImageFrame, AccentRule, Pill } from "@/components/ui";
+import { Section, ImageFrame, AccentRule, Pill } from "@/components/ui";
 import { Reveal } from "@/components/reveal";
 
 type Brand = {
@@ -14,7 +14,7 @@ type Brand = {
 
 // TODO: once the Sanity project is provisioned, replace this map with a
 // fetch against BRAND_BY_SLUG_QUERY (src/sanity/lib/queries.ts). Kept static
-// for now since brand imagery/logos are still pending (Build Plan §06,
+// for now since sub-brand logo marks are still pending (Build Plan §06,
 // open question 04) and there's nothing to gain from wiring a CMS that
 // has no content in it yet.
 const BRANDS: Record<string, Brand> = {
@@ -119,16 +119,6 @@ export default async function BrandPage({
             <ImageFrame seed={brand.seed} alt={brand.name} src={brand.photo} aspect="aspect-[4/5]" />
           </Reveal>
         </div>
-      </Section>
-
-      <Section className="bg-cream-200/40" pad="py-10 sm:py-14">
-        <Reveal>
-          <Pending>
-            No photography or sub-brand logo supplied for {brand.name} yet
-            (Build Plan §06, open question 04) - hero image and logo slots are
-            scaffolded in the <code>brand</code> Sanity schema, ready to fill in.
-          </Pending>
-        </Reveal>
       </Section>
     </>
   );

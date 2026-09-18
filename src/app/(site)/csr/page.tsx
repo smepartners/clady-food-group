@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { UsersThree, Handshake, Leaf, SunHorizon, CloudCheck } from "@phosphor-icons/react/dist/ssr";
-import { Section, Pending, ImageFrame, AccentRule, Lede, NumberMark, TextureOverlay } from "@/components/ui";
+import { Section, ImageFrame, AccentRule, Lede, NumberMark, TextureOverlay } from "@/components/ui";
 import { Reveal, RevealStagger } from "@/components/reveal";
 
 export const metadata: Metadata = { title: "CSR" };
@@ -124,14 +124,6 @@ export default function CsrPage() {
               </div>
             ))}
           </RevealStagger>
-          <div className="mx-auto mt-10 max-w-2xl">
-            <Pending>
-              Further sustainability initiatives beyond our carbon neutral
-              status and solar-powered Belfast site are still being confirmed
-              (Build Plan §06, open question 02). Renders from the{" "}
-              <code>csrInitiative</code> Sanity schema once populated.
-            </Pending>
-          </div>
         </Reveal>
       </Section>
 

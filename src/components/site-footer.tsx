@@ -51,9 +51,6 @@ export function SiteFooter() {
         <div className="mt-10 border-t border-cream-200 pt-6 text-sm text-ink-soft">
           <p>&copy; {new Date().getFullYear()} Clady Group.</p>
           {/* TODO: registered company name, number and address - open question #06 in the build plan */}
-          <p className="mt-1 text-xs italic">
-            [PENDING] Registered company details go here once confirmed.
-          </p>
         </div>
       </div>
     </footer>
