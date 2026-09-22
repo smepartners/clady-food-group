@@ -11,13 +11,13 @@ import {
   ImageFrame,
   IconFeature,
   CTAButton,
-  AccentRule,
   TextureOverlay,
-  StatTile,
   FacilityStrip,
 } from "@/components/ui";
 import { Reveal, RevealStagger } from "@/components/reveal";
 import { BRANDS } from "@/lib/brands";
+import { HomeThemeProvider, HomeStyleToggle } from "@/components/home-theme";
+import { HomeHero } from "@/components/home-hero";
 
 // Same three confirmed facts as the About page's "at a glance" band (see
 // STATS there) - led with here, at the fold, rather than left for a visitor
@@ -61,50 +61,10 @@ const BRAND_TEASERS = [
 export default function HomePage() {
   return (
     <>
-      <Section pad="pt-14 sm:pt-16 pb-12 sm:pb-16">
-        <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
-          <Reveal>
-            <h1 className="max-w-xl text-4xl font-semibold leading-[1.05] text-green-700 sm:text-5xl">
-              Built around <em className="italic text-gold-700">your business.</em>
-            </h1>
-            <AccentRule className="mt-7" />
-            <p className="mt-7 max-w-lg text-lg leading-relaxed text-ink-soft">
-              Clady Group brings together a portfolio of specialist food, confectionery
-              and beverage brands and capabilities, delivering quality, choice and
-              flexibility to customers across B2B and B2C markets.
-            </p>
-            <div className="mt-10">
-              <CTAButton href="/brands">Explore our brands</CTAButton>
-            </div>
-          </Reveal>
-          <Reveal delay={0.1}>
-            <ImageFrame
-              seed="clady-group-coffee-roastery"
-              alt="Coffee roasting and beverage production at a Clady Group facility"
-              src="/photo-home-hero.jpg"
-              aspect="aspect-[4/5] lg:aspect-square"
-              priority
-            />
-          </Reveal>
-        </div>
-
-        <RevealStagger className="mt-12 grid gap-x-8 gap-y-10 border-t border-cream-200 pt-12 sm:grid-cols-3">
-          {HOME_STATS.map((s) => (
-            <StatTile key={s.label} value={s.value} label={s.label} size="lg" />
-          ))}
-        </RevealStagger>
-
-        <RevealStagger className="mt-12 grid gap-x-8 gap-y-10 border-t border-cream-200 pt-12 sm:grid-cols-3">
-          {INTRO_POINTS.map((point, i) => (
-            <div key={i} className="flex flex-col gap-3">
-              <span className="text-sm font-semibold tabular-nums text-gold-700/70">
-                {String(i + 1).padStart(2, "0")}
-              </span>
-              <p className="text-ink-soft">{point}</p>
-            </div>
-          ))}
-        </RevealStagger>
-      </Section>
+      <HomeThemeProvider>
+        <HomeHero stats={HOME_STATS} introPoints={INTRO_POINTS} />
+        <HomeStyleToggle />
+      </HomeThemeProvider>
 
       <Section className="relative overflow-hidden bg-green-700">
         <TextureOverlay />

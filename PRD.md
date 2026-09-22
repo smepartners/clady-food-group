@@ -45,6 +45,19 @@ full in the Build Plan artifact §06:
    permitted to name publicly, with usable logo files, and (b) any real
    testimonial quotes. Build a `ClientLogoBar` component (same pattern as
    `AccreditationGrid`) once that list exists.
+9. Homepage hero style decision - client felt the scale-stat pass (item 8's
+   workaround) was too minor a visual change. A "Classic / Bold" preview
+   toggle was added to the live homepage (bottom-right pill, see
+   `components/home-theme.tsx` + `home-hero.tsx`) so the team can compare
+   the current light hero against a bolder deep-green, textured variant
+   before committing. It's a review tool, not a shipped feature - it
+   defaults to "Classic" for every visitor and the choice is stored per
+   browser only (localStorage), never sent anywhere. Once a direction is
+   picked: delete `home-theme.tsx`, remove `<HomeStyleToggle />` from
+   `page.tsx`, and hardcode the winning branch's classes from `home-hero.tsx`
+   back into the section (or keep bold as the permanent style and drop the
+   classic branch instead). If the bold direction is preferred, the same
+   toggle pattern can extend to other sections/pages next.
 
 ## Definition of done
 - All nine routes build and deploy on Vercel.
