@@ -6,10 +6,21 @@ import {
   CheckCircle,
   UsersThree,
 } from "@phosphor-icons/react/dist/ssr";
-import { Section, ImageFrame, IconFeature, Pill, CTAButton, AccentRule, Lede } from "@/components/ui";
+import { Section, ImageFrame, IconFeature, Pill, CTAButton, AccentRule, Lede, StatTile, FacilityStrip } from "@/components/ui";
 import { Reveal, RevealStagger } from "@/components/reveal";
+import { BRANDS } from "@/lib/brands";
 
 export const metadata: Metadata = { title: "Private Label" };
+
+// Same confirmed scale facts as the homepage and About page (see STATS /
+// HOME_STATS there) - led with here too, since a procurement contact
+// evaluating Clady for a white label programme needs to see this is a
+// group with real manufacturing scale before reading about the approach.
+const SCALE_STATS = [
+  { value: "12+", label: "Years established, since 2014" },
+  { value: "3", label: "Manufacturing sites across the UK & Ireland" },
+  { value: `${BRANDS.length}`, label: "Specialist brands in the portfolio" },
+];
 
 const PILLARS = [
   { icon: Package, tone: "gold" as const, name: "Product expertise", body: "Knowledge across a broad range of beverage categories and formats." },
@@ -52,8 +63,13 @@ export default function PrivateLabelPage() {
             />
           </Reveal>
         </div>
+        <RevealStagger className="mt-16 grid gap-x-8 gap-y-10 border-t border-cream-200 pt-10 sm:grid-cols-3">
+          {SCALE_STATS.map((s) => (
+            <StatTile key={s.label} value={s.value} label={s.label} size="lg" />
+          ))}
+        </RevealStagger>
         <Reveal delay={0.15}>
-          <div className="mt-16 max-w-2xl space-y-4 border-t border-cream-200 pt-10">
+          <div className="mt-10 max-w-2xl space-y-4">
             <Lede>
               Through our portfolio of specialist businesses, we bring together
               expertise across coffee, hot beverages, soluble drinks, functional
@@ -64,6 +80,7 @@ export default function PrivateLabelPage() {
               across categories, formats, flavours and price points.
             </p>
           </div>
+          <FacilityStrip className="mt-8 border-t border-cream-200 pt-8" />
         </Reveal>
       </Section>
 

@@ -1,8 +1,9 @@
 import type { ReactNode } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { Camera, ArrowUpRight } from "@phosphor-icons/react/dist/ssr";
+import { Camera, ArrowUpRight, MapPin } from "@phosphor-icons/react/dist/ssr";
 import { BRANDS } from "@/lib/brands";
+import { FACILITIES } from "@/lib/facilities";
 
 /** Leather texture + icon-mark watermark, dropped into a solid block for
  * depth - the brand pack's "texture backgrounds" (p.12) and "logo icons"
@@ -320,12 +321,68 @@ export function Lede({
   );
 }
 
-export function StatTile({ value, label }: { value: string; label: string }) {
+/** `size="lg"` is for a stat that needs to carry a page on its own - the
+ * homepage fold and the About "at a glance" band, where the whole point is
+ * to register at a glance rather than reward reading. Keep the default
+ * (`"md"`, the original size) everywhere a stat sits alongside other
+ * content instead of leading it. */
+export function StatTile({
+  value,
+  label,
+  size = "md",
+  tone = "light",
+}: {
+  value: string;
+  label: string;
+  size?: "md" | "lg";
+  tone?: "light" | "dark";
+}) {
   return (
     <div className="border-t-2 border-gold-500 pt-4">
-      <p className="text-3xl font-semibold text-green-700 sm:text-4xl">{value}</p>
-      <p className="mt-1 text-sm text-ink-soft">{label}</p>
+      <p
+        className={`font-semibold tabular-nums ${
+          size === "lg" ? "text-5xl sm:text-6xl" : "text-3xl sm:text-4xl"
+        } ${tone === "dark" ? "text-cream-100" : "text-green-700"}`}
+      >
+        {value}
+      </p>
+      <p className={`mt-1 text-sm ${tone === "dark" ? "text-cream-100/70" : "text-ink-soft"}`}>{label}</p>
     </div>
+  );
+}
+
+/** Compact list of the group's manufacturing sites (Buxton, Belfast,
+ * Galway - see lib/facilities.ts) with a pin marker per site. A multi-site
+ * manufacturing footprint is one of the more concrete, truthful signals of
+ * scale Clady can make - client feedback was that the site reads smaller
+ * than the business actually is, and this is real information that was
+ * previously buried as a label string on a single stat tile rather than
+ * shown as what it is: three separate, named sites. */
+export function FacilityStrip({
+  tone = "light",
+  className = "",
+}: {
+  tone?: "light" | "dark";
+  className?: string;
+}) {
+  return (
+    <ul className={`flex flex-wrap gap-x-8 gap-y-3 ${className}`}>
+      {FACILITIES.map((f) => (
+        <li key={f.name} className="flex items-center gap-2">
+          <MapPin
+            size={18}
+            weight="bold"
+            className={tone === "dark" ? "text-gold-500" : "text-green-700"}
+          />
+          <span className={`font-semibold ${tone === "dark" ? "text-cream-100" : "text-ink"}`}>
+            {f.name}
+          </span>
+          <span className={tone === "dark" ? "text-cream-100/60" : "text-ink-soft"}>
+            {f.region}
+          </span>
+        </li>
+      ))}
+    </ul>
   );
 }
 

@@ -13,8 +13,22 @@ import {
   CTAButton,
   AccentRule,
   TextureOverlay,
+  StatTile,
+  FacilityStrip,
 } from "@/components/ui";
 import { Reveal, RevealStagger } from "@/components/reveal";
+import { BRANDS } from "@/lib/brands";
+
+// Same three confirmed facts as the About page's "at a glance" band (see
+// STATS there) - led with here, at the fold, rather than left for a visitor
+// to find three pages deep. Per client feedback that the site reads smaller
+// than the business actually is, this is the highest-leverage placement for
+// the scale signals the group already has evidence for.
+const HOME_STATS = [
+  { value: "12+", label: "Years established, since 2014" },
+  { value: "3", label: "Manufacturing sites across the UK & Ireland" },
+  { value: `${BRANDS.length}`, label: "Specialist brands in the portfolio" },
+];
 
 // Verbatim from the approved copy doc - kept as an array so the intro can
 // render as a numbered sequence instead of three plain paragraphs in a row.
@@ -75,6 +89,12 @@ export default function HomePage() {
         </div>
 
         <RevealStagger className="mt-12 grid gap-x-8 gap-y-10 border-t border-cream-200 pt-12 sm:grid-cols-3">
+          {HOME_STATS.map((s) => (
+            <StatTile key={s.label} value={s.value} label={s.label} size="lg" />
+          ))}
+        </RevealStagger>
+
+        <RevealStagger className="mt-12 grid gap-x-8 gap-y-10 border-t border-cream-200 pt-12 sm:grid-cols-3">
           {INTRO_POINTS.map((point, i) => (
             <div key={i} className="flex flex-col gap-3">
               <span className="text-sm font-semibold tabular-nums text-gold-700/70">
@@ -116,6 +136,7 @@ export default function HomePage() {
                 the development of new products from the ground up.
               </p>
             </div>
+            <FacilityStrip tone="dark" className="mt-6 border-t border-cream-100/15 pt-6" />
           </Reveal>
         </div>
       </Section>

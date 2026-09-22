@@ -1,16 +1,21 @@
 import type { Metadata } from "next";
-import { Section, ImageFrame, AccentRule, Lede, PullQuote, StatTile, Pill, BrandGrid, TextureOverlay } from "@/components/ui";
+import { Section, ImageFrame, AccentRule, Lede, PullQuote, StatTile, FacilityStrip, Pill, BrandGrid, TextureOverlay } from "@/components/ui";
 import { Reveal, RevealStagger } from "@/components/reveal";
 import { AccreditationGrid, type Accreditation } from "@/components/accreditation";
+import { BRANDS } from "@/lib/brands";
 
 export const metadata: Metadata = { title: "About Us" };
 
 // Established 2014 (Slumberjack) - kept as a literal rather than computed
 // from the current date, so the stat doesn't silently drift as years pass.
-// Update by hand at the next content refresh.
+// Update by hand at the next content refresh. The "3 manufacturing sites"
+// stat used to carry the Buxton/Belfast/Galway detail as its label text -
+// split out into FacilityStrip below instead, so the three sites read as
+// three distinct, named locations rather than a line of small print.
 const STATS = [
   { value: "12+", label: "Years established, since 2014" },
-  { value: "3", label: "Manufacturing locations: Buxton, Belfast & Galway" },
+  { value: "3", label: "Manufacturing sites across the UK & Ireland" },
+  { value: `${BRANDS.length}`, label: "Specialist brands in the portfolio" },
 ];
 
 const SECTORS = ["Retail", "Cafés", "Food service", "Hospitality"];
@@ -104,13 +109,21 @@ export default function AboutPage() {
         <Reveal>
           <h2 className="text-2xl font-semibold text-green-700 sm:text-3xl">At a glance</h2>
         </Reveal>
-        <RevealStagger className="mt-8 grid gap-x-8 gap-y-10 sm:grid-cols-2">
+        <RevealStagger className="mt-8 grid gap-x-8 gap-y-10 sm:grid-cols-3">
           {STATS.map((s) => (
-            <StatTile key={s.label} value={s.value} label={s.label} />
+            <StatTile key={s.label} value={s.value} label={s.label} size="lg" />
           ))}
         </RevealStagger>
-        <Reveal delay={0.1}>
+        <Reveal delay={0.08}>
           <div className="mt-10 border-t border-cream-200 pt-8">
+            <p className="text-sm font-semibold uppercase tracking-wide text-olive-600">
+              Where we manufacture
+            </p>
+            <FacilityStrip className="mt-4" />
+          </div>
+        </Reveal>
+        <Reveal delay={0.1}>
+          <div className="mt-8 border-t border-cream-200 pt-8">
             <p className="text-sm font-semibold uppercase tracking-wide text-olive-600">
               Sectors we serve
             </p>

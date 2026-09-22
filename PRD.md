@@ -32,6 +32,19 @@ full in the Build Plan artifact §06:
 5. Contact page copy - not drafted anywhere in the source doc
 6. Footer legal (company name, number, address)
 7. Sanity project ownership (Clady's account vs. ours with editor seats)
+8. Named client/retailer trust content - per client feedback (Sept 2026) that
+   the site reads smaller than the business actually is, comparable sites
+   (HW Group, Queensland Bakery Co.) lean on a named client/retailer logo
+   bar and testimonials to signal scale. Clady has neither on file yet.
+   Homepage/Private Label/About were strengthened in the meantime with the
+   scale facts already confirmed (years established, manufacturing sites,
+   brand count - see `StatTile`/`FacilityStrip` in `components/ui.tsx`), but
+   no client names or logos have been added anywhere on the site - doing so
+   without a confirmed, permitted list from the client would misrepresent
+   who Clady actually supplies. Needs from Zoe: (a) which customers Clady is
+   permitted to name publicly, with usable logo files, and (b) any real
+   testimonial quotes. Build a `ClientLogoBar` component (same pattern as
+   `AccreditationGrid`) once that list exists.
 
 ## Definition of done
 - All nine routes build and deploy on Vercel.
