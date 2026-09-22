@@ -1,5 +1,6 @@
 "use client";
 
+import type { ReactNode } from "react";
 import { Section, ImageFrame, CTAButton, AccentRule, TextureOverlay, StatTile } from "@/components/ui";
 import { Reveal, RevealStagger } from "@/components/reveal";
 import { useSiteStyle } from "@/components/site-theme";
@@ -14,7 +15,7 @@ export function HomeHero({
   stats,
   introPoints,
 }: {
-  stats: { value: string; label: string }[];
+  stats: { value: string; label: string; icon?: ReactNode }[];
   introPoints: string[];
 }) {
   const { style } = useSiteStyle();
@@ -70,7 +71,14 @@ export function HomeHero({
         }`}
       >
         {stats.map((s) => (
-          <StatTile key={s.label} value={s.value} label={s.label} size="lg" tone={bold ? "dark" : "light"} />
+          <StatTile
+            key={s.label}
+            value={s.value}
+            label={s.label}
+            icon={s.icon}
+            size="lg"
+            tone={bold ? "dark" : "light"}
+          />
         ))}
       </RevealStagger>
 

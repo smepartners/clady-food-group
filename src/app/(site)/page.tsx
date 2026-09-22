@@ -5,6 +5,9 @@ import {
   CheckCircle,
   Lightning,
   UsersThree,
+  CalendarBlank,
+  Buildings,
+  Package,
 } from "@phosphor-icons/react/dist/ssr";
 import {
   Section,
@@ -17,6 +20,9 @@ import {
 import { Reveal, RevealStagger } from "@/components/reveal";
 import { BRANDS } from "@/lib/brands";
 import { HomeHero } from "@/components/home-hero";
+import { PhotoShowcase, type ShowcaseItem } from "@/components/photo-showcase";
+import { ClientLogoBar } from "@/components/client-logo-bar";
+import { Testimonials } from "@/components/testimonials";
 
 // Same three confirmed facts as the About page's "at a glance" band (see
 // STATS there) - led with here, at the fold, rather than left for a visitor
@@ -24,9 +30,17 @@ import { HomeHero } from "@/components/home-hero";
 // than the business actually is, this is the highest-leverage placement for
 // the scale signals the group already has evidence for.
 const HOME_STATS = [
-  { value: "12+", label: "Years established, since 2014" },
-  { value: "3", label: "Manufacturing sites across the UK & Ireland" },
-  { value: `${BRANDS.length}`, label: "Specialist brands in the portfolio" },
+  { value: "12+", label: "Years established, since 2014", icon: <CalendarBlank size={20} weight="bold" /> },
+  {
+    value: "3",
+    label: "Manufacturing sites across the UK & Ireland",
+    icon: <Buildings size={20} weight="bold" />,
+  },
+  {
+    value: `${BRANDS.length}`,
+    label: "Specialist brands in the portfolio",
+    icon: <Package size={20} weight="bold" />,
+  },
 ];
 
 // Verbatim from the approved copy doc - kept as an array so the intro can
@@ -50,17 +64,79 @@ const VALUES = [
   },
 ];
 
+// Real sourced photography (see public/PHOTO-CREDITS.md) - manufacturing as
+// the lead tile since that's the scale signal, then the four brands.
+const HOME_SHOWCASE: ShowcaseItem[] = [
+  {
+    src: "/photo-home-manufacturing.jpg",
+    alt: "Manufacturing operations across England, Northern Ireland and Ireland",
+    caption: "Manufacturing across the UK & Ireland",
+  },
+  {
+    src: "/photo-brand-evolving-state.jpg",
+    alt: "Evolving State product photography",
+    caption: "Evolving State",
+    href: "/brands/evolving-state",
+  },
+  {
+    src: "/photo-brand-galway-roast.jpg",
+    alt: "Galway Roast product photography",
+    caption: "Galway Roast",
+    href: "/brands/galway-roast",
+  },
+  {
+    src: "/photo-brand-dutch-maid.jpg",
+    alt: "Dutch Maid product photography",
+    caption: "Dutch Maid",
+    href: "/brands/dutch-maid",
+  },
+  {
+    src: "/photo-brand-slumberjack.jpg",
+    alt: "Slumberjack product photography",
+    caption: "Slumberjack",
+    href: "/brands/slumberjack",
+  },
+];
+
 const BRAND_TEASERS = [
-  { slug: "evolving-state", name: "Evolving State", strap: "Everyday wellness made easy.", seed: "clady-evolving-state-wellness" },
-  { slug: "galway-roast", name: "Galway Roast", strap: "Coffee with a taste of Galway.", seed: "clady-galway-roast-coffee" },
-  { slug: "dutch-maid", name: "Dutch Maid", strap: "Convenience made simple.", seed: "clady-dutch-maid-soluble" },
-  { slug: "slumberjack", name: "Slumberjack", strap: "Our signature beverage brand.", seed: "clady-slumberjack-coffee" },
+  {
+    slug: "evolving-state",
+    name: "Evolving State",
+    strap: "Everyday wellness made easy.",
+    seed: "clady-evolving-state-wellness",
+    photo: "/photo-brand-evolving-state.jpg",
+  },
+  {
+    slug: "galway-roast",
+    name: "Galway Roast",
+    strap: "Coffee with a taste of Galway.",
+    seed: "clady-galway-roast-coffee",
+    photo: "/photo-brand-galway-roast.jpg",
+  },
+  {
+    slug: "dutch-maid",
+    name: "Dutch Maid",
+    strap: "Convenience made simple.",
+    seed: "clady-dutch-maid-soluble",
+    photo: "/photo-brand-dutch-maid.jpg",
+  },
+  {
+    slug: "slumberjack",
+    name: "Slumberjack",
+    strap: "Our signature beverage brand.",
+    seed: "clady-slumberjack-coffee",
+    photo: "/photo-brand-slumberjack.jpg",
+  },
 ];
 
 export default function HomePage() {
   return (
     <>
       <HomeHero stats={HOME_STATS} introPoints={INTRO_POINTS} />
+
+      <Section pad="py-10 sm:py-14">
+        <PhotoShowcase items={HOME_SHOWCASE} label="Our portfolio, in pictures" />
+      </Section>
 
       <Section className="relative overflow-hidden bg-green-700">
         <TextureOverlay />
@@ -105,7 +181,7 @@ export default function HomePage() {
           {BRAND_TEASERS.map((b) => (
             <Link key={b.slug} href={`/brands/${b.slug}`} className="group block">
               <div className="overflow-hidden rounded-2xl transition duration-300 group-hover:-translate-y-1">
-                <ImageFrame seed={b.seed} alt={b.name} aspect="aspect-[4/5]" />
+                <ImageFrame seed={b.seed} alt={b.name} src={b.photo} aspect="aspect-[4/5]" />
               </div>
               <h3 className="mt-4 font-semibold text-ink transition group-hover:text-green-700">
                 {b.name}
@@ -137,6 +213,14 @@ export default function HomePage() {
             />
           ))}
         </RevealStagger>
+      </Section>
+
+      <Section className="bg-cream-200/40">
+        <ClientLogoBar />
+      </Section>
+
+      <Section>
+        <Testimonials />
       </Section>
 
       <Section>

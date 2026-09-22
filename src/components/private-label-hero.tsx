@@ -1,5 +1,6 @@
 "use client";
 
+import type { ReactNode } from "react";
 import { Section, ImageFrame, AccentRule, Lede, TextureOverlay } from "@/components/ui";
 import { Reveal } from "@/components/reveal";
 import { ScaleBand } from "@/components/scale-band";
@@ -13,7 +14,7 @@ import { useSiteStyle } from "@/components/site-theme";
 export function PrivateLabelHero({
   stats,
 }: {
-  stats: { value: string; label: string }[];
+  stats: { value: string; label: string; icon?: ReactNode }[];
 }) {
   const { style } = useSiteStyle();
   const bold = style === "bold";

@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
+import { CalendarBlank, Buildings, Package } from "@phosphor-icons/react/dist/ssr";
 import { Section, ImageFrame, Pill, BrandGrid, PullQuote, TextureOverlay, FacilityStrip } from "@/components/ui";
 import { Reveal } from "@/components/reveal";
 import { AccreditationGrid, type Accreditation } from "@/components/accreditation";
 import { AboutHero } from "@/components/about-hero";
 import { ScaleBand } from "@/components/scale-band";
+import { ClientLogoBar } from "@/components/client-logo-bar";
 import { BRANDS } from "@/lib/brands";
 
 export const metadata: Metadata = { title: "About Us" };
@@ -15,9 +17,17 @@ export const metadata: Metadata = { title: "About Us" };
 // split out into FacilityStrip below instead, so the three sites read as
 // three distinct, named locations rather than a line of small print.
 const STATS = [
-  { value: "12+", label: "Years established, since 2014" },
-  { value: "3", label: "Manufacturing sites across the UK & Ireland" },
-  { value: `${BRANDS.length}`, label: "Specialist brands in the portfolio" },
+  { value: "12+", label: "Years established, since 2014", icon: <CalendarBlank size={20} weight="bold" /> },
+  {
+    value: "3",
+    label: "Manufacturing sites across the UK & Ireland",
+    icon: <Buildings size={20} weight="bold" />,
+  },
+  {
+    value: `${BRANDS.length}`,
+    label: "Specialist brands in the portfolio",
+    icon: <Package size={20} weight="bold" />,
+  },
 ];
 
 const SECTORS = ["Retail", "Cafés", "Food service", "Hospitality"];
@@ -165,6 +175,10 @@ export default function AboutPage() {
       </Section>
 
       <Section pad="py-10 sm:py-14">
+        <ClientLogoBar />
+      </Section>
+
+      <Section pad="py-10 sm:py-14" className="bg-cream-200/40">
         <Reveal>
           <BrandGrid />
         </Reveal>

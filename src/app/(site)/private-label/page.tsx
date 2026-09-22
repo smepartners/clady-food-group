@@ -5,11 +5,16 @@ import {
   Lightning,
   CheckCircle,
   UsersThree,
+  CalendarBlank,
+  Buildings,
 } from "@phosphor-icons/react/dist/ssr";
 import { Section, IconFeature, Pill, CTAButton } from "@/components/ui";
 import { Reveal, RevealStagger } from "@/components/reveal";
 import { BRANDS } from "@/lib/brands";
 import { PrivateLabelHero } from "@/components/private-label-hero";
+import { PhotoShowcase, type ShowcaseItem } from "@/components/photo-showcase";
+import { ClientLogoBar } from "@/components/client-logo-bar";
+import { Testimonials } from "@/components/testimonials";
 
 export const metadata: Metadata = { title: "Private Label" };
 
@@ -18,9 +23,17 @@ export const metadata: Metadata = { title: "Private Label" };
 // evaluating Clady for a white label programme needs to see this is a
 // group with real manufacturing scale before reading about the approach.
 const SCALE_STATS = [
-  { value: "12+", label: "Years established, since 2014" },
-  { value: "3", label: "Manufacturing sites across the UK & Ireland" },
-  { value: `${BRANDS.length}`, label: "Specialist brands in the portfolio" },
+  { value: "12+", label: "Years established, since 2014", icon: <CalendarBlank size={20} weight="bold" /> },
+  {
+    value: "3",
+    label: "Manufacturing sites across the UK & Ireland",
+    icon: <Buildings size={20} weight="bold" />,
+  },
+  {
+    value: `${BRANDS.length}`,
+    label: "Specialist brands in the portfolio",
+    icon: <Package size={20} weight="bold" />,
+  },
 ];
 
 const PILLARS = [
@@ -33,10 +46,49 @@ const PILLARS = [
 
 const MARKETS = ["Vending", "Catering & foodservice", "Retail", "Wholesale", "Food manufacturing"];
 
+// Real sourced photography (see public/PHOTO-CREDITS.md) - bottling as the
+// lead tile since it's the most direct visual of manufacturing capability
+// for a private label brief, then the four brands the capability produces.
+const PRIVATE_LABEL_SHOWCASE: ShowcaseItem[] = [
+  {
+    src: "/photo-private-label-bottling.jpg",
+    alt: "Private label beverage production line",
+    caption: "Private label production line",
+  },
+  {
+    src: "/photo-brand-slumberjack.jpg",
+    alt: "Slumberjack product photography",
+    caption: "Slumberjack",
+    href: "/brands/slumberjack",
+  },
+  {
+    src: "/photo-brand-galway-roast.jpg",
+    alt: "Galway Roast product photography",
+    caption: "Galway Roast",
+    href: "/brands/galway-roast",
+  },
+  {
+    src: "/photo-brand-dutch-maid.jpg",
+    alt: "Dutch Maid product photography",
+    caption: "Dutch Maid",
+    href: "/brands/dutch-maid",
+  },
+  {
+    src: "/photo-brand-evolving-state.jpg",
+    alt: "Evolving State product photography",
+    caption: "Evolving State",
+    href: "/brands/evolving-state",
+  },
+];
+
 export default function PrivateLabelPage() {
   return (
     <>
       <PrivateLabelHero stats={SCALE_STATS} />
+
+      <Section pad="py-10 sm:py-14">
+        <PhotoShowcase items={PRIVATE_LABEL_SHOWCASE} label="What we produce" />
+      </Section>
 
       <Section className="bg-green-700">
         <Reveal>
@@ -97,11 +149,22 @@ export default function PrivateLabelPage() {
             products, we can help create beverage solutions that fit your brand
             and your market.
           </p>
-          <div className="mt-6">
-            <CTAButton href="/contact">
-              Talk to us about your next private label opportunity
-            </CTAButton>
-          </div>
+        </Reveal>
+      </Section>
+
+      <Section>
+        <ClientLogoBar />
+      </Section>
+
+      <Section className="bg-cream-200/40">
+        <Testimonials />
+      </Section>
+
+      <Section pad="pt-0 pb-14 sm:pb-20">
+        <Reveal className="text-center">
+          <CTAButton href="/contact">
+            Talk to us about your next private label opportunity
+          </CTAButton>
         </Reveal>
       </Section>
     </>

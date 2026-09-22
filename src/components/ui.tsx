@@ -336,20 +336,33 @@ export function Lede({
  * homepage fold and the About "at a glance" band, where the whole point is
  * to register at a glance rather than reward reading. Keep the default
  * (`"md"`, the original size) everywhere a stat sits alongside other
- * content instead of leading it. */
+ * content instead of leading it. `icon` is optional - when supplied it
+ * renders in a small badge above the number, which is what actually reads
+ * as "impactful" at a glance rather than a bare rule-and-number pair. */
 export function StatTile({
   value,
   label,
   size = "md",
   tone = "light",
+  icon,
 }: {
   value: string;
   label: string;
   size?: "md" | "lg";
   tone?: "light" | "dark";
+  icon?: ReactNode;
 }) {
   return (
     <div className="border-t-2 border-gold-500 pt-4">
+      {icon ? (
+        <div
+          className={`mb-3 flex h-10 w-10 items-center justify-center rounded-xl ${
+            tone === "dark" ? "bg-gold-500/15 text-gold-500" : "bg-green-700/10 text-green-700"
+          }`}
+        >
+          {icon}
+        </div>
+      ) : null}
       <p
         className={`font-semibold tabular-nums ${
           size === "lg" ? "text-5xl sm:text-6xl" : "text-3xl sm:text-4xl"
