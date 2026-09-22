@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { Section, ImageFrame, AccentRule, Pill } from "@/components/ui";
-import { Reveal } from "@/components/reveal";
+import { BrandDetailHero } from "@/components/brand-detail-hero";
 
 type Brand = {
   name: string;
@@ -92,34 +91,5 @@ export default async function BrandPage({
   const brand = BRANDS[slug];
   if (!brand) notFound();
 
-  return (
-    <>
-      <Section pad="pt-14 sm:pt-16 pb-12 sm:pb-16">
-        <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
-          <Reveal>
-            <h1 className="text-4xl font-semibold leading-[1.05] text-green-700 sm:text-5xl">
-              {brand.name}
-            </h1>
-            <AccentRule className="mt-7" />
-            <p className="mt-7 text-lg italic text-ink-soft">{brand.strap}</p>
-            <div className="mt-6 space-y-4 text-ink-soft">
-              {brand.paragraphs.map((p, i) => (
-                <p key={i}>{p}</p>
-              ))}
-            </div>
-            <ul className="mt-8 flex flex-wrap gap-2 border-t border-cream-200 pt-6">
-              {brand.focus.split("·").map((f) => (
-                <li key={f}>
-                  <Pill>{f.trim()}</Pill>
-                </li>
-              ))}
-            </ul>
-          </Reveal>
-          <Reveal delay={0.1}>
-            <ImageFrame seed={brand.seed} alt={brand.name} src={brand.photo} aspect="aspect-[4/5]" />
-          </Reveal>
-        </div>
-      </Section>
-    </>
-  );
+  return <BrandDetailHero brand={brand} />;
 }

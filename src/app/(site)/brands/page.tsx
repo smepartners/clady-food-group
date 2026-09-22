@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Section, ImageFrame, AccentRule } from "@/components/ui";
+import { Section, ImageFrame } from "@/components/ui";
 import { Reveal, RevealStagger } from "@/components/reveal";
+import { BrandsHero } from "@/components/brands-hero";
 
 export const metadata: Metadata = { title: "Our Brands" };
 
@@ -43,18 +44,7 @@ const BRANDS = [
 export default function BrandsIndexPage() {
   return (
     <>
-      <Section pad="pt-14 sm:pt-16 pb-12 sm:pb-16">
-        <Reveal>
-          <h1 className="max-w-2xl text-4xl font-semibold leading-[1.05] text-green-700 sm:text-5xl">
-            A portfolio with <em className="italic text-gold-700">a purpose</em>
-          </h1>
-          <AccentRule className="mt-7" />
-          <p className="mt-7 max-w-xl text-lg leading-relaxed text-ink-soft">
-            Our brands operate across complementary areas of the food and drink
-            market, each with a clear proposition and specialist focus.
-          </p>
-        </Reveal>
-      </Section>
+      <BrandsHero />
 
       <Section className="bg-cream-200/40">
         <RevealStagger className="grid gap-10 sm:grid-cols-2">

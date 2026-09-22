@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { UsersThree, Handshake, Leaf, SunHorizon, CloudCheck } from "@phosphor-icons/react/dist/ssr";
-import { Section, ImageFrame, AccentRule, Lede, NumberMark, TextureOverlay } from "@/components/ui";
+import { Section, NumberMark, TextureOverlay } from "@/components/ui";
 import { Reveal, RevealStagger } from "@/components/reveal";
+import { CsrHero } from "@/components/csr-hero";
 
 export const metadata: Metadata = { title: "CSR" };
 
@@ -51,37 +52,7 @@ const GREEN_CREDENTIALS = [
 export default function CsrPage() {
   return (
     <>
-      <Section pad="pt-14 sm:pt-16 pb-12 sm:pb-16">
-        <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
-          <Reveal>
-            <h1 className="text-4xl font-semibold leading-[1.05] text-green-700 sm:text-5xl">
-              Doing business <em className="italic text-gold-700">responsibly</em>
-            </h1>
-            <AccentRule className="mt-7" />
-            <div className="mt-7 space-y-4">
-              <Lede>
-                At Clady Group, we believe responsible business is about making
-                the right decisions for our people, our customers, our partners
-                and the communities in which we operate.
-              </Lede>
-              <p className="text-ink-soft">
-                As our group develops, we are committed to building responsible
-                practices into the way we work, from the products we develop and
-                the partners we work with to the way we support our people and
-                manage our impact.
-              </p>
-            </div>
-          </Reveal>
-          <Reveal delay={0.1}>
-            <ImageFrame
-              seed="clady-csr-responsible-sourcing"
-              alt="Responsible sourcing at Clady Group"
-              src="/photo-csr-sourcing.jpg"
-              aspect="aspect-[4/5]"
-            />
-          </Reveal>
-        </div>
-      </Section>
+      <CsrHero />
 
       <Section className="bg-cream-200/40">
         <RevealStagger className="divide-y divide-cream-200">

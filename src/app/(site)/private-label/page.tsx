@@ -6,9 +6,10 @@ import {
   CheckCircle,
   UsersThree,
 } from "@phosphor-icons/react/dist/ssr";
-import { Section, ImageFrame, IconFeature, Pill, CTAButton, AccentRule, Lede, StatTile, FacilityStrip } from "@/components/ui";
+import { Section, IconFeature, Pill, CTAButton } from "@/components/ui";
 import { Reveal, RevealStagger } from "@/components/reveal";
 import { BRANDS } from "@/lib/brands";
+import { PrivateLabelHero } from "@/components/private-label-hero";
 
 export const metadata: Metadata = { title: "Private Label" };
 
@@ -35,54 +36,7 @@ const MARKETS = ["Vending", "Catering & foodservice", "Retail", "Wholesale", "Fo
 export default function PrivateLabelPage() {
   return (
     <>
-      <Section pad="pt-14 sm:pt-16 pb-12 sm:pb-16">
-        <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
-          <Reveal>
-            <h1 className="text-4xl font-semibold leading-[1.05] text-green-700 sm:text-5xl">
-              Your brand. <em className="italic text-gold-700">Our expertise.</em>
-            </h1>
-            <AccentRule className="mt-7" />
-            <div className="mt-7 space-y-4 text-ink-soft">
-              <p>
-                From concept to finished product, Clady Group provides private
-                label beverage solutions designed around your requirements.
-              </p>
-              <p>
-                Private label is more than putting a logo on a product. It is
-                about creating the right proposition for your customers, your
-                market and your commercial objectives.
-              </p>
-            </div>
-          </Reveal>
-          <Reveal delay={0.1}>
-            <ImageFrame
-              seed="clady-private-label-bottling"
-              alt="Private label beverage production line"
-              src="/photo-private-label-bottling.jpg"
-              aspect="aspect-[4/5]"
-            />
-          </Reveal>
-        </div>
-        <RevealStagger className="mt-16 grid gap-x-8 gap-y-10 border-t border-cream-200 pt-10 sm:grid-cols-3">
-          {SCALE_STATS.map((s) => (
-            <StatTile key={s.label} value={s.value} label={s.label} size="lg" />
-          ))}
-        </RevealStagger>
-        <Reveal delay={0.15}>
-          <div className="mt-10 max-w-2xl space-y-4">
-            <Lede>
-              Through our portfolio of specialist businesses, we bring together
-              expertise across coffee, hot beverages, soluble drinks, functional
-              products and beverage ingredients.
-            </Lede>
-            <p className="text-ink-soft">
-              This gives our customers the flexibility to develop propositions
-              across categories, formats, flavours and price points.
-            </p>
-          </div>
-          <FacilityStrip className="mt-8 border-t border-cream-200 pt-8" />
-        </Reveal>
-      </Section>
+      <PrivateLabelHero stats={SCALE_STATS} />
 
       <Section className="bg-green-700">
         <Reveal>

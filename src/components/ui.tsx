@@ -306,16 +306,27 @@ export function PullQuote({
 
 /** First paragraph of a stacked prose block, set larger and medium-weight
  * so a run of body copy opens with a clear lead line instead of uniform
- * paragraph-after-paragraph text. */
+ * paragraph-after-paragraph text. `tone="dark"` is for use on a green/dark
+ * section (see FacilityStrip/StatTile) - color is switched via this prop
+ * rather than a passed-in className override, since Tailwind resolves
+ * conflicting utility classes by their order in the generated stylesheet,
+ * not by the order they appear in the class list, so a `text-cream-100`
+ * passed in via className is not guaranteed to beat the base `text-ink`. */
 export function Lede({
   children,
+  tone = "light",
   className = "",
 }: {
   children: ReactNode;
+  tone?: "light" | "dark";
   className?: string;
 }) {
   return (
-    <p className={`text-lg font-medium leading-relaxed text-ink sm:text-xl ${className}`}>
+    <p
+      className={`text-lg font-medium leading-relaxed sm:text-xl ${
+        tone === "dark" ? "text-cream-100" : "text-ink"
+      } ${className}`}
+    >
       {children}
     </p>
   );

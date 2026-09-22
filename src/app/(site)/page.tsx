@@ -16,7 +16,6 @@ import {
 } from "@/components/ui";
 import { Reveal, RevealStagger } from "@/components/reveal";
 import { BRANDS } from "@/lib/brands";
-import { HomeThemeProvider, HomeStyleToggle } from "@/components/home-theme";
 import { HomeHero } from "@/components/home-hero";
 
 // Same three confirmed facts as the About page's "at a glance" band (see
@@ -61,10 +60,7 @@ const BRAND_TEASERS = [
 export default function HomePage() {
   return (
     <>
-      <HomeThemeProvider>
-        <HomeHero stats={HOME_STATS} introPoints={INTRO_POINTS} />
-        <HomeStyleToggle />
-      </HomeThemeProvider>
+      <HomeHero stats={HOME_STATS} introPoints={INTRO_POINTS} />
 
       <Section className="relative overflow-hidden bg-green-700">
         <TextureOverlay />

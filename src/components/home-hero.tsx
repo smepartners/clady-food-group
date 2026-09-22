@@ -2,16 +2,13 @@
 
 import { Section, ImageFrame, CTAButton, AccentRule, TextureOverlay, StatTile } from "@/components/ui";
 import { Reveal, RevealStagger } from "@/components/reveal";
-import { useHomeStyle } from "@/components/home-theme";
+import { useSiteStyle } from "@/components/site-theme";
 
 /**
- * The homepage hero, stat row and numbered intro - pulled out of page.tsx
- * because this is the one block the "Bold" preview style (see
- * home-theme.tsx) currently reskins: a deep green, textured background in
- * place of the plain cream one, echoing the treatment already used lower
- * down the page ("One group, multiple capabilities") but leading with it
- * instead of saving it for the second scroll. Everything else on the
- * homepage is unchanged between styles for now.
+ * The homepage hero, stat row and numbered intro - its own component (like
+ * every other page's hero, see about-hero.tsx etc.) because this is the
+ * block the "Bold" preview style (see site-theme.tsx) reskins on every
+ * page: a deep green, textured background in place of the plain cream one.
  */
 export function HomeHero({
   stats,
@@ -20,7 +17,7 @@ export function HomeHero({
   stats: { value: string; label: string }[];
   introPoints: string[];
 }) {
-  const { style } = useHomeStyle();
+  const { style } = useSiteStyle();
   const bold = style === "bold";
 
   return (

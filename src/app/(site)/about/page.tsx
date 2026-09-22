@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
-import { Section, ImageFrame, AccentRule, Lede, PullQuote, StatTile, FacilityStrip, Pill, BrandGrid, TextureOverlay } from "@/components/ui";
-import { Reveal, RevealStagger } from "@/components/reveal";
+import { Section, ImageFrame, Pill, BrandGrid, PullQuote, TextureOverlay, FacilityStrip } from "@/components/ui";
+import { Reveal } from "@/components/reveal";
 import { AccreditationGrid, type Accreditation } from "@/components/accreditation";
+import { AboutHero } from "@/components/about-hero";
+import { ScaleBand } from "@/components/scale-band";
 import { BRANDS } from "@/lib/brands";
 
 export const metadata: Metadata = { title: "About Us" };
@@ -60,60 +62,13 @@ const ACCREDITATIONS: Accreditation[] = [
 export default function AboutPage() {
   return (
     <>
-      <Section pad="pt-14 sm:pt-16 pb-12 sm:pb-16">
-        <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
-          <Reveal>
-            <h1 className="text-4xl font-semibold leading-[1.05] text-green-700 sm:text-5xl">
-              A group built around <em className="italic text-gold-700">beverage expertise</em>
-            </h1>
-            <AccentRule className="mt-7" />
-            <div className="mt-7 space-y-4">
-              <Lede>
-                Clady Group is the parent company behind a growing portfolio of
-                specialist food and drink businesses, bringing together
-                complementary brands, capabilities and expertise.
-              </Lede>
-              <p className="text-ink-soft">
-                Established in 2014 through Slumberjack, the group has developed
-                from its family-business roots into a broader platform serving
-                customers across branded and private label markets.
-              </p>
-            </div>
-          </Reveal>
-          <Reveal delay={0.1}>
-            <ImageFrame
-              seed="clady-about-team"
-              alt="The Clady Group team at work"
-              src="/photo-about-team.jpg"
-              aspect="aspect-[4/5]"
-            />
-          </Reveal>
-        </div>
-        <Reveal delay={0.15}>
-          <div className="mt-16 max-w-2xl space-y-4 border-t border-cream-200 pt-10">
-            <Lede>
-              Today, our portfolio spans coffee, tea, hot chocolate, functional
-              beverages, wellness products, soluble drinks and beverage
-              ingredients.
-            </Lede>
-            <p className="text-ink-soft">
-              Each business has its own identity and area of expertise. Together,
-              they give our customers access to a broader range of products,
-              capabilities and commercial opportunities.
-            </p>
-          </div>
-        </Reveal>
-      </Section>
+      <AboutHero />
 
       <Section className="bg-cream-200/40" pad="py-10 sm:py-14">
         <Reveal>
           <h2 className="text-2xl font-semibold text-green-700 sm:text-3xl">At a glance</h2>
         </Reveal>
-        <RevealStagger className="mt-8 grid gap-x-8 gap-y-10 sm:grid-cols-3">
-          {STATS.map((s) => (
-            <StatTile key={s.label} value={s.value} label={s.label} size="lg" />
-          ))}
-        </RevealStagger>
+        <ScaleBand stats={STATS} showFacilities={false} className="mt-8" />
         <Reveal delay={0.08}>
           <div className="mt-10 border-t border-cream-200 pt-8">
             <p className="text-sm font-semibold uppercase tracking-wide text-olive-600">
