@@ -2,7 +2,7 @@
 
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
 
-export type SiteStyle = "classic" | "bold";
+export type SiteStyle = "simple" | "bold";
 
 const SiteStyleContext = createContext<{
   style: SiteStyle;
@@ -17,7 +17,7 @@ const STORAGE_KEY = "clady-site-style-preview";
  * and a bolder, green-led variant, so a direction can be compared live
  * across the whole site rather than page by page. Preference is per-browser
  * only (localStorage), so it never affects what a real site visitor sees on
- * first load - it always starts on "classic" and only changes for whoever
+ * first load - it always starts on "simple" and only changes for whoever
  * clicks the toggle in their own browser. Mounted once in the shared
  * `(site)/layout.tsx` so the choice persists across client-side navigation
  * between pages, not just within one.
@@ -30,16 +30,16 @@ const STORAGE_KEY = "clady-site-style-preview";
  * scale-band.tsx, site-footer.tsx). See PRD.md open item 9.
  */
 export function SiteThemeProvider({ children }: { children: ReactNode }) {
-  const [style, setStyleState] = useState<SiteStyle>("classic");
+  const [style, setStyleState] = useState<SiteStyle>("simple");
 
   useEffect(() => {
     try {
       const saved = window.localStorage.getItem(STORAGE_KEY);
-      if (saved === "bold" || saved === "classic") {
+      if (saved === "bold" || saved === "simple") {
         // Reading a browser storage API on mount to sync from that external
         // system is exactly what this effect is for (React docs' own
         // example of a legitimate effect) - the page always renders
-        // "classic" first (server and client agree, no hydration
+        // "simple" first (server and client agree, no hydration
         // mismatch), and this only fires once to pick up a genuine stored
         // preference, so there's no cascading-render risk to guard against.
         // eslint-disable-next-line react-hooks/set-state-in-effect
@@ -68,7 +68,7 @@ export function useSiteStyle() {
   return ctx;
 }
 
-/** Floating "Classic / Bold" switch, pinned to the corner so it stays
+/** Floating "Simple / Bold" switch, pinned to the corner so it stays
  * reachable while scrolling and survives navigating between pages.
  * Deliberately styled as a review tool (a small pill, not part of the
  * site's own design language) so nobody mistakes it for a real feature. */
@@ -79,7 +79,7 @@ export function SiteStyleToggle() {
       <span className="pl-2 pr-1 text-[10px] font-semibold uppercase tracking-wide text-ink-soft">
         Preview style
       </span>
-      {(["classic", "bold"] as const).map((s) => (
+      {(["simple", "bold"] as const).map((s) => (
         <button
           key={s}
           type="button"
