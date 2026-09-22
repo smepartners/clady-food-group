@@ -45,19 +45,25 @@ full in the Build Plan artifact §06:
    permitted to name publicly, with usable logo files, and (b) any real
    testimonial quotes. Build a `ClientLogoBar` component (same pattern as
    `AccreditationGrid`) once that list exists.
-9. Homepage hero style decision - client felt the scale-stat pass (item 8's
-   workaround) was too minor a visual change. A "Classic / Bold" preview
-   toggle was added to the live homepage (bottom-right pill, see
-   `components/home-theme.tsx` + `home-hero.tsx`) so the team can compare
-   the current light hero against a bolder deep-green, textured variant
-   before committing. It's a review tool, not a shipped feature - it
-   defaults to "Classic" for every visitor and the choice is stored per
-   browser only (localStorage), never sent anywhere. Once a direction is
-   picked: delete `home-theme.tsx`, remove `<HomeStyleToggle />` from
-   `page.tsx`, and hardcode the winning branch's classes from `home-hero.tsx`
-   back into the section (or keep bold as the permanent style and drop the
-   classic branch instead). If the bold direction is preferred, the same
-   toggle pattern can extend to other sections/pages next.
+9. Site-wide hero style decision - client felt the scale-stat pass (item 8's
+   workaround) was too minor a visual change, and asked for the toggle to be
+   carried through the rest of the site (taking further inspiration from
+   HW Group and Queensland Bakery Co.'s substantial dark footers and
+   consistent bold treatment across pages). A "Classic / Bold" preview
+   toggle now sits in the shared `(site)/layout.tsx` (bottom-right pill, see
+   `components/site-theme.tsx`) so the team can compare the current light
+   treatment against a bolder deep-green, textured variant across every
+   page's hero and the footer before committing. It's a review tool, not a
+   shipped feature - it defaults to "Classic" for every visitor and the
+   choice is stored per browser only (localStorage), never sent anywhere.
+   Once a direction is picked: delete `site-theme.tsx`, remove
+   `<SiteStyleToggle />` from `(site)/layout.tsx`, and hardcode the winning
+   branch's classes into each component that currently calls
+   `useSiteStyle()` - `home-hero.tsx`, `about-hero.tsx`,
+   `private-label-hero.tsx`, `csr-hero.tsx`, `brands-hero.tsx`,
+   `brand-detail-hero.tsx`, `contact-hero.tsx`, `scale-band.tsx` and
+   `site-footer.tsx` (or keep bold as the permanent style and drop the
+   classic branch instead).
 
 ## Definition of done
 - All nine routes build and deploy on Vercel.
