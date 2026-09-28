@@ -43,14 +43,6 @@ const HOME_STATS = [
   },
 ];
 
-// Verbatim from the approved copy doc - kept as an array so the intro can
-// render as a numbered sequence instead of three plain paragraphs in a row.
-const INTRO_POINTS = [
-  "From freshly roasted coffee and indulgent hot beverages to functional wellness products and bespoke private label solutions, our businesses combine specialist knowledge with a practical understanding of what customers need.",
-  "We believe great partnerships are built on more than great products. They depend on consistency, responsiveness and the ability to move with a changing market.",
-  "That is why we work across categories, formats and price points, helping our customers create, source and grow beverage propositions that perform.",
-];
-
 const VALUES = [
   { icon: Sparkle, tone: "gold" as const, name: "Excellence", body: "High standards in everything we do, whether that's branded or white labelled." },
   { icon: Lightbulb, tone: "green" as const, name: "Innovation", body: "Looking ahead to what's next, keeping our customers ahead of the trends." },
@@ -64,13 +56,19 @@ const VALUES = [
   },
 ];
 
-// Real sourced photography (see public/PHOTO-CREDITS.md) - manufacturing as
-// the lead tile since that's the scale signal, then the four brands.
+// Real sourced photography (see public/PHOTO-CREDITS.md). The pallet/
+// warehouse shot leads the hero above and the canning line illustrates the
+// manufacturing band further down, so this uses the bottling line as its
+// lead tile to keep all three photo slots on this page distinct, then the
+// four brands. This bento grid now does the job the old standalone "Our
+// brands" card row used to do (see DECISIONS.md) - keeping one strong
+// brand showcase on the page instead of two was part of the Sept 2026
+// section-count trim.
 const HOME_SHOWCASE: ShowcaseItem[] = [
   {
-    src: "/photo-home-manufacturing.jpg",
-    alt: "Manufacturing operations across England, Northern Ireland and Ireland",
-    caption: "Manufacturing across the UK & Ireland",
+    src: "/photo-private-label-bottling.jpg",
+    alt: "Beverage bottling line at a Clady Group manufacturing site",
+    caption: "Production across the UK & Ireland",
   },
   {
     src: "/photo-brand-evolving-state.jpg",
@@ -98,45 +96,10 @@ const HOME_SHOWCASE: ShowcaseItem[] = [
   },
 ];
 
-const BRAND_TEASERS = [
-  {
-    slug: "evolving-state",
-    name: "Evolving State",
-    strap: "Everyday wellness made easy.",
-    seed: "clady-evolving-state-wellness",
-    photo: "/photo-brand-evolving-state.jpg",
-  },
-  {
-    slug: "galway-roast",
-    name: "Galway Roast",
-    strap: "Coffee with a taste of Galway.",
-    seed: "clady-galway-roast-coffee",
-    photo: "/photo-brand-galway-roast.jpg",
-  },
-  {
-    slug: "dutch-maid",
-    name: "Dutch Maid",
-    strap: "Convenience made simple.",
-    seed: "clady-dutch-maid-soluble",
-    photo: "/photo-brand-dutch-maid.jpg",
-  },
-  {
-    slug: "slumberjack",
-    name: "Slumberjack",
-    strap: "Our signature beverage brand.",
-    seed: "clady-slumberjack-coffee",
-    photo: "/photo-brand-slumberjack.jpg",
-  },
-];
-
 export default function HomePage() {
   return (
     <>
-      <HomeHero stats={HOME_STATS} introPoints={INTRO_POINTS} />
-
-      <Section pad="py-10 sm:py-14">
-        <PhotoShowcase items={HOME_SHOWCASE} label="Our portfolio, in pictures" />
-      </Section>
+      <HomeHero stats={HOME_STATS} />
 
       <Section className="relative overflow-hidden bg-green-700">
         <TextureOverlay />
@@ -173,23 +136,8 @@ export default function HomePage() {
         </div>
       </Section>
 
-      <Section>
-        <Reveal>
-          <h2 className="text-2xl font-semibold text-green-700 sm:text-3xl">Our brands</h2>
-        </Reveal>
-        <RevealStagger className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {BRAND_TEASERS.map((b) => (
-            <Link key={b.slug} href={`/brands/${b.slug}`} className="group block">
-              <div className="overflow-hidden rounded-2xl transition duration-300 group-hover:-translate-y-1">
-                <ImageFrame seed={b.seed} alt={b.name} src={b.photo} aspect="aspect-[4/5]" />
-              </div>
-              <h3 className="mt-4 font-semibold text-ink transition group-hover:text-green-700">
-                {b.name}
-              </h3>
-              <p className="mt-1 text-sm text-ink-soft">{b.strap}</p>
-            </Link>
-          ))}
-        </RevealStagger>
+      <Section pad="py-10 sm:py-14">
+        <PhotoShowcase items={HOME_SHOWCASE} label="Our portfolio, in pictures" />
         <Link
           href="/brands"
           className="mt-8 inline-block text-sm font-medium text-olive-600 transition hover:text-green-700"
@@ -215,12 +163,12 @@ export default function HomePage() {
         </RevealStagger>
       </Section>
 
-      <Section className="bg-cream-200/40">
-        <ClientLogoBar />
-      </Section>
-
+      {/* Client logo bar + testimonials share one Section (rather than two
+          separate full-width bands back to back) - part of the Sept 2026
+          pass to cut down the homepage's total section count. */}
       <Section>
-        <Testimonials />
+        <ClientLogoBar />
+        <Testimonials className="mt-10" />
       </Section>
 
       <Section>
