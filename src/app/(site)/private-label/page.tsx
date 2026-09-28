@@ -8,7 +8,7 @@ import {
   CalendarBlank,
   Buildings,
 } from "@phosphor-icons/react/dist/ssr";
-import { Section, IconFeature, Pill, CTAButton } from "@/components/ui";
+import { Section, IconFeature, Pill, CTAButton, ImageFrame, TextureOverlay, StatTile } from "@/components/ui";
 import { Reveal, RevealStagger } from "@/components/reveal";
 import { BRANDS } from "@/lib/brands";
 import { PrivateLabelHero } from "@/components/private-label-hero";
@@ -84,7 +84,53 @@ const PRIVATE_LABEL_SHOWCASE: ShowcaseItem[] = [
 export default function PrivateLabelPage() {
   return (
     <>
-      <PrivateLabelHero stats={SCALE_STATS} />
+      <PrivateLabelHero />
+
+      {/* Same move as Home/About: the scale stats and the "more than a
+          logo" positioning that used to sit inside the boxed hero now get
+          their own full-width band with supporting photography, matching
+          how ABF/P&G/Unilever pair a scale statement with its own section
+          rather than crowding the hero. */}
+      <Section className="relative overflow-hidden bg-green-700">
+        <TextureOverlay />
+        <div className="relative grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
+          <Reveal className="order-2 lg:order-1">
+            <ImageFrame
+              seed="clady-private-label-manufacturing"
+              alt="Manufacturing operations across England, Northern Ireland and Ireland"
+              src="/photo-home-manufacturing.jpg"
+              aspect="aspect-[4/3]"
+              tone="dark"
+            />
+          </Reveal>
+          <Reveal delay={0.1} className="order-1 lg:order-2">
+            <h2 className="text-2xl font-semibold text-cream-100 sm:text-3xl">
+              More than <em className="italic text-gold-500">a logo on a product.</em>
+            </h2>
+            <div className="mt-5 space-y-4 text-cream-100/75">
+              <p>
+                Private label is about creating the right proposition for
+                your customers, your market and your commercial objectives -
+                backed by real manufacturing scale.
+              </p>
+              <p>
+                Through our portfolio of specialist businesses, we bring
+                together expertise across coffee, hot beverages, soluble
+                drinks, functional products and beverage ingredients, giving
+                customers the flexibility to develop propositions across
+                categories, formats, flavours and price points.
+              </p>
+            </div>
+            {/* Tone hardcoded dark - this band's background stays
+                green-700 in both preview styles. */}
+            <div className="mt-6 grid grid-cols-3 gap-x-6 gap-y-8 border-t border-cream-100/15 pt-6">
+              {SCALE_STATS.map((s) => (
+                <StatTile key={s.label} value={s.value} label={s.label} icon={s.icon} tone="dark" />
+              ))}
+            </div>
+          </Reveal>
+        </div>
+      </Section>
 
       <Section pad="py-10 sm:py-14">
         <PhotoShowcase items={PRIVATE_LABEL_SHOWCASE} label="What we produce" />

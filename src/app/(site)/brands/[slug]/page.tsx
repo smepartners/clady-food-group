@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { Section, Pill, BrandGrid } from "@/components/ui";
+import { Reveal } from "@/components/reveal";
 import { BrandDetailHero } from "@/components/brand-detail-hero";
 
 type Brand = {
@@ -91,5 +93,32 @@ export default async function BrandPage({
   const brand = BRANDS[slug];
   if (!brand) notFound();
 
-  return <BrandDetailHero brand={brand} />;
+  return (
+    <>
+      <BrandDetailHero brand={brand} />
+
+      <Section>
+        <div className="max-w-2xl space-y-4 text-ink-soft">
+          {brand.paragraphs.map((p, i) => (
+            <p key={i}>{p}</p>
+          ))}
+        </div>
+        <Reveal>
+          <ul className="mt-8 flex flex-wrap gap-2 border-t border-cream-200 pt-6">
+            {brand.focus.split("·").map((f) => (
+              <li key={f}>
+                <Pill>{f.trim()}</Pill>
+              </li>
+            ))}
+          </ul>
+        </Reveal>
+      </Section>
+
+      <Section className="bg-cream-200/40">
+        <Reveal>
+          <BrandGrid />
+        </Reveal>
+      </Section>
+    </>
+  );
 }

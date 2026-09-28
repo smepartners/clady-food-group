@@ -25,9 +25,10 @@ const STORAGE_KEY = "clady-site-style-preview";
  * To make a direction permanent once it's picked: delete this file and
  * `SiteStyleToggle`'s usage in the layout, then hardcode the winning
  * branch's classes straight into the components that currently call
- * `useSiteStyle()` (home-hero.tsx, about-hero.tsx, private-label-hero.tsx,
- * csr-hero.tsx, brands-hero.tsx, brand-detail-hero.tsx, contact-hero.tsx,
- * scale-band.tsx, site-footer.tsx). See PRD.md open item 9.
+ * `useSiteStyle()` - home-hero.tsx and page-hero.tsx (the latter shared by
+ * every other page's hero: about, brands, CSR, private label, contact and
+ * brand detail), plus site-header.tsx, site-footer.tsx, photo-showcase.tsx,
+ * client-logo-bar.tsx and testimonials.tsx. See PRD.md open item 9.
  */
 export function SiteThemeProvider({ children }: { children: ReactNode }) {
   const [style, setStyleState] = useState<SiteStyle>("simple");

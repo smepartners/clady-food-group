@@ -1,10 +1,9 @@
 import type { Metadata } from "next";
 import { CalendarBlank, Buildings, Package } from "@phosphor-icons/react/dist/ssr";
-import { Section, ImageFrame, Pill, BrandGrid, PullQuote, TextureOverlay, FacilityStrip } from "@/components/ui";
+import { Section, ImageFrame, Pill, BrandGrid, PullQuote, TextureOverlay, FacilityStrip, StatTile } from "@/components/ui";
 import { Reveal } from "@/components/reveal";
 import { AccreditationGrid, type Accreditation } from "@/components/accreditation";
 import { AboutHero } from "@/components/about-hero";
-import { ScaleBand } from "@/components/scale-band";
 import { ClientLogoBar } from "@/components/client-logo-bar";
 import { BRANDS } from "@/lib/brands";
 
@@ -74,20 +73,60 @@ export default function AboutPage() {
     <>
       <AboutHero />
 
+      {/* Full-bleed "impact" band right after the hero, same move the
+          homepage made (see page.tsx there): the scale stats and the
+          portfolio-breadth copy that used to live inside the boxed hero
+          now sit here instead, paired with their own supporting
+          photography, rather than crowding the hero itself. */}
+      <Section className="relative overflow-hidden bg-green-700">
+        <TextureOverlay />
+        <div className="relative grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
+          <Reveal className="order-2 lg:order-1">
+            <ImageFrame
+              seed="clady-about-manufacturing"
+              alt="Manufacturing operations across England, Northern Ireland and Ireland"
+              src="/photo-home-manufacturing.jpg"
+              aspect="aspect-[4/3]"
+              tone="dark"
+            />
+          </Reveal>
+          <Reveal delay={0.1} className="order-1 lg:order-2">
+            <h2 className="text-2xl font-semibold text-cream-100 sm:text-3xl">
+              Today, our portfolio spans <em className="italic text-gold-500">coffee to wellness.</em>
+            </h2>
+            <div className="mt-5 space-y-4 text-cream-100/75">
+              <p>
+                Established in 2014 through Slumberjack, the group has
+                developed from its family-business roots into a broader
+                platform serving customers across branded and private label
+                markets.
+              </p>
+              <p>
+                Our portfolio spans coffee, tea, hot chocolate, functional
+                beverages, wellness products, soluble drinks and beverage
+                ingredients. Each business has its own identity and area of
+                expertise, giving our customers access to a broader range of
+                products, capabilities and commercial opportunities.
+              </p>
+            </div>
+            {/* Tone is hardcoded dark, not derived from the Simple/Bold
+                toggle - this band's background is always green-700
+                regardless of preview style, unlike a page hero. */}
+            <div className="mt-6 grid grid-cols-3 gap-x-6 gap-y-8 border-t border-cream-100/15 pt-6">
+              {STATS.map((s) => (
+                <StatTile key={s.label} value={s.value} label={s.label} icon={s.icon} tone="dark" />
+              ))}
+            </div>
+            <FacilityStrip tone="dark" className="mt-6 border-t border-cream-100/15 pt-6" />
+          </Reveal>
+        </div>
+      </Section>
+
       <Section className="bg-cream-200/40" pad="py-10 sm:py-14">
         <Reveal>
           <h2 className="text-2xl font-semibold text-green-700 sm:text-3xl">At a glance</h2>
         </Reveal>
-        <ScaleBand stats={STATS} showFacilities={false} className="mt-8" />
         <Reveal delay={0.08}>
-          <div className="mt-10 border-t border-cream-200 pt-8">
-            <p className="text-sm font-semibold uppercase tracking-wide text-olive-600">
-              Where we manufacture
-            </p>
-            <FacilityStrip className="mt-4" />
-          </div>
-        </Reveal>
-        <Reveal delay={0.1}>
           <div className="mt-8 border-t border-cream-200 pt-8">
             <p className="text-sm font-semibold uppercase tracking-wide text-olive-600">
               Sectors we serve
@@ -101,7 +140,7 @@ export default function AboutPage() {
             </ul>
           </div>
         </Reveal>
-        <Reveal delay={0.12}>
+        <Reveal delay={0.1}>
           <div className="mt-8 border-t border-cream-200 pt-8">
             <AccreditationGrid items={ACCREDITATIONS} label="Accreditations across our portfolio" />
           </div>
