@@ -16,6 +16,7 @@ import {
   CTAButton,
   TextureOverlay,
   FacilityStrip,
+  StatTile,
 } from "@/components/ui";
 import { Reveal, RevealStagger } from "@/components/reveal";
 import { BRANDS } from "@/lib/brands";
@@ -25,10 +26,12 @@ import { ClientLogoBar } from "@/components/client-logo-bar";
 import { Testimonials } from "@/components/testimonials";
 
 // Same three confirmed facts as the About page's "at a glance" band (see
-// STATS there) - led with here, at the fold, rather than left for a visitor
-// to find three pages deep. Per client feedback that the site reads smaller
-// than the business actually is, this is the highest-leverage placement for
-// the scale signals the group already has evidence for.
+// STATS there). Rendered in the "One group, multiple capabilities" band
+// below rather than in the hero itself - checking abf.co.uk, pg.co.uk and
+// unilever.co.uk directly showed none of them put stats in the hero; each
+// keeps the hero to a pure statement and CTA, and pairs its scale numbers
+// with their own supporting section and image further down the page. See
+// home-hero.tsx for the fuller note.
 const HOME_STATS = [
   { value: "12+", label: "Years established, since 2014", icon: <CalendarBlank size={20} weight="bold" /> },
   {
@@ -99,7 +102,7 @@ const HOME_SHOWCASE: ShowcaseItem[] = [
 export default function HomePage() {
   return (
     <>
-      <HomeHero stats={HOME_STATS} />
+      <HomeHero />
 
       <Section className="relative overflow-hidden bg-green-700">
         <TextureOverlay />
@@ -130,6 +133,13 @@ export default function HomePage() {
                 high-volume production to tailored private label solutions and
                 the development of new products from the ground up.
               </p>
+            </div>
+            {/* Scale numbers live here rather than in the hero - see
+                HOME_STATS above for why. */}
+            <div className="mt-6 grid grid-cols-3 gap-x-6 gap-y-8 border-t border-cream-100/15 pt-6">
+              {HOME_STATS.map((s) => (
+                <StatTile key={s.label} value={s.value} label={s.label} icon={s.icon} tone="dark" />
+              ))}
             </div>
             <FacilityStrip tone="dark" className="mt-6 border-t border-cream-100/15 pt-6" />
           </Reveal>
