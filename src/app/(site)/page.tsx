@@ -9,7 +9,7 @@ import {
   Buildings,
   Package,
 } from "@phosphor-icons/react/dist/ssr";
-import { Section, CTAButton, TextureOverlay, FacilityStrip, StatTile } from "@/components/ui";
+import { Section, CTAButton, TextureOverlay, FacilityStrip, StatTile, AccentRule } from "@/components/ui";
 import { Reveal, RevealStagger } from "@/components/reveal";
 import { BRANDS } from "@/lib/brands";
 import { HomeHero } from "@/components/home-hero";
@@ -120,32 +120,52 @@ export default function HomePage() {
         body="From roasting and blending to packing and dispatch, our teams manufacture across three sites in England, Northern Ireland and Ireland - built to support brands and private label customers at volume."
       />
 
-      <Section className="bg-cream-200/40">
-        <Reveal>
-          <h2 className="text-2xl font-semibold text-green-700 sm:text-3xl">What drives us</h2>
-        </Reveal>
-        <RevealStagger className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-5">
-          {VALUES.map((v) => (
-            <div
-              key={v.name}
-              className="group flex flex-col items-center gap-4 rounded-3xl border border-cream-200 bg-cream-100 p-8 text-center transition duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-green-900/10"
-            >
-              <span
-                className={`flex h-16 w-16 items-center justify-center rounded-full transition duration-300 group-hover:scale-105 ${
-                  v.tone === "gold"
-                    ? "bg-gold-500/15 text-gold-700"
-                    : v.tone === "olive"
-                      ? "bg-olive-600/10 text-olive-600"
-                      : "bg-green-700/10 text-green-700"
-                }`}
+      {/* Rebuilt onto the same dark-green/texture/gold language as the
+          hero, capabilities band and brand carousel above it, rather than
+          the flat cream SaaS-style cards this used to be - a numbered
+          sequence (Unilever's own values band treats its five pillars as a
+          numbered row, not an anonymous icon grid) on "glass" panels that
+          pick up the gold accent on hover. */}
+      <Section className="relative overflow-hidden bg-green-700">
+        <TextureOverlay />
+        <div className="relative">
+          <Reveal className="max-w-xl">
+            <p className="text-sm font-semibold uppercase tracking-[0.16em] text-gold-500">
+              Our values
+            </p>
+            <h2 className="mt-3 text-3xl font-semibold text-cream-100 sm:text-4xl">What drives us</h2>
+            <AccentRule className="mt-6" />
+          </Reveal>
+          <RevealStagger className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-5">
+            {VALUES.map((v, i) => (
+              <div
+                key={v.name}
+                className="group flex flex-col gap-5 rounded-2xl border border-cream-100/15 bg-cream-100/[0.04] p-7 backdrop-blur-sm transition duration-300 hover:-translate-y-1 hover:border-gold-500/40 hover:bg-cream-100/[0.07]"
               >
-                <v.icon size={26} weight="bold" />
-              </span>
-              <h3 className="font-semibold text-ink">{v.name}</h3>
-              <p className="text-sm leading-relaxed text-ink-soft">{v.body}</p>
-            </div>
-          ))}
-        </RevealStagger>
+                <div className="flex items-start justify-between">
+                  <span
+                    className={`flex h-12 w-12 items-center justify-center rounded-xl transition duration-300 group-hover:scale-105 ${
+                      v.tone === "gold"
+                        ? "bg-gold-500/15 text-gold-500"
+                        : v.tone === "olive"
+                          ? "bg-olive-400/15 text-olive-400"
+                          : "bg-cream-100/10 text-cream-100"
+                    }`}
+                  >
+                    <v.icon size={22} weight="bold" />
+                  </span>
+                  <span className="text-sm font-semibold tabular-nums text-cream-100/30">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                </div>
+                <div>
+                  <h3 className="font-semibold text-cream-100">{v.name}</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-cream-100/70">{v.body}</p>
+                </div>
+              </div>
+            ))}
+          </RevealStagger>
+        </div>
       </Section>
 
       <Section>

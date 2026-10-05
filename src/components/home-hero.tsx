@@ -14,18 +14,19 @@ import { HeroMasonry, type MasonryTile } from "@/components/hero-masonry";
  * panel either distorts it or chops the captions in half. A grid of
  * several real shots solves that outright - no single frame has to be
  * cropped to fit - and several moving shots of the business read as a far
- * bigger operation than one looping clip. Four of the six tiles are short,
- * silent, looping clips cut from clean, caption-free moments in that same
- * video (the Buxton site from the air, roasting beans, the roaster and
- * storage tanks, a packing robot arm) - each a forward/reverse "boomerang"
- * loop so it never jump-cuts back to its start. The other two are the
- * client's own site photography, since the video has no footage of those
- * particular shots. See public/PHOTO-CREDITS.md.
+ * bigger operation than one looping clip. All six tiles are short, silent,
+ * looping clips cut from clean, caption-free moments in that same video
+ * (the roasting floor, the Buxton site from the air, roasting beans, a
+ * packing robot arm, the roaster and storage tanks, overhead case packing)
+ * - each a forward/reverse "boomerang" loop so it never jump-cuts back to
+ * its start. See public/PHOTO-CREDITS.md.
  */
 const HERO_TILES: MasonryTile[] = [
   {
-    type: "image",
-    src: "/photo-roastery-floor.jpg",
+    type: "video",
+    webm: "/clip-roastery-floor.webm",
+    mp4: "/clip-roastery-floor.mp4",
+    poster: "/photo-video-still-roastery-floor.jpg",
     alt: "The roasting floor at Clady Group's Buxton manufacturing site",
     span: "col-span-2 row-span-2",
   },
@@ -62,8 +63,10 @@ const HERO_TILES: MasonryTile[] = [
     span: "col-span-2 row-span-1",
   },
   {
-    type: "image",
-    src: "/photo-production-casepacker.jpg",
+    type: "video",
+    webm: "/clip-casepacking.webm",
+    mp4: "/clip-casepacking.mp4",
+    poster: "/photo-video-still-casepacking.jpg",
     alt: "Case packing on Clady Group's production line",
     span: "col-span-2 row-span-1",
   },
