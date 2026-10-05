@@ -13,39 +13,56 @@ import { HeroMasonry, type MasonryTile } from "@/components/hero-masonry";
  * third captions burned in, so cropping it into a single portrait hero
  * panel either distorts it or chops the captions in half. A grid of
  * several real shots solves that outright - no single frame has to be
- * cropped to fit - and six different shots of the business read as a far
- * bigger operation than one looping clip. Three of the six are frame grabs
- * pulled from clean, caption-free moments in that same video (roasting
- * beans, the roaster and storage tanks, a packing robot arm); the rest are
- * the client's own site photography. See public/PHOTO-CREDITS.md.
+ * cropped to fit - and several moving shots of the business read as a far
+ * bigger operation than one looping clip. Four of the six tiles are short,
+ * silent, looping clips cut from clean, caption-free moments in that same
+ * video (the Buxton site from the air, roasting beans, the roaster and
+ * storage tanks, a packing robot arm) - each a forward/reverse "boomerang"
+ * loop so it never jump-cuts back to its start. The other two are the
+ * client's own site photography, since the video has no footage of those
+ * particular shots. See public/PHOTO-CREDITS.md.
  */
 const HERO_TILES: MasonryTile[] = [
   {
+    type: "image",
     src: "/photo-roastery-floor.jpg",
     alt: "The roasting floor at Clady Group's Buxton manufacturing site",
     span: "col-span-2 row-span-2",
   },
   {
-    src: "/photo-site-aerial.jpg",
+    type: "video",
+    webm: "/clip-site-aerial.webm",
+    mp4: "/clip-site-aerial.mp4",
+    poster: "/photo-site-aerial.jpg",
     alt: "Aerial view of the Clady Group manufacturing site in Buxton",
     span: "col-span-2 row-span-1",
   },
   {
-    src: "/photo-video-still-roasting-beans.jpg",
+    type: "video",
+    webm: "/clip-roasting-beans.webm",
+    mp4: "/clip-roasting-beans.mp4",
+    poster: "/photo-video-still-roasting-beans.jpg",
     alt: "Coffee beans mid-roast on the production line",
     span: "col-span-1 row-span-1",
   },
   {
-    src: "/photo-video-still-robotic-arm.jpg",
+    type: "video",
+    webm: "/clip-robotic-arm.webm",
+    mp4: "/clip-robotic-arm.mp4",
+    poster: "/photo-video-still-robotic-arm.jpg",
     alt: "A robotic packing arm on the production line",
     span: "col-span-1 row-span-1",
   },
   {
-    src: "/photo-video-still-roaster-tanks.jpg",
+    type: "video",
+    webm: "/clip-roaster-tanks.webm",
+    mp4: "/clip-roaster-tanks.mp4",
+    poster: "/photo-video-still-roaster-tanks.jpg",
     alt: "The roaster and storage tanks at Clady Group's Buxton site",
     span: "col-span-2 row-span-1",
   },
   {
+    type: "image",
     src: "/photo-production-casepacker.jpg",
     alt: "Case packing on Clady Group's production line",
     span: "col-span-2 row-span-1",
