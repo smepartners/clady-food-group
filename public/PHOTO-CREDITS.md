@@ -11,12 +11,15 @@ pulled from `video-company-story.mp4` are noted as such.
 | File | Used for | Source |
 | --- | --- | --- |
 | photo-product-range.jpg | Home hero (`HomeHero`) | Client-supplied product photography |
-| photo-roastery-floor.jpg | Home manufacturing band (`clady-manufacturing-northern-ireland`) | Client-supplied site photography, Buxton |
+| photo-roastery-floor.jpg | Home manufacturing band (`clady-manufacturing-northern-ireland`); Home hero masonry grid | Client-supplied site photography, Buxton |
 | photo-roastery-detail.jpg | About manufacturing band (`clady-about-manufacturing`) | Client-supplied site photography, Buxton |
 | photo-production-packing.jpg | Private Label hero; Private Label showcase lead tile | Client-supplied site photography, Buxton |
-| photo-production-casepacker.jpg | Private Label manufacturing band (`clady-private-label-manufacturing`) | Client-supplied site photography, Buxton |
-| photo-site-aerial.jpg | Home showcase lead tile | Frame grab, `video-company-story.mp4` |
+| photo-production-casepacker.jpg | Private Label manufacturing band (`clady-private-label-manufacturing`); Home hero masonry grid | Client-supplied site photography, Buxton |
+| photo-site-aerial.jpg | Home showcase lead tile; Home hero masonry grid | Frame grab, `video-company-story.mp4` |
 | photo-video-poster.jpg | Video story section poster/click-to-play still | Frame grab, `video-company-story.mp4` |
+| photo-video-still-roasting-beans.jpg | Home hero masonry grid | Frame grab, `video-company-story.mp4` (00:56) |
+| photo-video-still-roaster-tanks.jpg | Home hero masonry grid | Frame grab, `video-company-story.mp4` (01:12) |
+| photo-video-still-robotic-arm.jpg | Home hero masonry grid | Frame grab, `video-company-story.mp4` (01:36) |
 | video-company-story.mp4 | About page video story section (`VideoStorySection`) | Client-supplied company story video, re-encoded for web (34MB source → 19.6MB, h264 crf26 + aac96k, native 848x478 resolution kept) |
 | logo-evolving-state.png | Evolving State brand mark (brand grid, brand index, brand detail hero) | Client-supplied logo artwork |
 | logo-galway-roast.png | Galway Roast brand mark (brand grid, brand index, brand detail hero) | Client-supplied logo artwork |

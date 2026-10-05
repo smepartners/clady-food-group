@@ -1,24 +1,57 @@
 import { Container, CTAButton, AccentRule, TextureOverlay } from "@/components/ui";
 import { Reveal } from "@/components/reveal";
+import { HeroMasonry, type MasonryTile } from "@/components/hero-masonry";
 
 /**
- * Split text/video homepage hero - the client's own company-story video
- * plays muted and on loop behind a simple statement on the left, in the
- * same split arrangement unilever.co.uk uses for its own homepage hero
- * (headline + CTA on one side, motion on the other), but square-cornered
- * rather than Unilever's heavily rounded/pill-shaped image mask - that
- * shape reads as a very specific, borrowed visual signature rather than
- * this site's own, so the video panel uses the same moderate rounding
- * (`rounded-2xl`) as every other photo frame on the site instead.
+ * Split text/image hero - a statement on the left, a grid of real shots
+ * from around the business on the right, in the same split arrangement
+ * unilever.co.uk uses for its own homepage hero (headline + CTA on one
+ * side, imagery on the other).
  *
- * `photo-product-range.jpg` - the real product-range photography the
- * client brought to the Oct 2026 design review (see
- * public/PHOTO-CREDITS.md) - is the video's poster frame: it covers the
- * instant before the video can start playing and any browser/device that
- * declines autoplay, so the product shot the client specifically asked to
- * see "at the top of the page" is still what a visitor sees there either
- * way.
+ * The company-story video (`video-company-story.mp4`, used in full on the
+ * About page) doesn't work here on its own: it's landscape and has lower-
+ * third captions burned in, so cropping it into a single portrait hero
+ * panel either distorts it or chops the captions in half. A grid of
+ * several real shots solves that outright - no single frame has to be
+ * cropped to fit - and six different shots of the business read as a far
+ * bigger operation than one looping clip. Three of the six are frame grabs
+ * pulled from clean, caption-free moments in that same video (roasting
+ * beans, the roaster and storage tanks, a packing robot arm); the rest are
+ * the client's own site photography. See public/PHOTO-CREDITS.md.
  */
+const HERO_TILES: MasonryTile[] = [
+  {
+    src: "/photo-roastery-floor.jpg",
+    alt: "The roasting floor at Clady Group's Buxton manufacturing site",
+    span: "col-span-2 row-span-2",
+  },
+  {
+    src: "/photo-site-aerial.jpg",
+    alt: "Aerial view of the Clady Group manufacturing site in Buxton",
+    span: "col-span-2 row-span-1",
+  },
+  {
+    src: "/photo-video-still-roasting-beans.jpg",
+    alt: "Coffee beans mid-roast on the production line",
+    span: "col-span-1 row-span-1",
+  },
+  {
+    src: "/photo-video-still-robotic-arm.jpg",
+    alt: "A robotic packing arm on the production line",
+    span: "col-span-1 row-span-1",
+  },
+  {
+    src: "/photo-video-still-roaster-tanks.jpg",
+    alt: "The roaster and storage tanks at Clady Group's Buxton site",
+    span: "col-span-2 row-span-1",
+  },
+  {
+    src: "/photo-production-casepacker.jpg",
+    alt: "Case packing on Clady Group's production line",
+    span: "col-span-2 row-span-1",
+  },
+];
+
 export function HomeHero() {
   return (
     <section className="relative isolate overflow-hidden bg-green-900">
@@ -45,22 +78,7 @@ export function HomeHero() {
             </div>
           </Reveal>
 
-          <Reveal delay={0.1}>
-            <div className="relative aspect-[4/3] overflow-hidden rounded-2xl bg-green-900 sm:aspect-square lg:aspect-[4/5]">
-              <video
-                autoPlay
-                muted
-                loop
-                playsInline
-                poster="/photo-product-range.jpg"
-                aria-label="The Clady Group company story"
-                className="absolute inset-0 h-full w-full object-cover"
-              >
-                <source src="/video-company-story.mp4" type="video/mp4" />
-              </video>
-              <div className="absolute inset-0 bg-gradient-to-t from-green-900/40 via-transparent to-transparent" />
-            </div>
-          </Reveal>
+          <HeroMasonry tiles={HERO_TILES} />
         </div>
       </Container>
     </section>

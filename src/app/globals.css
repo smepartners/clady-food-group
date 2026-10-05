@@ -66,3 +66,14 @@ h1, h2, h3, h4 {
     animation: float-y 3.5s ease-in-out infinite;
   }
 }
+
+/* Hides the scrollbar on a horizontally-scrollable track (BrandCarousel)
+   while keeping it mouse/trackpad/touch scrollable - Tailwind v4 has no
+   built-in scrollbar-hide utility. */
+.scrollbar-none {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
