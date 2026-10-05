@@ -4,7 +4,6 @@ import Image from "next/image";
 import type { ReactNode } from "react";
 import { Container, CTAButton, AccentRule } from "@/components/ui";
 import { Reveal } from "@/components/reveal";
-import { useSiteStyle } from "@/components/site-theme";
 
 /**
  * Shared full-bleed image hero - the "corporate scale" pattern established
@@ -47,9 +46,6 @@ export function PageHero({
    * next to the plain-text eyebrow rather than replacing it. */
   logo?: string;
 }) {
-  const { style } = useSiteStyle();
-  const bold = style === "bold";
-
   return (
     <section className="relative isolate overflow-hidden bg-green-900">
       <Image
@@ -60,13 +56,7 @@ export function PageHero({
         sizes="100vw"
         className="object-cover"
       />
-      <div
-        className={`absolute inset-0 bg-gradient-to-t ${
-          bold
-            ? "from-green-900 via-green-900/88 to-green-900/55"
-            : "from-green-900/95 via-green-900/75 to-green-900/40"
-        }`}
-      />
+      <div className="absolute inset-0 bg-gradient-to-t from-green-900/95 via-green-900/75 to-green-900/40" />
 
       <Container>
         <Reveal
@@ -74,11 +64,7 @@ export function PageHero({
             compact ? "pt-24 pb-16 sm:pt-28 sm:pb-20" : "pt-28 pb-20 sm:pt-40 sm:pb-28"
           }`}
         >
-          <p
-            className={`text-sm font-semibold uppercase tracking-[0.16em] ${
-              bold ? "text-gold-500" : "text-gold-500/90"
-            }`}
-          >
+          <p className="text-sm font-semibold uppercase tracking-[0.16em] text-gold-500/90">
             {eyebrow}
           </p>
           <h1 className="mt-4 max-w-2xl text-4xl font-semibold leading-[1.05] text-cream-100 sm:text-6xl">

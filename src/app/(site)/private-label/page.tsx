@@ -8,11 +8,10 @@ import {
   CalendarBlank,
   Buildings,
 } from "@phosphor-icons/react/dist/ssr";
-import { Section, IconFeature, Pill, CTAButton, ImageFrame, TextureOverlay, StatTile } from "@/components/ui";
+import { Section, IconFeature, Pill, CTAButton, ImageFrame, BrandGrid, TextureOverlay, StatTile } from "@/components/ui";
 import { Reveal, RevealStagger } from "@/components/reveal";
 import { BRANDS } from "@/lib/brands";
 import { PrivateLabelHero } from "@/components/private-label-hero";
-import { PhotoShowcase, type ShowcaseItem } from "@/components/photo-showcase";
 import { ClientLogoBar } from "@/components/client-logo-bar";
 import { Testimonials } from "@/components/testimonials";
 
@@ -45,42 +44,6 @@ const PILLARS = [
 ];
 
 const MARKETS = ["Vending", "Catering & foodservice", "Retail", "Wholesale", "Food manufacturing"];
-
-// Real sourced photography (see public/PHOTO-CREDITS.md) - the packing
-// line as the lead tile since it's the most direct visual of manufacturing
-// capability for a private label brief, then the four brands the
-// capability produces.
-const PRIVATE_LABEL_SHOWCASE: ShowcaseItem[] = [
-  {
-    src: "/photo-production-packing.jpg",
-    alt: "The packing and labelling line at Clady Group's Buxton site",
-    caption: "Private label production line",
-  },
-  {
-    src: "/photo-brand-slumberjack.jpg",
-    alt: "Slumberjack product photography",
-    caption: "Slumberjack",
-    href: "/brands/slumberjack",
-  },
-  {
-    src: "/photo-brand-galway-roast.jpg",
-    alt: "Galway Roast product photography",
-    caption: "Galway Roast",
-    href: "/brands/galway-roast",
-  },
-  {
-    src: "/photo-brand-dutch-maid.jpg",
-    alt: "Dutch Maid product photography",
-    caption: "Dutch Maid",
-    href: "/brands/dutch-maid",
-  },
-  {
-    src: "/photo-brand-evolving-state.jpg",
-    alt: "Evolving State product photography",
-    caption: "Evolving State",
-    href: "/brands/evolving-state",
-  },
-];
 
 export default function PrivateLabelPage() {
   return (
@@ -134,7 +97,26 @@ export default function PrivateLabelPage() {
       </Section>
 
       <Section pad="py-10 sm:py-14">
-        <PhotoShowcase items={PRIVATE_LABEL_SHOWCASE} label="What we produce" />
+        <Reveal>
+          <p className="text-sm font-semibold uppercase tracking-wide text-olive-600">
+            What we produce
+          </p>
+          <ImageFrame
+            seed="clady-private-label-production-line"
+            alt="The packing and labelling line at Clady Group's Buxton site"
+            src="/photo-production-packing.jpg"
+            aspect="aspect-[16/9]"
+            className="mt-6"
+          />
+        </Reveal>
+
+        {/* Real logo marks on brand-tone badges (see ui.tsx BrandGrid),
+            not stock photography standing in for each brand's own
+            imagery - same reasoning as the homepage's "Our brands"
+            section. */}
+        <div className="mt-14 border-t border-cream-200 pt-14">
+          <BrandGrid label="The brands we produce for" />
+        </div>
       </Section>
 
       <Section className="bg-green-700">

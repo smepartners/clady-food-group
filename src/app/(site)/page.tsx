@@ -12,7 +12,7 @@ import {
 import {
   Section,
   ImageFrame,
-  IconFeature,
+  BrandGrid,
   CTAButton,
   TextureOverlay,
   FacilityStrip,
@@ -21,8 +21,7 @@ import {
 import { Reveal, RevealStagger } from "@/components/reveal";
 import { BRANDS } from "@/lib/brands";
 import { HomeHero } from "@/components/home-hero";
-import { PhotoShowcase, type ShowcaseItem } from "@/components/photo-showcase";
-import { VideoStorySection } from "@/components/video-story-section";
+import { ParallaxBand } from "@/components/parallax-band";
 
 // Same three confirmed facts as the About page's "at a glance" band (see
 // STATS there). Rendered in the "One group, multiple capabilities" band
@@ -55,50 +54,6 @@ const VALUES = [
     tone: "green" as const,
     name: "Collaboration",
     body: "Building strong, lasting partnerships that grow with our customers.",
-  },
-];
-
-// Real sourced photography (see public/PHOTO-CREDITS.md). The product
-// range shot leads the hero above and the roasting floor illustrates the
-// manufacturing band further down, so this uses a drone shot of the
-// Buxton site as its lead tile to keep all three photo slots on this page
-// distinct, then the four brands. This bento grid now does the job the
-// old standalone "Our brands" card row used to do (see DECISIONS.md) -
-// keeping one strong brand showcase on the page instead of two was part
-// of the Sept 2026 section-count trim.
-const HOME_SHOWCASE: ShowcaseItem[] = [
-  {
-    src: "/photo-site-aerial.jpg",
-    alt: "Aerial view of the Clady Group manufacturing site in Buxton",
-    caption: "Our site in Buxton, England",
-  },
-  {
-    src: "/photo-brand-evolving-state.jpg",
-    alt: "Evolving State product photography",
-    caption: "Evolving State",
-    href: "/brands/evolving-state",
-    logo: "/logo-evolving-state.png",
-  },
-  {
-    src: "/photo-brand-galway-roast.jpg",
-    alt: "Galway Roast product photography",
-    caption: "Galway Roast",
-    href: "/brands/galway-roast",
-    logo: "/logo-galway-roast.png",
-  },
-  {
-    src: "/photo-brand-dutch-maid.jpg",
-    alt: "Dutch Maid product photography",
-    caption: "Dutch Maid",
-    href: "/brands/dutch-maid",
-    logo: "/logo-dutch-maid.png",
-  },
-  {
-    src: "/photo-brand-slumberjack.jpg",
-    alt: "Slumberjack product photography",
-    caption: "Slumberjack",
-    href: "/brands/slumberjack",
-    logo: "/logo-slumberjack.svg",
   },
 ];
 
@@ -150,48 +105,68 @@ export default function HomePage() {
       </Section>
 
       <Section pad="py-10 sm:py-14">
-        <PhotoShowcase items={HOME_SHOWCASE} label="Our portfolio, in pictures" />
-        <Link
-          href="/brands"
-          className="mt-8 inline-block text-sm font-medium text-olive-600 transition hover:text-green-700"
-        >
-          Explore our brands &rarr;
-        </Link>
+        <Reveal>
+          <p className="text-sm font-semibold uppercase tracking-wide text-olive-600">
+            Our site, in pictures
+          </p>
+          <ImageFrame
+            seed="clady-home-site-aerial"
+            alt="Aerial view of the Clady Group manufacturing site in Buxton"
+            src="/photo-site-aerial.jpg"
+            aspect="aspect-[16/9]"
+            className="mt-6"
+          />
+        </Reveal>
+
+        {/* Real logo marks on brand-tone badges (see ui.tsx BrandGrid) -
+            product/lifestyle stock photography used to stand in behind
+            these logos; now that every brand has its own real mark, the
+            logo carries the tile on its own rather than sharing it with a
+            photo that isn't actually that brand's own photography. The
+            same treatment P&G uses for "Our Brands" on pg.co.uk. */}
+        <div className="mt-14 border-t border-cream-200 pt-14">
+          <BrandGrid label="Our brands" />
+          <Link
+            href="/brands"
+            className="mt-8 inline-block text-sm font-medium text-olive-600 transition hover:text-green-700"
+          >
+            Explore our brands &rarr;
+          </Link>
+        </div>
       </Section>
 
-      {/* The client's own company-story video, as a click-to-play clip
-          beside copy rather than full-width - see video-story-section.tsx.
-          Placed here so dark/light bands keep alternating: manufacturing
-          (dark) -> showcase (light) -> this (dark) -> What drives us
-          (light) -> closing CTA (dark). */}
-      <VideoStorySection
-        heading={
-          <>
-            See who <em className="italic text-gold-500">we are.</em>
-          </>
-        }
-        body={
-          <p>
-            A short look at Clady Group - our brands, our people and our
-            manufacturing sites across the UK and Ireland, in the words of
-            the people who run it.
-          </p>
-        }
+      <ParallaxBand
+        image="/photo-production-packing.jpg"
+        alt="The packing and labelling line at Clady Group's Buxton site"
+        eyebrow="Our capability"
+        heading="Real manufacturing scale, behind every brand."
+        body="From roasting and blending to packing and dispatch, our teams manufacture across three sites in England, Northern Ireland and Ireland - built to support brands and private label customers at volume."
       />
 
       <Section className="bg-cream-200/40">
         <Reveal>
           <h2 className="text-2xl font-semibold text-green-700 sm:text-3xl">What drives us</h2>
         </Reveal>
-        <RevealStagger className="mt-10 grid gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-5">
+        <RevealStagger className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-5">
           {VALUES.map((v) => (
-            <IconFeature
+            <div
               key={v.name}
-              icon={<v.icon size={22} weight="bold" />}
-              name={v.name}
-              body={v.body}
-              tone={v.tone}
-            />
+              className="group flex flex-col items-center gap-4 rounded-3xl border border-cream-200 bg-cream-100 p-8 text-center transition duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-green-900/10"
+            >
+              <span
+                className={`flex h-16 w-16 items-center justify-center rounded-full transition duration-300 group-hover:scale-105 ${
+                  v.tone === "gold"
+                    ? "bg-gold-500/15 text-gold-700"
+                    : v.tone === "olive"
+                      ? "bg-olive-600/10 text-olive-600"
+                      : "bg-green-700/10 text-green-700"
+                }`}
+              >
+                <v.icon size={26} weight="bold" />
+              </span>
+              <h3 className="font-semibold text-ink">{v.name}</h3>
+              <p className="text-sm leading-relaxed text-ink-soft">{v.body}</p>
+            </div>
           ))}
         </RevealStagger>
       </Section>

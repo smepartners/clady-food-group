@@ -46,15 +46,19 @@ export function Container({ children }: { children: ReactNode }) {
   return <div className="mx-auto max-w-6xl px-4 sm:px-6">{children}</div>;
 }
 
-const BRAND_DOT_TONE = {
+const BRAND_BADGE_TONE = {
   green: "bg-green-700",
   gold: "bg-gold-500",
   olive: "bg-olive-600",
 } as const;
 
-/** Compact 4-up brand grid - a nod to the portfolio on pages that don't need
- * the full imagery/strap treatment on the homepage and /brands index, but
- * where plain text links would sell the brands short. */
+/** Circular logo badges, one per brand - P&G's own "Our Brands" treatment
+ * (pg.co.uk: solid brand-colour circles carrying each brand's mark) is a
+ * better fit here than dressing a real logo up with a stock "mood" photo
+ * behind it pretending to be that brand's own photography. Each badge uses
+ * the brand's assigned tone (see lib/brands.ts) as its colour and the real
+ * supplied logo mark, on its own light disc so the logo stays legible
+ * whatever its own colours are. */
 export function BrandGrid({
   label = "Part of the Clady Group portfolio",
   cols = 4,
@@ -62,7 +66,7 @@ export function BrandGrid({
 }: {
   label?: string;
   // Pass 2 in a narrower container (e.g. a form-page copy column) so the
-  // thumbnails don't get squeezed - Tailwind's grid-cols breakpoints are
+  // badges don't get squeezed - Tailwind's grid-cols breakpoints are
   // viewport-, not container-, based, so this can't just be responsive.
   cols?: 2 | 4;
   className?: string;
@@ -72,29 +76,25 @@ export function BrandGrid({
       <p className="text-xs font-semibold uppercase tracking-[0.16em] text-olive-600">
         {label}
       </p>
-      <ul className={`mt-5 grid grid-cols-2 gap-4 ${cols === 4 ? "sm:grid-cols-4" : ""}`}>
+      <ul className={`mt-6 grid grid-cols-2 gap-6 ${cols === 4 ? "sm:grid-cols-4" : ""}`}>
         {BRANDS.map((b) => (
           <li key={b.slug}>
-            <Link href={`/brands/${b.slug}`} className="group block">
-              <div className="relative overflow-hidden rounded-xl transition duration-300 group-hover:-translate-y-1">
-                <ImageFrame seed={b.seed} alt={b.name} src={b.photo} aspect="aspect-square" />
-                {b.logo ? (
-                  <div className="absolute bottom-2 left-2 flex h-9 items-center rounded-md bg-cream-100/95 px-2 shadow-sm">
-                    <Image src={b.logo} alt="" width={64} height={28} className="h-5 w-auto object-contain" />
-                  </div>
-                ) : null}
-              </div>
-              <div className="mt-3 flex items-center gap-2">
-                <span className={`h-1.5 w-1.5 shrink-0 rounded-full ${BRAND_DOT_TONE[b.tone]}`} />
-                <span className="truncate text-sm font-semibold text-ink transition group-hover:text-green-700">
-                  {b.name}
+            <Link href={`/brands/${b.slug}`} className="group flex flex-col items-center gap-3 text-center">
+              <span
+                className={`flex h-24 w-24 items-center justify-center rounded-full shadow-sm transition duration-300 group-hover:-translate-y-1 group-hover:shadow-lg sm:h-28 sm:w-28 ${BRAND_BADGE_TONE[b.tone]}`}
+              >
+                <span className="flex h-[4.25rem] w-[4.25rem] items-center justify-center rounded-full bg-cream-100 sm:h-20 sm:w-20">
+                  <Image src={b.logo} alt="" width={96} height={48} className="h-8 w-auto object-contain sm:h-9" />
                 </span>
+              </span>
+              <span className="flex items-center gap-1 text-sm font-semibold text-ink transition group-hover:text-green-700">
+                {b.name}
                 <ArrowUpRight
                   size={13}
                   weight="bold"
-                  className="ml-auto shrink-0 text-ink-soft opacity-0 transition duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:opacity-100"
+                  className="shrink-0 text-ink-soft opacity-0 transition duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:opacity-100 group-hover:text-green-700"
                 />
-              </div>
+              </span>
             </Link>
           </li>
         ))}
