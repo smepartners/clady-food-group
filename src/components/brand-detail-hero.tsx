@@ -8,7 +8,7 @@ import { PageHero } from "@/components/page-hero";
 export function BrandDetailHero({
   brand,
 }: {
-  brand: { name: string; strap: string; seed: string; photo: string };
+  brand: { name: string; strap: string; seed: string; photo: string; logo: string };
 }) {
   return (
     <PageHero
@@ -17,6 +17,7 @@ export function BrandDetailHero({
       eyebrow="Clady Group brand"
       heading={brand.name}
       subheading={brand.strap}
+      logo={brand.logo}
       compact
     />
   );

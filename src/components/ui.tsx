@@ -76,8 +76,13 @@ export function BrandGrid({
         {BRANDS.map((b) => (
           <li key={b.slug}>
             <Link href={`/brands/${b.slug}`} className="group block">
-              <div className="overflow-hidden rounded-xl transition duration-300 group-hover:-translate-y-1">
+              <div className="relative overflow-hidden rounded-xl transition duration-300 group-hover:-translate-y-1">
                 <ImageFrame seed={b.seed} alt={b.name} src={b.photo} aspect="aspect-square" />
+                {b.logo ? (
+                  <div className="absolute bottom-2 left-2 flex h-9 items-center rounded-md bg-cream-100/95 px-2 shadow-sm">
+                    <Image src={b.logo} alt="" width={64} height={28} className="h-5 w-auto object-contain" />
+                  </div>
+                ) : null}
               </div>
               <div className="mt-3 flex items-center gap-2">
                 <span className={`h-1.5 w-1.5 shrink-0 rounded-full ${BRAND_DOT_TONE[b.tone]}`} />

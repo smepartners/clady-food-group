@@ -12,8 +12,8 @@ import { PageHero } from "@/components/page-hero";
 export function PrivateLabelHero() {
   return (
     <PageHero
-      image="/photo-private-label-bottling.jpg"
-      alt="Private label beverage production line"
+      image="/photo-production-packing.jpg"
+      alt="The packing and labelling line at Clady Group's Buxton site"
       heading={
         <>
           Your brand. <em className="italic text-gold-500">Our expertise.</em>

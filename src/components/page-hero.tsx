@@ -30,6 +30,7 @@ export function PageHero({
   subheading,
   cta,
   compact = false,
+  logo,
 }: {
   image: string;
   alt: string;
@@ -41,6 +42,10 @@ export function PageHero({
    * a brand detail page that follows straight into its own content) rather
    * than a full landing moment. */
   compact?: boolean;
+  /** A brand's real logo mark (brand detail pages only - see
+   * public/PHOTO-CREDITS.md) rendered as a white chip above the heading,
+   * next to the plain-text eyebrow rather than replacing it. */
+  logo?: string;
 }) {
   const { style } = useSiteStyle();
   const bold = style === "bold";
@@ -79,6 +84,11 @@ export function PageHero({
           <h1 className="mt-4 max-w-2xl text-4xl font-semibold leading-[1.05] text-cream-100 sm:text-6xl">
             {heading}
           </h1>
+          {logo ? (
+            <div className="mt-5 flex h-12 w-fit items-center rounded-lg bg-cream-100/95 px-3">
+              <Image src={logo} alt="" width={140} height={48} className="h-7 w-auto object-contain" />
+            </div>
+          ) : null}
           <AccentRule className="mt-7" />
           {subheading ? (
             <p className="mt-7 max-w-lg text-lg leading-relaxed text-cream-100/85">

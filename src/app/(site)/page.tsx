@@ -59,19 +59,19 @@ const VALUES = [
   },
 ];
 
-// Real sourced photography (see public/PHOTO-CREDITS.md). The pallet/
-// warehouse shot leads the hero above and the canning line illustrates the
-// manufacturing band further down, so this uses the bottling line as its
-// lead tile to keep all three photo slots on this page distinct, then the
-// four brands. This bento grid now does the job the old standalone "Our
-// brands" card row used to do (see DECISIONS.md) - keeping one strong
-// brand showcase on the page instead of two was part of the Sept 2026
-// section-count trim.
+// Real sourced photography (see public/PHOTO-CREDITS.md). The product
+// range shot leads the hero above and the roasting floor illustrates the
+// manufacturing band further down, so this uses a drone shot of the
+// Buxton site as its lead tile to keep all three photo slots on this page
+// distinct, then the four brands. This bento grid now does the job the
+// old standalone "Our brands" card row used to do (see DECISIONS.md) -
+// keeping one strong brand showcase on the page instead of two was part
+// of the Sept 2026 section-count trim.
 const HOME_SHOWCASE: ShowcaseItem[] = [
   {
-    src: "/photo-private-label-bottling.jpg",
-    alt: "Beverage bottling line at a Clady Group manufacturing site",
-    caption: "Production across the UK & Ireland",
+    src: "/photo-site-aerial.jpg",
+    alt: "Aerial view of the Clady Group manufacturing site in Buxton",
+    caption: "Our site in Buxton, England",
   },
   {
     src: "/photo-brand-evolving-state.jpg",
@@ -110,8 +110,8 @@ export default function HomePage() {
           <Reveal className="order-2 lg:order-1">
             <ImageFrame
               seed="clady-manufacturing-northern-ireland"
-              alt="Manufacturing operations across England, Northern Ireland and Ireland"
-              src="/photo-home-manufacturing.jpg"
+              alt="The roasting floor at Clady Group's Buxton manufacturing site"
+              src="/photo-roastery-floor.jpg"
               aspect="aspect-[4/3]"
               tone="dark"
             />

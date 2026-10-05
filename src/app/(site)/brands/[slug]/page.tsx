@@ -11,13 +11,14 @@ type Brand = {
   paragraphs: string[];
   seed: string;
   photo: string;
+  logo: string;
 };
 
 // TODO: once the Sanity project is provisioned, replace this map with a
 // fetch against BRAND_BY_SLUG_QUERY (src/sanity/lib/queries.ts). Kept static
-// for now since sub-brand logo marks are still pending (Build Plan §06,
-// open question 04) and there's nothing to gain from wiring a CMS that
-// has no content in it yet.
+// for now since there's nothing to gain from wiring a CMS that has no
+// content in it yet. Sub-brand logo marks (Build Plan §06, open question
+// 04) are no longer pending - see `logo` below and public/PHOTO-CREDITS.md.
 const BRANDS: Record<string, Brand> = {
   "evolving-state": {
     name: "Evolving State",
@@ -25,6 +26,7 @@ const BRANDS: Record<string, Brand> = {
     focus: "Functional drinks · Supplements · Natural wellness · Performance",
     seed: "clady-evolving-state-wellness",
     photo: "/photo-brand-evolving-state.jpg",
+    logo: "/logo-evolving-state.png",
     paragraphs: [
       "Evolving State is focused on natural and functional products designed to enhance everyday health and wellbeing.",
       "Its portfolio spans functional drinks, supplements, natural wellness and performance, bringing together products that fit naturally into modern lifestyles.",
@@ -36,6 +38,7 @@ const BRANDS: Record<string, Brand> = {
     focus: "Coffee · B2B · B2C · Irish heritage",
     seed: "clady-galway-roast-coffee",
     photo: "/photo-brand-galway-roast.jpg",
+    logo: "/logo-galway-roast.png",
     paragraphs: [
       "Rooted in place, Galway Roast celebrates Irish heritage, local character and a hint of the Galway coastline in every roast.",
       "The brand brings an authentic sense of Galway to the coffee category, with a focus on quality, flavour and keeping it local.",
@@ -49,6 +52,7 @@ const BRANDS: Record<string, Brand> = {
       "Instant coffee · Hot chocolate · Milk & whitener · Cappuccino topping · Soluble ingredients · Private label",
     seed: "clady-dutch-maid-soluble",
     photo: "/photo-brand-dutch-maid.jpg",
+    logo: "/logo-dutch-maid.png",
     paragraphs: [
       "Dutch Maid brings ease, convenience and on-trend flavours together in a versatile range of soluble drinks and ingredients.",
       "As a private label manufacturer, Dutch Maid supplies premium soluble beverage solutions across a wide range of industries and channels, including vending, catering and foodservice, retail, wholesale and food manufacturing.",
@@ -61,6 +65,7 @@ const BRANDS: Record<string, Brand> = {
     focus: "Coffee · Tea · Hot chocolate · B2B · B2C",
     seed: "clady-slumberjack-coffee",
     photo: "/photo-brand-slumberjack.jpg",
+    logo: "/logo-slumberjack.svg",
     paragraphs: [
       "Our signature beverage brand. Slumberjack is the brand from which the Clady Group story began.",
       "Established in 2014, Slumberjack has grown from its family-business roots to offer a broad range of high-quality hot and cold beverage products.",

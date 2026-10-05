@@ -5,6 +5,7 @@ import { Reveal } from "@/components/reveal";
 import { AccreditationGrid, type Accreditation } from "@/components/accreditation";
 import { AboutHero } from "@/components/about-hero";
 import { ClientLogoBar } from "@/components/client-logo-bar";
+import { VideoStorySection } from "@/components/video-story-section";
 import { BRANDS } from "@/lib/brands";
 
 export const metadata: Metadata = { title: "About Us" };
@@ -84,8 +85,8 @@ export default function AboutPage() {
           <Reveal className="order-2 lg:order-1">
             <ImageFrame
               seed="clady-about-manufacturing"
-              alt="Manufacturing operations across England, Northern Ireland and Ireland"
-              src="/photo-home-manufacturing.jpg"
+              alt="A roaster on Clady Group's production line"
+              src="/photo-roastery-detail.jpg"
               aspect="aspect-[4/3]"
               tone="dark"
             />
@@ -146,6 +147,8 @@ export default function AboutPage() {
           </div>
         </Reveal>
       </Section>
+
+      <VideoStorySection />
 
       <Section>
         <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">

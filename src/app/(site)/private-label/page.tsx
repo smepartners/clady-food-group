@@ -46,13 +46,14 @@ const PILLARS = [
 
 const MARKETS = ["Vending", "Catering & foodservice", "Retail", "Wholesale", "Food manufacturing"];
 
-// Real sourced photography (see public/PHOTO-CREDITS.md) - bottling as the
-// lead tile since it's the most direct visual of manufacturing capability
-// for a private label brief, then the four brands the capability produces.
+// Real sourced photography (see public/PHOTO-CREDITS.md) - the packing
+// line as the lead tile since it's the most direct visual of manufacturing
+// capability for a private label brief, then the four brands the
+// capability produces.
 const PRIVATE_LABEL_SHOWCASE: ShowcaseItem[] = [
   {
-    src: "/photo-private-label-bottling.jpg",
-    alt: "Private label beverage production line",
+    src: "/photo-production-packing.jpg",
+    alt: "The packing and labelling line at Clady Group's Buxton site",
     caption: "Private label production line",
   },
   {
@@ -97,8 +98,8 @@ export default function PrivateLabelPage() {
           <Reveal className="order-2 lg:order-1">
             <ImageFrame
               seed="clady-private-label-manufacturing"
-              alt="Manufacturing operations across England, Northern Ireland and Ireland"
-              src="/photo-home-manufacturing.jpg"
+              alt="Case packing on Clady Group's production line"
+              src="/photo-production-casepacker.jpg"
               aspect="aspect-[4/3]"
               tone="dark"
             />

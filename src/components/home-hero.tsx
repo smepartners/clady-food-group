@@ -25,12 +25,13 @@ import { useSiteStyle } from "@/components/site-theme";
  * multiple capabilities" band below (see page.tsx), next to its own
  * photography, rather than living here.
  *
- * `HERO_IMAGE` is the group's own warehouse/pallet photography (the
- * existing "Home hero" slot - see public/PHOTO-CREDITS.md) standing in for
- * the actual product-range imagery the client is bringing to that call -
- * swap it for that once supplied, no layout change needed.
+ * `HERO_IMAGE` is now the real product-range photography the client
+ * brought to that call (Oct 2026 - see public/PHOTO-CREDITS.md), replacing
+ * the warehouse/pallet stock photo that stood in for it. No layout change
+ * needed - this is exactly the "product range image... hero spot" the
+ * client asked for.
  */
-const HERO_IMAGE = "/photo-home-hero.jpg";
+const HERO_IMAGE = "/photo-product-range.jpg";
 
 export function HomeHero() {
   const { style } = useSiteStyle();
@@ -40,7 +41,7 @@ export function HomeHero() {
     <section className="relative isolate overflow-hidden bg-green-900">
       <Image
         src={HERO_IMAGE}
-        alt="Pallets of finished product ready for despatch at a Clady Group manufacturing site"
+        alt="The Clady Group product range: Slumberjack and Galway Roast coffee, Evolving State functional coffee blends, and Slumberjack hot chocolate and chai"
         fill
         priority
         sizes="100vw"
