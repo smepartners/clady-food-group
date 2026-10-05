@@ -14,6 +14,11 @@ export type ShowcaseItem = {
   /** First item in the array renders as the large tile - this just labels
    * intent at the call site rather than being inferred from array position. */
   large?: boolean;
+  /** A brand's real logo mark (see lib/brands.ts) - rendered as a small
+   * badge in the tile's top-left corner, the same treatment BrandGrid uses,
+   * so a brand tile reads as that brand at a glance rather than just a
+   * product photo with a text caption. */
+  logo?: string;
 };
 
 /**
@@ -73,6 +78,11 @@ function Tile({ item, className = "" }: { item: ShowcaseItem; className?: string
         className="object-cover transition duration-500 group-hover:scale-105"
       />
       <div className="absolute inset-0 bg-gradient-to-t from-green-900/80 via-green-900/0 to-transparent" />
+      {item.logo ? (
+        <div className="absolute left-3 top-3 flex h-8 items-center rounded-md bg-cream-100/95 px-2 shadow-sm">
+          <Image src={item.logo} alt="" width={64} height={28} className="h-4 w-auto object-contain" />
+        </div>
+      ) : null}
       <div className="absolute inset-x-0 bottom-0 flex items-center justify-between gap-2 p-4">
         <span className="text-sm font-semibold text-cream-100">{item.caption}</span>
         {item.href ? (

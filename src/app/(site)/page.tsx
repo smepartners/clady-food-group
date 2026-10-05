@@ -22,8 +22,7 @@ import { Reveal, RevealStagger } from "@/components/reveal";
 import { BRANDS } from "@/lib/brands";
 import { HomeHero } from "@/components/home-hero";
 import { PhotoShowcase, type ShowcaseItem } from "@/components/photo-showcase";
-import { ClientLogoBar } from "@/components/client-logo-bar";
-import { Testimonials } from "@/components/testimonials";
+import { VideoStorySection } from "@/components/video-story-section";
 
 // Same three confirmed facts as the About page's "at a glance" band (see
 // STATS there). Rendered in the "One group, multiple capabilities" band
@@ -78,24 +77,28 @@ const HOME_SHOWCASE: ShowcaseItem[] = [
     alt: "Evolving State product photography",
     caption: "Evolving State",
     href: "/brands/evolving-state",
+    logo: "/logo-evolving-state.png",
   },
   {
     src: "/photo-brand-galway-roast.jpg",
     alt: "Galway Roast product photography",
     caption: "Galway Roast",
     href: "/brands/galway-roast",
+    logo: "/logo-galway-roast.png",
   },
   {
     src: "/photo-brand-dutch-maid.jpg",
     alt: "Dutch Maid product photography",
     caption: "Dutch Maid",
     href: "/brands/dutch-maid",
+    logo: "/logo-dutch-maid.png",
   },
   {
     src: "/photo-brand-slumberjack.jpg",
     alt: "Slumberjack product photography",
     caption: "Slumberjack",
     href: "/brands/slumberjack",
+    logo: "/logo-slumberjack.svg",
   },
 ];
 
@@ -156,6 +159,26 @@ export default function HomePage() {
         </Link>
       </Section>
 
+      {/* The client's own company-story video, as a click-to-play clip
+          beside copy rather than full-width - see video-story-section.tsx.
+          Placed here so dark/light bands keep alternating: manufacturing
+          (dark) -> showcase (light) -> this (dark) -> What drives us
+          (light) -> closing CTA (dark). */}
+      <VideoStorySection
+        heading={
+          <>
+            See who <em className="italic text-gold-500">we are.</em>
+          </>
+        }
+        body={
+          <p>
+            A short look at Clady Group - our brands, our people and our
+            manufacturing sites across the UK and Ireland, in the words of
+            the people who run it.
+          </p>
+        }
+      />
+
       <Section className="bg-cream-200/40">
         <Reveal>
           <h2 className="text-2xl font-semibold text-green-700 sm:text-3xl">What drives us</h2>
@@ -171,14 +194,6 @@ export default function HomePage() {
             />
           ))}
         </RevealStagger>
-      </Section>
-
-      {/* Client logo bar + testimonials share one Section (rather than two
-          separate full-width bands back to back) - part of the Sept 2026
-          pass to cut down the homepage's total section count. */}
-      <Section>
-        <ClientLogoBar />
-        <Testimonials className="mt-10" />
       </Section>
 
       <Section>

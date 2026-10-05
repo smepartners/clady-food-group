@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
 import Image from "next/image";
 import { Play } from "@phosphor-icons/react/dist/ssr";
 import { Section, TextureOverlay } from "@/components/ui";
@@ -17,8 +17,19 @@ import { Reveal } from "@/components/reveal";
  * motion/audio on a visitor who hasn't asked for it; the poster frame is a
  * still pulled from the video itself so the "cover" look matches what
  * plays beneath it.
+ *
+ * `heading`/`body` are passed in per page rather than hardcoded, so the
+ * same video can introduce itself differently depending on where it sits
+ * (e.g. a first-visit "see who we are" framing on the homepage vs. a
+ * fuller "hear it from us" framing on About, next to the heritage copy).
  */
-export function VideoStorySection() {
+export function VideoStorySection({
+  heading,
+  body,
+}: {
+  heading: ReactNode;
+  body: ReactNode;
+}) {
   const [playing, setPlaying] = useState(false);
 
   return (
@@ -26,16 +37,8 @@ export function VideoStorySection() {
       <TextureOverlay />
       <div className="relative grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
         <Reveal>
-          <h2 className="text-2xl font-semibold text-cream-100 sm:text-3xl">
-            Hear it <em className="italic text-gold-500">from us.</em>
-          </h2>
-          <div className="mt-5 space-y-4 text-cream-100/75">
-            <p>
-              A short look at Clady Group, in the words of the people who run
-              it - our roots as a family business, how the group has grown,
-              and what we&apos;re building toward next.
-            </p>
-          </div>
+          <h2 className="text-2xl font-semibold text-cream-100 sm:text-3xl">{heading}</h2>
+          <div className="mt-5 space-y-4 text-cream-100/75">{body}</div>
         </Reveal>
 
         <Reveal delay={0.1}>

@@ -148,7 +148,20 @@ export default function AboutPage() {
         </Reveal>
       </Section>
 
-      <VideoStorySection />
+      <VideoStorySection
+        heading={
+          <>
+            Hear it <em className="italic text-gold-500">from us.</em>
+          </>
+        }
+        body={
+          <p>
+            A short look at Clady Group, in the words of the people who run
+            it - our roots as a family business, how the group has grown,
+            and what we&apos;re building toward next.
+          </p>
+        }
+      />
 
       <Section>
         <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
