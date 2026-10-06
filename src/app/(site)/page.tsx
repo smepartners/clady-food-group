@@ -55,8 +55,12 @@ export default function HomePage() {
     <>
       <HomeHero />
 
-      <Section className="relative overflow-hidden bg-green-700">
-        <TextureOverlay />
+      {/* Light/beige, not dark green - with the hero already dark green,
+          opening straight into another dark-green block here read as more
+          of the same rather than a new moment, and buried the stat card's
+          own shadow/contrast against a background too close to it in
+          tone. */}
+      <Section className="bg-cream-200/40">
         <div className="relative grid gap-12 lg:grid-cols-12 lg:items-start lg:gap-10">
           <Reveal className="lg:col-span-7">
             <div className="group relative aspect-[4/5] overflow-hidden rounded-2xl sm:aspect-[16/11]">
@@ -71,17 +75,17 @@ export default function HomePage() {
             {/* Floats the scale numbers over the image's bottom edge as
                 one strong claim, rather than sharing the text column with
                 two paragraphs of prose underneath them. */}
-            <div className="relative z-10 -mt-8 ml-4 mr-4 grid grid-cols-3 gap-x-4 gap-y-4 rounded-2xl bg-cream-100 p-5 shadow-2xl shadow-green-900/30 sm:-mt-16 sm:ml-10 sm:mr-10 sm:gap-x-6 sm:gap-y-6 sm:p-8">
+            <div className="relative z-10 -mt-8 ml-4 mr-4 grid grid-cols-3 gap-x-4 gap-y-4 rounded-2xl bg-cream-100 p-5 shadow-2xl shadow-green-900/15 sm:-mt-16 sm:ml-10 sm:mr-10 sm:gap-x-6 sm:gap-y-6 sm:p-8">
               {HOME_STATS.map((s) => (
                 <StatTile key={s.label} value={s.value} label={s.label} icon={s.icon} />
               ))}
             </div>
           </Reveal>
           <Reveal delay={0.1} className="lg:col-span-5 lg:pt-4">
-            <h2 className="text-2xl font-semibold text-cream-100 sm:text-3xl">
-              One group. <em className="italic text-gold-500">Multiple capabilities.</em>
+            <h2 className="text-2xl font-semibold text-green-700 sm:text-3xl">
+              One group. <em className="italic text-gold-700">Multiple capabilities.</em>
             </h2>
-            <div className="mt-5 space-y-4 text-cream-100/75">
+            <div className="mt-5 space-y-4 text-ink-soft">
               <p>
                 With manufacturing operations in Buxton, Belfast and Galway,
                 Clady Group brings together a broad portfolio of complementary
@@ -95,7 +99,7 @@ export default function HomePage() {
                 the development of new products from the ground up.
               </p>
             </div>
-            <FacilityStrip tone="dark" className="mt-8 border-t border-cream-100/15 pt-6" />
+            <FacilityStrip className="mt-8 border-t border-cream-200 pt-6" />
           </Reveal>
         </div>
       </Section>
