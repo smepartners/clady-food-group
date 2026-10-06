@@ -15,19 +15,9 @@ pulled from `video-company-story.mp4` are noted as such.
 | photo-roastery-detail.jpg | About manufacturing band (`clady-about-manufacturing`) | Client-supplied site photography, Buxton |
 | photo-production-packing.jpg | Private Label hero; Private Label showcase lead tile | Client-supplied site photography, Buxton |
 | photo-production-casepacker.jpg | Private Label manufacturing band (`clady-private-label-manufacturing`) | Client-supplied site photography, Buxton |
-| photo-site-aerial.jpg | Poster frame for `clip-site-aerial.mp4` | Frame grab, `video-company-story.mp4` |
-| photo-video-poster.jpg | Video story section poster/click-to-play still | Frame grab, `video-company-story.mp4` |
-| photo-video-still-roastery-floor.jpg | Poster frame for `clip-roastery-floor.mp4` | Frame grab, `video-company-story.mp4` (00:28.3) |
-| photo-video-still-roasting-beans.jpg | Poster frame for `clip-roasting-beans.mp4` | Frame grab, `video-company-story.mp4` (00:56) |
-| photo-video-still-robotic-arm.jpg | Poster frame for `clip-robotic-arm.mp4` | Frame grab, `video-company-story.mp4` (01:36) |
-| photo-video-still-roaster-tanks.jpg | Poster frame for `clip-roaster-tanks.mp4` | Frame grab, `video-company-story.mp4` (01:12) |
-| photo-video-still-casepacking.jpg | Poster frame for `clip-casepacking.mp4` | Frame grab, `video-company-story.mp4` (01:41.9) |
-| clip-roastery-floor.mp4 / .webm | Home hero masonry grid (muted, looping) | Clip, `video-company-story.mp4` (00:28.1-00:29.6), forward/reverse loop, silent, h264 + vp9 |
-| clip-site-aerial.mp4 / .webm | Home hero masonry grid (muted, looping) | Clip, `video-company-story.mp4` (00:10.1-00:11.9), forward/reverse loop, silent, h264 + vp9 |
-| clip-roasting-beans.mp4 / .webm | Home hero masonry grid (muted, looping) | Clip, `video-company-story.mp4` (00:56.0-00:57.5), forward/reverse loop, silent, h264 + vp9 |
-| clip-robotic-arm.mp4 / .webm | Home hero masonry grid (muted, looping) | Clip, `video-company-story.mp4` (01:36.7-01:39.7), forward/reverse loop, silent, h264 + vp9 |
-| clip-roaster-tanks.mp4 / .webm | Home hero masonry grid (muted, looping) | Clip, `video-company-story.mp4` (01:12-01:17), forward/reverse loop, silent, h264 + vp9 |
-| clip-casepacking.mp4 / .webm | Home hero masonry grid (muted, looping) | Clip, `video-company-story.mp4` (01:41.1-01:43.4), forward/reverse loop, silent, h264 + vp9, overhead case-packing line |
+| photo-site-aerial.jpg | Poster frame for `clip-site-aerial.mp4` (currently unused, see below) | Frame grab, `video-company-story.mp4` |
+| photo-video-poster.jpg | Video story section poster; also the Home hero video's poster | Frame grab, `video-company-story.mp4` |
+| video-hero-full.mp4 / .webm | Home hero (`HomeHero`) - the full company-story video, muted/looping, landscape, uncropped | `video-company-story.mp4` re-encoded without its audio track (muted here anyway), h264 + vp9, same 848x478 frame, full 170s length |
 | video-company-story.mp4 | About page video story section (`VideoStorySection`) | Client-supplied company story video, re-encoded for web (34MB source → 19.6MB, h264 crf26 + aac96k, native 848x478 resolution kept) |
 | logo-evolving-state.png | Evolving State brand mark (brand grid, brand index, brand detail hero) | Client-supplied logo artwork |
 | logo-galway-roast.png | Galway Roast brand mark (brand grid, brand index, brand detail hero) | Client-supplied logo artwork |
@@ -43,6 +33,22 @@ page; safe to delete in a later cleanup pass.
 
 - `photo-home-manufacturing.jpg` - previously the Home manufacturing band image, replaced by `photo-roastery-floor.jpg`.
 - `photo-private-label-bottling.jpg` - previously the Private Label hero and showcase lead tile, replaced by `photo-production-packing.jpg`.
+
+## Unused (previous Home hero masonry grid)
+
+The Home hero briefly used a 4x3 grid of six short, silent, boomerang-
+looped clips cut from `video-company-story.mp4` instead of a single video
+- replaced by the full company-story video (`video-hero-full.mp4/.webm`,
+see above) when the clips read as too short/flickery to work as the hero.
+Left in `public/` in case the masonry treatment is wanted again; safe to
+delete in a later cleanup pass.
+
+- `clip-roastery-floor.mp4` / `.webm` + `photo-video-still-roastery-floor.jpg` (poster) - clip window 00:28.1-00:29.6.
+- `clip-site-aerial.mp4` / `.webm` + `photo-site-aerial.jpg` (poster) - clip window 00:10.1-00:11.9.
+- `clip-roasting-beans.mp4` / `.webm` + `photo-video-still-roasting-beans.jpg` (poster) - clip window 00:56.0-00:57.5.
+- `clip-robotic-arm.mp4` / `.webm` + `photo-video-still-robotic-arm.jpg` (poster) - clip window 01:36.7-01:39.7.
+- `clip-roaster-tanks.mp4` / `.webm` + `photo-video-still-roaster-tanks.jpg` (poster) - clip window 01:12-01:17.
+- `clip-casepacking.mp4` / `.webm` + `photo-video-still-casepacking.jpg` (poster) - clip window 01:41.1-01:43.4, overhead case-packing line.
 
 ## Remaining stock photography
 
