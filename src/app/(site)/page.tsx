@@ -1,20 +1,12 @@
 import Image from "next/image";
-import {
-  Sparkle,
-  Lightbulb,
-  CheckCircle,
-  Lightning,
-  UsersThree,
-  CalendarBlank,
-  Buildings,
-  Package,
-} from "@phosphor-icons/react/dist/ssr";
-import { Section, CTAButton, TextureOverlay, FacilityStrip, StatTile, AccentRule } from "@/components/ui";
-import { Reveal, RevealStagger } from "@/components/reveal";
+import { CalendarBlank, Buildings, Package } from "@phosphor-icons/react/dist/ssr";
+import { Section, CTAButton, TextureOverlay, FacilityStrip, StatTile } from "@/components/ui";
+import { Reveal } from "@/components/reveal";
 import { BRANDS } from "@/lib/brands";
 import { HeroSwitcher } from "@/components/hero-switcher";
 import { ParallaxBand } from "@/components/parallax-band";
 import { BrandCarousel } from "@/components/brand-carousel";
+import { ValuesSwitcher } from "@/components/values-section";
 
 // Same three confirmed facts as the About page's "at a glance" band (see
 // STATS there). Rendered in the "One group, multiple capabilities" band
@@ -34,19 +26,6 @@ const HOME_STATS = [
     value: `${BRANDS.length}`,
     label: "Specialist brands in the portfolio",
     icon: <Package size={20} weight="bold" />,
-  },
-];
-
-const VALUES = [
-  { icon: Sparkle, tone: "gold" as const, name: "Excellence", body: "High standards in everything we do, whether that's branded or white labelled." },
-  { icon: Lightbulb, tone: "green" as const, name: "Innovation", body: "Looking ahead to what's next, keeping our customers ahead of the trends." },
-  { icon: CheckCircle, tone: "olive" as const, name: "Consistency", body: "Reliable quality, flavours and product profiles, every time." },
-  { icon: Lightning, tone: "gold" as const, name: "Agility", body: "The world and consumers move fast; that's why we respond quickly to changing needs." },
-  {
-    icon: UsersThree,
-    tone: "green" as const,
-    name: "Collaboration",
-    body: "Building strong, lasting partnerships that grow with our customers.",
   },
 ];
 
@@ -130,50 +109,11 @@ export default function HomePage() {
         </div>
       </Section>
 
-      {/* Light/beige band, deliberately - by this point the page has run
-          hero -> capability -> capability/parallax -> brands, four dark
-          green sections back to back, and another one here read as the
-          greens blurring into each other rather than as distinct moments.
-          Keeps the numbered-card, gold-accent treatment, just inverted
-          for a cream background instead of glass-on-green. */}
-      <Section className="bg-cream-200/40">
-        <Reveal className="max-w-xl">
-          <p className="text-sm font-semibold uppercase tracking-[0.16em] text-olive-600">
-            Our values
-          </p>
-          <h2 className="mt-3 text-3xl font-semibold text-green-700 sm:text-4xl">What drives us</h2>
-          <AccentRule className="mt-6" />
-        </Reveal>
-        <RevealStagger className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-5">
-          {VALUES.map((v, i) => (
-            <div
-              key={v.name}
-              className="group flex flex-col gap-5 rounded-2xl border border-cream-200 bg-cream-100 p-7 shadow-sm transition duration-300 hover:-translate-y-1 hover:border-gold-500/50 hover:shadow-lg hover:shadow-green-900/5"
-            >
-              <div className="flex items-start justify-between">
-                <span
-                  className={`flex h-12 w-12 items-center justify-center rounded-xl transition duration-300 group-hover:scale-105 ${
-                    v.tone === "gold"
-                      ? "bg-gold-500/15 text-gold-700"
-                      : v.tone === "olive"
-                        ? "bg-olive-600/10 text-olive-600"
-                        : "bg-green-700/10 text-green-700"
-                  }`}
-                >
-                  <v.icon size={22} weight="bold" />
-                </span>
-                <span className="text-sm font-semibold tabular-nums text-ink-soft/35">
-                  {String(i + 1).padStart(2, "0")}
-                </span>
-              </div>
-              <div>
-                <h3 className="font-semibold text-ink">{v.name}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-ink-soft">{v.body}</p>
-              </div>
-            </div>
-          ))}
-        </RevealStagger>
-      </Section>
+      {/* Four built concepts, switchable live via the fixed pill (bottom
+          left) - see values-section.tsx for the rationale. Replaces the
+          original five-equal-card grid, which read as disconnected from
+          the bolder full-bleed sections around it. */}
+      <ValuesSwitcher />
 
       <Section>
         <Reveal>
