@@ -23,8 +23,12 @@ export function HomeHeroVideo() {
     <section className="relative isolate overflow-hidden bg-green-900">
       <TextureOverlay />
       <Container>
-        <div className="relative grid items-center gap-12 py-20 sm:py-28 lg:grid-cols-2 lg:gap-16">
-          <Reveal>
+        {/* 5/7 split rather than an even 50/50 - the video is the point of
+            this concept, so it gets the larger column and dominates the
+            section instead of sitting alongside the text as an equal,
+            modestly-sized panel. */}
+        <div className="relative grid items-center gap-10 py-20 sm:py-28 lg:grid-cols-12 lg:gap-8">
+          <Reveal className="lg:col-span-5">
             <p className="text-sm font-semibold uppercase tracking-[0.16em] text-gold-500/90">
               Clady Group
             </p>
@@ -44,7 +48,7 @@ export function HomeHeroVideo() {
             </div>
           </Reveal>
 
-          <Reveal delay={0.1}>
+          <Reveal delay={0.1} className="lg:col-span-7">
             <div className="relative aspect-[848/478] overflow-hidden rounded-2xl shadow-2xl shadow-green-900/40 sm:rounded-3xl">
               {reduce ? (
                 // eslint-disable-next-line @next/next/no-img-element

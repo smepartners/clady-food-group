@@ -12,7 +12,7 @@ import {
 import { Section, CTAButton, TextureOverlay, FacilityStrip, StatTile, AccentRule } from "@/components/ui";
 import { Reveal, RevealStagger } from "@/components/reveal";
 import { BRANDS } from "@/lib/brands";
-import { HomeHero } from "@/components/home-hero";
+import { HeroSwitcher } from "@/components/hero-switcher";
 import { ParallaxBand } from "@/components/parallax-band";
 import { BrandCarousel } from "@/components/brand-carousel";
 
@@ -53,7 +53,7 @@ const VALUES = [
 export default function HomePage() {
   return (
     <>
-      <HomeHero />
+      <HeroSwitcher />
 
       {/* Light/beige, not dark green - with the hero already dark green,
           opening straight into another dark-green block here read as more
