@@ -153,6 +153,14 @@ function ValuesDarkBand() {
   return (
     <Section className="relative overflow-hidden bg-green-900">
       <TextureOverlay />
+      {/* Soft background glows, same device as the closing CTA band - gives
+          the section some depth behind the list instead of flat colour,
+          per client feedback that it felt blocky. */}
+      <div className="absolute -left-24 top-0 h-72 w-72 rounded-full bg-gold-500/10 blur-3xl" aria-hidden="true" />
+      <div
+        className="absolute -right-16 bottom-0 h-80 w-80 rounded-full bg-olive-400/10 blur-3xl"
+        aria-hidden="true"
+      />
       <div className="relative">
         <Reveal className="max-w-xl">
           <p className="text-sm font-semibold uppercase tracking-[0.16em] text-gold-500/90">Our values</p>
@@ -169,8 +177,14 @@ function ValuesDarkBand() {
                 {String(i + 1).padStart(2, "0")}
               </span>
               <div className="flex items-center gap-4 sm:w-64 sm:shrink-0">
+                {/* Circular, matching the brand badges elsewhere on the
+                    page, rather than the square icon tiles used before -
+                    a ring rather than a filled disc so it reads as an
+                    outline mark, not another solid block. */}
                 <span
-                  className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-xl transition duration-300 group-hover:scale-105 ${ICON_TONE_DARK[v.tone]}`}
+                  className={`flex h-14 w-14 shrink-0 items-center justify-center rounded-full ring-1 ring-inset transition duration-300 group-hover:scale-105 ${ICON_TONE_DARK[v.tone]} ${
+                    v.tone === "gold" ? "ring-gold-500/30" : "ring-cream-100/15"
+                  }`}
                 >
                   <v.icon size={22} weight="bold" />
                 </span>
@@ -214,7 +228,7 @@ function ValuesImageSequence() {
                   {String(i + 1).padStart(2, "0")}
                 </span>
                 <div className="mt-3 flex items-center gap-4">
-                  <span className={`flex h-11 w-11 items-center justify-center rounded-xl ${ICON_TONE[v.tone]}`}>
+                  <span className={`flex h-11 w-11 items-center justify-center rounded-full ${ICON_TONE[v.tone]}`}>
                     <v.icon size={20} weight="bold" />
                   </span>
                   <h3 className="text-2xl font-semibold text-ink sm:text-3xl">{v.name}</h3>
@@ -251,7 +265,7 @@ function ValuesLeadFeature() {
             <div className="absolute inset-0 bg-gradient-to-t from-green-900/85 via-green-900/10 to-transparent" />
             <div className="absolute inset-x-0 bottom-0 p-7 sm:p-10">
               <span
-                className={`flex h-12 w-12 items-center justify-center rounded-xl ${ICON_TONE_DARK[lead.tone]}`}
+                className={`flex h-12 w-12 items-center justify-center rounded-full ${ICON_TONE_DARK[lead.tone]}`}
               >
                 <lead.icon size={22} weight="bold" />
               </span>
@@ -266,7 +280,7 @@ function ValuesLeadFeature() {
               key={v.name}
               className="group flex flex-col gap-4 rounded-2xl border border-cream-200 bg-cream-100 p-6 shadow-sm transition duration-300 hover:-translate-y-1 hover:border-gold-500/50 hover:shadow-lg hover:shadow-green-900/5"
             >
-              <span className={`flex h-11 w-11 items-center justify-center rounded-xl ${ICON_TONE[v.tone]}`}>
+              <span className={`flex h-11 w-11 items-center justify-center rounded-full ${ICON_TONE[v.tone]}`}>
                 <v.icon size={20} weight="bold" />
               </span>
               <div>
@@ -307,7 +321,7 @@ function ValueRow({
         <ValueMedia item={item} />
       </div>
       <div>
-        <span className={`flex h-11 w-11 items-center justify-center rounded-xl ${ICON_TONE[item.tone]}`}>
+        <span className={`flex h-11 w-11 items-center justify-center rounded-full ${ICON_TONE[item.tone]}`}>
           <item.icon size={20} weight="bold" />
         </span>
         <h3 className="mt-4 text-2xl font-semibold text-green-700 sm:text-3xl">{item.name}</h3>

@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { CalendarBlank, Buildings, Package } from "@phosphor-icons/react/dist/ssr";
-import { Section, CTAButton, TextureOverlay, FacilityStrip, StatTile } from "@/components/ui";
+import { Section, Container, CTAButton, TextureOverlay, FacilityStrip, StatTile } from "@/components/ui";
 import { Reveal } from "@/components/reveal";
 import { BRANDS } from "@/lib/brands";
 import { HeroSwitcher } from "@/components/hero-switcher";
@@ -115,32 +115,34 @@ export default function HomePage() {
           the bolder full-bleed sections around it. */}
       <ValuesSwitcher />
 
-      <Section>
-        <Reveal>
-          <div className="relative overflow-hidden rounded-2xl bg-green-700 px-8 py-14 text-center sm:px-16">
-            <TextureOverlay />
-            <div className="absolute -left-16 -top-16 h-56 w-56 rounded-full bg-gold-500/15 blur-3xl" />
-            <div className="absolute -bottom-20 -right-10 h-56 w-56 rounded-full bg-olive-400/15 blur-3xl" />
-            <div className="relative">
-              <h2 className="mx-auto max-w-2xl text-2xl font-semibold text-cream-100 sm:text-3xl">
-                Built for better partnerships
-              </h2>
-              <p className="mx-auto mt-4 max-w-xl text-cream-100/80">
-                From established beverage brands to private label manufacturing, our
-                businesses are designed to make working with us straightforward. We
-                combine market knowledge, product expertise and a flexible approach
-                to help customers respond to changing consumer expectations and
-                commercial opportunities.
-              </p>
-              <div className="mt-8 flex justify-center">
-                <CTAButton href="/contact" tone="inverted">
-                  Discover what Clady Group can do for your business
-                </CTAButton>
-              </div>
+      {/* Full width rather than a contained rounded card, per client
+          feedback - matches the brand carousel band above it as an
+          edge-to-edge dark green moment instead of a card floating with
+          cream margins either side. */}
+      <section className="relative overflow-hidden bg-green-700 py-14 text-center sm:py-20">
+        <TextureOverlay />
+        <div className="absolute -left-16 -top-16 h-56 w-56 rounded-full bg-gold-500/15 blur-3xl" />
+        <div className="absolute -bottom-20 -right-10 h-56 w-56 rounded-full bg-olive-400/15 blur-3xl" />
+        <Reveal className="relative">
+          <Container>
+            <h2 className="mx-auto max-w-2xl text-2xl font-semibold text-cream-100 sm:text-3xl">
+              Built for better partnerships
+            </h2>
+            <p className="mx-auto mt-4 max-w-xl text-cream-100/80">
+              From established beverage brands to private label manufacturing, our
+              businesses are designed to make working with us straightforward. We
+              combine market knowledge, product expertise and a flexible approach
+              to help customers respond to changing consumer expectations and
+              commercial opportunities.
+            </p>
+            <div className="mt-8 flex justify-center">
+              <CTAButton href="/contact" tone="inverted">
+                Discover what Clady Group can do for your business
+              </CTAButton>
             </div>
-          </div>
+          </Container>
         </Reveal>
-      </Section>
+      </section>
     </>
   );
 }

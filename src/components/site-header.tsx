@@ -1,8 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { List, X, CaretDown } from "@phosphor-icons/react";
 
 const NAV = [
@@ -18,18 +19,42 @@ const BRANDS = [
   { slug: "slumberjack", name: "Slumberjack" },
 ];
 
-/** Light header, consistent across every page - a plain cream bar with the
- * dark-ink logo mark, sitting on top of each page's dark hero via the
- * hero's own contrast rather than switching the header's own colours. */
+/**
+ * On the homepage, the header starts transparent and overlaid on the hero
+ * (so the hero video/grid runs full-bleed right up under the nav to the
+ * very top of the page, per client feedback - the solid cream bar was
+ * "letting those [sections] beneath it down"), then solidifies to the
+ * usual cream bar once the page scrolls past the hero. Every other page
+ * keeps the plain always-solid header, in normal document flow, since
+ * their heroes aren't full-bleed and a transparent-then-solid header would
+ * just flash over ordinary content.
+ */
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const pathname = usePathname();
+  const overlay = pathname === "/";
+
+  useEffect(() => {
+    if (!overlay) return;
+    const onScroll = () => setScrolled(window.scrollY > 64);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [overlay]);
+
+  const solid = !overlay || scrolled || open;
 
   return (
-    <header className="relative border-b border-cream-200 bg-cream-100">
+    <header
+      className={`${overlay ? "absolute inset-x-0 top-0 z-40" : "relative"} transition-colors duration-300 ${
+        solid ? "border-b border-cream-200 bg-cream-100" : "border-b border-transparent bg-transparent"
+      }`}
+    >
       <div className="mx-auto flex h-24 max-w-6xl items-center justify-between gap-6 px-4 sm:px-6">
         <Link href="/" className="flex items-center" aria-label="Clady Group home">
           <Image
-            src="/clady-logo-landscape.png"
+            src={solid ? "/clady-logo-landscape.png" : "/clady-logo-landscape-white.png"}
             alt="Clady Group"
             width={1600}
             height={317}
@@ -38,11 +63,17 @@ export function SiteHeader() {
           />
         </Link>
 
-        <nav className="hidden items-center gap-x-7 text-sm font-medium text-ink-soft lg:flex">
+        <nav
+          className={`hidden items-center gap-x-7 text-sm font-medium lg:flex ${
+            solid ? "text-ink-soft" : "text-cream-100/90"
+          }`}
+        >
           <div className="group relative">
             <Link
               href="/brands"
-              className="relative flex items-center gap-1 py-1 transition after:absolute after:-bottom-0.5 after:left-0 after:h-0.5 after:w-0 after:rounded-full after:bg-gold-500 after:transition-all after:duration-300 hover:text-green-700 hover:after:w-full"
+              className={`relative flex items-center gap-1 py-1 transition after:absolute after:-bottom-0.5 after:left-0 after:h-0.5 after:w-0 after:rounded-full after:bg-gold-500 after:transition-all after:duration-300 hover:after:w-full ${
+                solid ? "hover:text-green-700" : "hover:text-cream-100"
+              }`}
             >
               Our Brands
               <CaretDown size={12} weight="bold" className="transition duration-200 group-hover:rotate-180" />
@@ -65,14 +96,20 @@ export function SiteHeader() {
             <Link
               key={item.href}
               href={item.href}
-              className="relative py-1 transition after:absolute after:-bottom-0.5 after:left-0 after:h-0.5 after:w-0 after:rounded-full after:bg-gold-500 after:transition-all after:duration-300 hover:text-green-700 hover:after:w-full"
+              className={`relative py-1 transition after:absolute after:-bottom-0.5 after:left-0 after:h-0.5 after:w-0 after:rounded-full after:bg-gold-500 after:transition-all after:duration-300 hover:after:w-full ${
+                solid ? "hover:text-green-700" : "hover:text-cream-100"
+              }`}
             >
               {item.label}
             </Link>
           ))}
           <Link
             href="/contact"
-            className="rounded-full bg-green-700 px-5 py-2 text-cream-100 transition hover:bg-green-900"
+            className={`rounded-full px-5 py-2 transition ${
+              solid
+                ? "bg-green-700 text-cream-100 hover:bg-green-900"
+                : "bg-cream-100 text-green-700 hover:bg-cream-200"
+            }`}
           >
             Contact
           </Link>
@@ -83,7 +120,9 @@ export function SiteHeader() {
           onClick={() => setOpen((v) => !v)}
           aria-expanded={open}
           aria-label={open ? "Close menu" : "Open menu"}
-          className="flex h-10 w-10 items-center justify-center rounded-full text-green-700 lg:hidden"
+          className={`flex h-10 w-10 items-center justify-center rounded-full lg:hidden ${
+            solid ? "text-green-700" : "text-cream-100"
+          }`}
         >
           {open ? <X size={24} /> : <List size={24} />}
         </button>
