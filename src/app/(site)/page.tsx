@@ -1,12 +1,12 @@
-import Image from "next/image";
 import { CalendarBlank, Buildings, Package } from "@phosphor-icons/react/dist/ssr";
-import { Section, Container, CTAButton, TextureOverlay, FacilityStrip, StatTile } from "@/components/ui";
+import { Section, Container, CTAButton, TextureOverlay, StatTile } from "@/components/ui";
 import { Reveal } from "@/components/reveal";
 import { BRANDS } from "@/lib/brands";
 import { HeroSwitcher } from "@/components/hero-switcher";
 import { ParallaxBand } from "@/components/parallax-band";
 import { BrandCarousel } from "@/components/brand-carousel";
 import { ValuesSwitcher } from "@/components/values-section";
+import { LocationsMap } from "@/components/locations-map";
 
 // Same three confirmed facts as the About page's "at a glance" band (see
 // STATS there). Rendered in the "One group, multiple capabilities" band
@@ -39,28 +39,16 @@ export default function HomePage() {
           of the same rather than a new moment, and buried the stat card's
           own shadow/contrast against a background too close to it in
           tone. */}
+      {/* Text leads on the left and the visual follows on the right (both
+          swapped from the original image-left/text-right layout) and the
+          panel corners are square rather than rounded, per client feedback
+          on this section. The roastery photo - which only ever showed the
+          Buxton site - is replaced by a locations map covering all three
+          manufacturing sites, which is what the "3 manufacturing sites"
+          stat above it is actually claiming. */}
       <Section className="bg-cream-200/40">
         <div className="relative grid gap-12 lg:grid-cols-12 lg:items-start lg:gap-10">
-          <Reveal className="lg:col-span-7">
-            <div className="group relative aspect-[4/5] overflow-hidden rounded-2xl sm:aspect-[16/11]">
-              <Image
-                src="/photo-roastery-floor.jpg"
-                alt="The roasting floor at Clady Group's Buxton manufacturing site"
-                fill
-                sizes="(min-width: 1024px) 55vw, 100vw"
-                className="object-cover transition duration-700 ease-out group-hover:scale-[1.04]"
-              />
-            </div>
-            {/* Floats the scale numbers over the image's bottom edge as
-                one strong claim, rather than sharing the text column with
-                two paragraphs of prose underneath them. */}
-            <div className="relative z-10 -mt-8 ml-4 mr-4 grid grid-cols-3 gap-x-4 gap-y-4 rounded-2xl bg-cream-100 p-5 shadow-2xl shadow-green-900/15 sm:-mt-16 sm:ml-10 sm:mr-10 sm:gap-x-6 sm:gap-y-6 sm:p-8">
-              {HOME_STATS.map((s) => (
-                <StatTile key={s.label} value={s.value} label={s.label} icon={s.icon} />
-              ))}
-            </div>
-          </Reveal>
-          <Reveal delay={0.1} className="lg:col-span-5 lg:pt-4">
+          <Reveal className="lg:col-span-5 lg:pt-4">
             <h2 className="text-2xl font-semibold text-green-700 sm:text-3xl">
               One group. <em className="italic text-gold-700">Multiple capabilities.</em>
             </h2>
@@ -78,7 +66,17 @@ export default function HomePage() {
                 the development of new products from the ground up.
               </p>
             </div>
-            <FacilityStrip className="mt-8 border-t border-cream-200 pt-6" />
+          </Reveal>
+          <Reveal delay={0.1} className="lg:col-span-7">
+            <LocationsMap />
+            {/* Floats the scale numbers over the map's bottom edge as one
+                strong claim, rather than sharing the text column with two
+                paragraphs of prose underneath them. */}
+            <div className="relative z-10 -mt-8 ml-4 mr-4 grid grid-cols-3 gap-x-4 gap-y-4 rounded-xl bg-cream-100 p-5 shadow-2xl shadow-green-900/15 sm:-mt-16 sm:ml-10 sm:mr-10 sm:gap-x-6 sm:gap-y-6 sm:p-8">
+              {HOME_STATS.map((s) => (
+                <StatTile key={s.label} value={s.value} label={s.label} icon={s.icon} />
+              ))}
+            </div>
           </Reveal>
         </div>
       </Section>

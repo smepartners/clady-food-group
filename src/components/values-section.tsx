@@ -199,11 +199,18 @@ function ValuesDarkBand() {
   );
 }
 
-/** Concept 2 - one value, one real clip/photo per row, alternating sides -
- * the closest to how a large FMCG corporate site (Unilever/P&G-style)
- * actually presents values: paired with real operational footage instead
- * of an abstract icon, each row given a full, generous moment rather than
- * sharing a row with four others. */
+/** Concept 2 - one value, one real clip/photo per row - the closest to how
+ * a large FMCG corporate site (Unilever/P&G-style) actually presents
+ * values: paired with real operational footage instead of an abstract
+ * icon, each row given a full, generous moment rather than sharing a row
+ * with four others.
+ *
+ * Per client feedback: every row now starts with text on the left and the
+ * media on the right (previously alternating sides, which read as
+ * disconnected rather than a single consistent list), the media frame is
+ * square-cornered rather than rounded, and a background line now runs the
+ * full height of the list to show the flow through it, with a dot marking
+ * each value as the thread "passes through" it. */
 function ValuesImageSequence() {
   return (
     <Section className="bg-cream-200/40">
@@ -212,18 +219,22 @@ function ValuesImageSequence() {
         <h2 className="mt-3 text-3xl font-semibold text-green-700 sm:text-4xl">What drives us</h2>
         <AccentRule className="mt-6" />
       </Reveal>
-      <div className="mt-14 space-y-16 sm:space-y-20">
+      <div className="relative mt-14 space-y-16 sm:space-y-20">
+        {/* The flow line - a single thread running top to bottom behind the
+            list, aligned with the number/text column rather than down the
+            dead centre of the page. */}
+        <div
+          aria-hidden="true"
+          className="absolute bottom-6 left-[0.3rem] top-6 hidden w-px bg-gradient-to-b from-olive-600/0 via-olive-600/25 to-olive-600/0 lg:block"
+        />
         {VALUES.map((v, i) => (
           <Reveal key={v.name}>
-            <div
-              className={`grid items-center gap-8 lg:grid-cols-2 lg:gap-14 ${
-                i % 2 === 1 ? "lg:[&>*:first-child]:order-2" : ""
-              }`}
-            >
-              <div className="relative aspect-[16/10] overflow-hidden rounded-2xl shadow-lg shadow-green-900/10 sm:rounded-3xl">
-                <ValueMedia item={v} />
-              </div>
-              <div>
+            <div className="grid items-center gap-8 lg:grid-cols-2 lg:gap-14">
+              <div className="relative">
+                <span
+                  aria-hidden="true"
+                  className="absolute left-0 top-1.5 hidden h-2 w-2 -translate-x-1/2 rounded-full bg-gold-500 ring-4 ring-cream-200/40 lg:block"
+                />
                 <span className="text-sm font-semibold tabular-nums text-ink-soft/40">
                   {String(i + 1).padStart(2, "0")}
                 </span>
@@ -234,6 +245,9 @@ function ValuesImageSequence() {
                   <h3 className="text-2xl font-semibold text-ink sm:text-3xl">{v.name}</h3>
                 </div>
                 <p className="mt-4 max-w-md text-lg leading-relaxed text-ink-soft">{v.body}</p>
+              </div>
+              <div className="relative aspect-[16/10] overflow-hidden shadow-lg shadow-green-900/10">
+                <ValueMedia item={v} />
               </div>
             </div>
           </Reveal>
