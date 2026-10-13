@@ -287,7 +287,7 @@ export function IconFeature({
     <div className="group flex flex-col gap-3">
       <div className="flex items-center justify-between">
         <div
-          className={`flex h-11 w-11 items-center justify-center rounded-xl transition duration-300 group-hover:-translate-y-0.5 group-hover:scale-105 ${ICON_TONES[tone]}`}
+          className={`flex h-11 w-11 items-center justify-center rounded-full transition duration-300 group-hover:-translate-y-0.5 group-hover:scale-105 ${ICON_TONES[tone]}`}
         >
           {icon}
         </div>
@@ -374,7 +374,7 @@ export function StatTile({
     <div className="border-t-2 border-gold-500 pt-4">
       {icon ? (
         <div
-          className={`mb-3 flex h-10 w-10 items-center justify-center rounded-xl ${
+          className={`mb-3 flex h-10 w-10 items-center justify-center rounded-full ${
             tone === "dark" ? "bg-gold-500/15 text-gold-500" : "bg-green-700/10 text-green-700"
           }`}
         >
