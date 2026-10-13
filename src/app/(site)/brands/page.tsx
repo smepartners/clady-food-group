@@ -57,7 +57,7 @@ export default function BrandsIndexPage() {
         <RevealStagger className="grid gap-10 sm:grid-cols-2">
           {BRANDS.map((b) => (
             <Link key={b.slug} href={`/brands/${b.slug}`} className="group block">
-              <div className="relative overflow-hidden rounded-2xl transition duration-300 group-hover:-translate-y-1">
+              <div className="relative overflow-hidden transition duration-300 group-hover:-translate-y-1">
                 <ImageFrame seed={b.seed} alt={b.name} src={b.photo} aspect="aspect-[16/10]" />
                 <div className="absolute bottom-3 left-3 flex h-10 items-center rounded-md bg-cream-100/95 px-2.5 shadow-sm">
                   <Image src={b.logo} alt="" width={80} height={32} className="h-5 w-auto object-contain" />

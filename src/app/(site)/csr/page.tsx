@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { UsersThree, Handshake, Leaf, SunHorizon, CloudCheck } from "@phosphor-icons/react/dist/ssr";
-import { Section, NumberMark, TextureOverlay } from "@/components/ui";
+import { Section, TextureOverlay } from "@/components/ui";
 import { Reveal, RevealStagger } from "@/components/reveal";
 import { CsrHero } from "@/components/csr-hero";
 
@@ -54,16 +54,26 @@ export default function CsrPage() {
     <>
       <CsrHero />
 
+      <Section className="bg-cream-200/40" pad="pt-10 pb-0 sm:pt-14 sm:pb-0">
+        <Reveal>
+          <p className="max-w-2xl text-lg font-medium leading-relaxed text-ink sm:text-xl">
+            As our group develops, we are committed to building responsible
+            practices into the way we work, from the products we develop and
+            the partners we work with to the way we support our people and
+            manage our impact.
+          </p>
+        </Reveal>
+      </Section>
+
       <Section className="bg-cream-200/40">
         <RevealStagger className="divide-y divide-cream-200">
-          {PILLARS.map((p, i) => (
+          {PILLARS.map((p) => (
             <div key={p.name} className="grid gap-4 py-10 first:pt-0 last:pb-0 sm:grid-cols-[minmax(0,1fr)_2fr] sm:gap-10">
               <div className="flex items-center gap-3">
-                <div className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl ${TONE_ICON_BG[p.tone]}`}>
+                <div className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-full ${TONE_ICON_BG[p.tone]}`}>
                   <p.icon size={22} weight="bold" />
                 </div>
                 <h3 className="font-semibold text-ink">{p.name}</h3>
-                <NumberMark index={i + 1} className="ml-auto" />
               </div>
               <p className="text-ink-soft">{p.body}</p>
             </div>
@@ -87,7 +97,7 @@ export default function CsrPage() {
           <RevealStagger className="mx-auto mt-10 grid max-w-2xl gap-8 sm:grid-cols-2">
             {GREEN_CREDENTIALS.map((c) => (
               <div key={c.name} className="flex flex-col items-center gap-3 text-center">
-                <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-green-700/10 text-green-700">
+                <div className="flex h-11 w-11 items-center justify-center rounded-full bg-green-700/10 text-green-700">
                   <c.icon size={22} weight="bold" />
                 </div>
                 <h3 className="font-semibold text-ink">{c.name}</h3>

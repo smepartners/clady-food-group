@@ -20,20 +20,27 @@ const BRANDS = [
 ];
 
 /**
- * On the homepage, the header starts transparent and overlaid on the hero
- * (so the hero video/grid runs full-bleed right up under the nav to the
- * very top of the page, per client feedback - the solid cream bar was
- * "letting those [sections] beneath it down"), then solidifies to the
- * usual cream bar once the page scrolls past the hero. Every other page
- * keeps the plain always-solid header, in normal document flow, since
- * their heroes aren't full-bleed and a transparent-then-solid header would
- * just flash over ordinary content.
+ * The header starts transparent and overlaid on the hero (so the hero
+ * image/video runs full-bleed right up under the nav to the very top of
+ * the page, per client feedback - the solid cream bar was "letting those
+ * [sections] beneath it down"), then solidifies to the usual cream bar
+ * once the page scrolls past the hero.
+ *
+ * This used to be homepage-only, back when every other page still opened
+ * on a boxed, half-width hero. Every page on the site (About/Brands/
+ * Private Label/CSR/Contact/brand detail - see page-hero.tsx) now opens
+ * on the same full-bleed dark photography as the homepage, so the overlay
+ * treatment applies everywhere rather than drifting into a second,
+ * visibly older-feeling pattern on every page but one. A route added
+ * later with no full-bleed hero would need this revisited.
  */
+const EXCLUDE_OVERLAY: string[] = [];
+
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
-  const overlay = pathname === "/";
+  const overlay = !EXCLUDE_OVERLAY.includes(pathname);
 
   useEffect(() => {
     if (!overlay) return;
