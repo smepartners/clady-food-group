@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { Camera, ArrowUpRight, MapPin } from "@phosphor-icons/react/dist/ssr";
+import { Camera, ArrowUpRight, MapPin, Package } from "@phosphor-icons/react/dist/ssr";
 import { BRANDS } from "@/lib/brands";
 import { FACILITIES } from "@/lib/facilities";
 
@@ -46,19 +46,10 @@ export function Container({ children }: { children: ReactNode }) {
   return <div className="mx-auto max-w-6xl px-4 sm:px-6">{children}</div>;
 }
 
-const BRAND_BADGE_TONE = {
-  green: "bg-green-700",
-  gold: "bg-gold-500",
-  olive: "bg-olive-600",
-} as const;
-
-/** Circular logo badges, one per brand - P&G's own "Our Brands" treatment
- * (pg.co.uk: solid brand-colour circles carrying each brand's mark) is a
- * better fit here than dressing a real logo up with a stock "mood" photo
- * behind it pretending to be that brand's own photography. Each badge uses
- * the brand's assigned tone (see lib/brands.ts) as its colour and the real
- * supplied logo mark, on its own light disc so the logo stays legible
- * whatever its own colours are. */
+/** Logo tiles, one per brand plus a private label tile - previously solid
+ * brand-colour circles (pg.co.uk's "Our Brands" treatment), simplified to a
+ * plain cream backing per client feedback so each logo can be shown as
+ * large as the tile allows rather than shrunk to fit inside a disc. */
 export function BrandGrid({
   label = "Part of the Clady Group portfolio",
   cols = 4,
@@ -76,16 +67,23 @@ export function BrandGrid({
       <p className="text-xs font-semibold uppercase tracking-[0.16em] text-olive-600">
         {label}
       </p>
+      {/* No coloured circle behind the mark - matches the homepage brand
+          carousel fix, applied here too so the treatment is consistent
+          wherever brand logos appear on the site. A plain cream backing
+          keeps every logo legible, and a fifth tile covers private label
+          alongside the four named brands. */}
       <ul className={`mt-6 grid grid-cols-2 gap-6 ${cols === 4 ? "sm:grid-cols-4" : ""}`}>
         {BRANDS.map((b) => (
           <li key={b.slug}>
             <Link href={`/brands/${b.slug}`} className="group flex flex-col items-center gap-3 text-center">
-              <span
-                className={`flex h-24 w-24 items-center justify-center rounded-full shadow-sm transition duration-300 group-hover:-translate-y-1 group-hover:shadow-lg sm:h-28 sm:w-28 ${BRAND_BADGE_TONE[b.tone]}`}
-              >
-                <span className="flex h-[4.25rem] w-[4.25rem] items-center justify-center rounded-full bg-cream-100 sm:h-20 sm:w-20">
-                  <Image src={b.logo} alt="" width={96} height={48} className="h-8 w-auto object-contain sm:h-9" />
-                </span>
+              <span className="flex h-24 w-24 items-center justify-center bg-cream-100 shadow-sm transition duration-300 group-hover:-translate-y-1 group-hover:shadow-lg sm:h-28 sm:w-28">
+                <Image
+                  src={b.logo}
+                  alt=""
+                  width={112}
+                  height={56}
+                  className="h-10 w-auto max-w-[75%] object-contain sm:h-11"
+                />
               </span>
               <span className="flex items-center gap-1 text-sm font-semibold text-ink transition group-hover:text-green-700">
                 {b.name}
@@ -98,6 +96,21 @@ export function BrandGrid({
             </Link>
           </li>
         ))}
+        <li>
+          <Link href="/private-label" className="group flex flex-col items-center gap-3 text-center">
+            <span className="flex h-24 w-24 items-center justify-center bg-cream-100 shadow-sm transition duration-300 group-hover:-translate-y-1 group-hover:shadow-lg sm:h-28 sm:w-28">
+              <Package size={32} weight="bold" className="text-green-700" />
+            </span>
+            <span className="flex items-center gap-1 text-sm font-semibold text-ink transition group-hover:text-green-700">
+              Private Label
+              <ArrowUpRight
+                size={13}
+                weight="bold"
+                className="shrink-0 text-ink-soft opacity-0 transition duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:opacity-100 group-hover:text-green-700"
+              />
+            </span>
+          </Link>
+        </li>
       </ul>
     </div>
   );
@@ -180,7 +193,7 @@ export function ImageFrame({
     return (
       <div
         data-photo-seed={seed}
-        className={`relative overflow-hidden rounded-2xl ${aspect} ${className}`}
+        className={`relative overflow-hidden ${aspect} ${className}`}
       >
         <Image
           src={src}
@@ -199,7 +212,7 @@ export function ImageFrame({
       role="img"
       aria-label={alt}
       data-placeholder-seed={seed}
-      className={`animate-gradient-pan relative flex items-center justify-center overflow-hidden rounded-2xl ${aspect} ${
+      className={`animate-gradient-pan relative flex items-center justify-center overflow-hidden ${aspect} ${
         tone === "dark"
           ? "bg-gradient-to-br from-green-900 via-green-700 to-olive-600"
           : "border border-cream-200 bg-gradient-to-br from-green-700/25 via-gold-500/20 to-olive-400/25"

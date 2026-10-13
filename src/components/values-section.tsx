@@ -167,15 +167,15 @@ function ValuesDarkBand() {
           <h2 className="mt-3 text-3xl font-semibold text-cream-100 sm:text-4xl">What drives us</h2>
           <AccentRule className="mt-6" />
         </Reveal>
+        {/* Numbered index removed per client feedback - this is a list of
+            values, not a sequence of steps, so the numbering implied an
+            order that wasn't intended. */}
         <RevealStagger className="mt-14 divide-y divide-cream-100/10 border-t border-cream-100/10">
-          {VALUES.map((v, i) => (
+          {VALUES.map((v) => (
             <div
               key={v.name}
               className="group flex flex-col gap-4 py-8 sm:flex-row sm:items-center sm:gap-10 sm:py-10"
             >
-              <span className="text-2xl font-semibold tabular-nums text-gold-500/40 sm:w-20 sm:text-3xl">
-                {String(i + 1).padStart(2, "0")}
-              </span>
               <div className="flex items-center gap-4 sm:w-64 sm:shrink-0">
                 {/* Circular, matching the brand badges elsewhere on the
                     page, rather than the square icon tiles used before -
@@ -227,7 +227,10 @@ function ValuesImageSequence() {
           aria-hidden="true"
           className="absolute bottom-6 left-[0.3rem] top-6 hidden w-px bg-gradient-to-b from-olive-600/0 via-olive-600/25 to-olive-600/0 lg:block"
         />
-        {VALUES.map((v, i) => (
+        {/* Numbered index removed per client feedback (not a sequence of
+            steps) - the gold dot on the flow line still marks each value's
+            position in the list without implying an order. */}
+        {VALUES.map((v) => (
           <Reveal key={v.name}>
             <div className="grid items-center gap-8 lg:grid-cols-2 lg:gap-14">
               <div className="relative">
@@ -235,10 +238,7 @@ function ValuesImageSequence() {
                   aria-hidden="true"
                   className="absolute left-0 top-1.5 hidden h-2 w-2 -translate-x-1/2 rounded-full bg-gold-500 ring-4 ring-cream-200/40 lg:block"
                 />
-                <span className="text-sm font-semibold tabular-nums text-ink-soft/40">
-                  {String(i + 1).padStart(2, "0")}
-                </span>
-                <div className="mt-3 flex items-center gap-4">
+                <div className="flex items-center gap-4">
                   <span className={`flex h-11 w-11 items-center justify-center rounded-full ${ICON_TONE[v.tone]}`}>
                     <v.icon size={20} weight="bold" />
                   </span>
@@ -355,6 +355,9 @@ function ValuesStickyScroll() {
         <AccentRule className="mt-6" />
       </Reveal>
       <div className="mt-12 grid gap-10 lg:grid-cols-[14rem_1fr]">
+        {/* Numbered index removed per client feedback - the active-row
+            colour/indent on the name itself is enough to track position in
+            a list that isn't a sequence of steps. */}
         <div className="hidden lg:block">
           <ul className="sticky top-32 space-y-5">
             {VALUES.map((v, i) => (
@@ -364,7 +367,6 @@ function ValuesStickyScroll() {
                   i === active ? "text-green-700" : "text-ink-soft/35"
                 }`}
               >
-                <span className="text-sm font-semibold tabular-nums">{String(i + 1).padStart(2, "0")}</span>
                 <p className={`text-lg font-semibold transition ${i === active ? "translate-x-1" : ""}`}>
                   {v.name}
                 </p>

@@ -1,33 +1,10 @@
-import { CalendarBlank, Buildings, Package } from "@phosphor-icons/react/dist/ssr";
-import { Section, Container, CTAButton, TextureOverlay, StatTile } from "@/components/ui";
+import { FilmSlate } from "@phosphor-icons/react/dist/ssr";
+import { Section, Container, CTAButton, TextureOverlay } from "@/components/ui";
 import { Reveal } from "@/components/reveal";
-import { BRANDS } from "@/lib/brands";
 import { HeroSwitcher } from "@/components/hero-switcher";
 import { ParallaxBand } from "@/components/parallax-band";
 import { BrandCarousel } from "@/components/brand-carousel";
 import { ValuesSwitcher } from "@/components/values-section";
-import { LocationsMap } from "@/components/locations-map";
-
-// Same three confirmed facts as the About page's "at a glance" band (see
-// STATS there). Rendered in the "One group, multiple capabilities" band
-// below rather than in the hero itself - checking abf.co.uk, pg.co.uk and
-// unilever.co.uk directly showed none of them put stats in the hero; each
-// keeps the hero to a pure statement and CTA, and pairs its scale numbers
-// with their own supporting section and image further down the page. See
-// home-hero.tsx for the fuller note.
-const HOME_STATS = [
-  { value: "12+", label: "Years established, since 2014", icon: <CalendarBlank size={20} weight="bold" /> },
-  {
-    value: "3",
-    label: "Manufacturing sites across the UK & Ireland",
-    icon: <Buildings size={20} weight="bold" />,
-  },
-  {
-    value: `${BRANDS.length}`,
-    label: "Specialist brands in the portfolio",
-    icon: <Package size={20} weight="bold" />,
-  },
-];
 
 export default function HomePage() {
   return (
@@ -36,16 +13,17 @@ export default function HomePage() {
 
       {/* Light/beige, not dark green - with the hero already dark green,
           opening straight into another dark-green block here read as more
-          of the same rather than a new moment, and buried the stat card's
-          own shadow/contrast against a background too close to it in
-          tone. */}
-      {/* Text leads on the left and the visual follows on the right (both
-          swapped from the original image-left/text-right layout) and the
-          panel corners are square rather than rounded, per client feedback
-          on this section. The roastery photo - which only ever showed the
-          Buxton site - is replaced by a locations map covering all three
-          manufacturing sites, which is what the "3 manufacturing sites"
-          stat above it is actually claiming. */}
+          of the same rather than a new moment. Text leads on the left and
+          the visual follows on the right, with square rather than rounded
+          corners, per the previous round of client feedback.
+
+          The visual slot is a holding placeholder - Zoe/Sonia are having a
+          graphic clip produced for this spot, which will replace the need
+          for the stats panel that used to float over it (the clip itself
+          will carry that information), so the stats panel has been removed
+          rather than kept alongside the new clip. Swap
+          /photo-capabilities-placeholder.jpg (or this whole block) out for
+          the real clip once it's supplied. */}
       <Section className="bg-cream-200/40">
         <div className="relative grid gap-12 lg:grid-cols-12 lg:items-start lg:gap-10">
           <Reveal className="lg:col-span-5 lg:pt-4">
@@ -68,14 +46,14 @@ export default function HomePage() {
             </div>
           </Reveal>
           <Reveal delay={0.1} className="lg:col-span-7">
-            <LocationsMap />
-            {/* Floats the scale numbers over the map's bottom edge as one
-                strong claim, rather than sharing the text column with two
-                paragraphs of prose underneath them. */}
-            <div className="relative z-10 -mt-8 ml-4 mr-4 grid grid-cols-3 gap-x-4 gap-y-4 rounded-xl bg-cream-100 p-5 shadow-2xl shadow-green-900/15 sm:-mt-16 sm:ml-10 sm:mr-10 sm:gap-x-6 sm:gap-y-6 sm:p-8">
-              {HOME_STATS.map((s) => (
-                <StatTile key={s.label} value={s.value} label={s.label} icon={s.icon} />
-              ))}
+            <div className="relative flex aspect-[4/5] items-center justify-center overflow-hidden bg-green-900 sm:aspect-[16/11]">
+              <TextureOverlay texture="/texture-leather-green.jpg" />
+              <div className="relative flex flex-col items-center gap-3 px-6 text-center text-cream-100/70">
+                <FilmSlate size={32} weight="bold" />
+                <p className="text-sm font-medium">
+                  Graphic clip to come - holding placeholder
+                </p>
+              </div>
             </div>
           </Reveal>
         </div>

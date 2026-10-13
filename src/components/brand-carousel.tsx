@@ -3,7 +3,7 @@
 import { useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowLeft, ArrowRight, ArrowUpRight } from "@phosphor-icons/react/dist/ssr";
+import { ArrowLeft, ArrowRight, ArrowUpRight, Package } from "@phosphor-icons/react/dist/ssr";
 import { motion, useReducedMotion } from "motion/react";
 import { BRANDS } from "@/lib/brands";
 
@@ -17,18 +17,6 @@ const STRAPS: Record<(typeof BRANDS)[number]["slug"], string> = {
   "dutch-maid": "Convenience made simple.",
   slumberjack: "Our signature beverage brand.",
 };
-
-const BADGE_TONE = {
-  green: "bg-green-700",
-  gold: "bg-gold-500",
-  olive: "bg-olive-600",
-} as const;
-
-const RING_TONE = {
-  green: "group-hover:ring-green-700/30",
-  gold: "group-hover:ring-gold-500/40",
-  olive: "group-hover:ring-olive-600/30",
-} as const;
 
 const container = {
   hidden: {},
@@ -102,12 +90,19 @@ export function BrandCarousel() {
             }}
           >
             <Link href={`/brands/${b.slug}`} className="group flex w-40 flex-col items-center gap-4 text-center sm:w-48">
-              <span
-                className={`flex h-36 w-36 items-center justify-center rounded-full shadow-lg shadow-green-900/30 ring-4 ring-transparent transition duration-300 group-hover:-translate-y-1.5 group-hover:shadow-xl sm:h-44 sm:w-44 ${BADGE_TONE[b.tone]} ${RING_TONE[b.tone]}`}
-              >
-                <span className="flex h-[6.25rem] w-[6.25rem] items-center justify-center rounded-full bg-cream-100 transition duration-300 group-hover:scale-105 sm:h-32 sm:w-32">
-                  <Image src={b.logo} alt="" width={128} height={64} className="h-11 w-auto object-contain sm:h-12" />
-                </span>
+              {/* No coloured circle behind the mark - per client feedback,
+                  the logo itself is the badge now, given as much room as
+                  the card allows rather than being shrunk to fit inside a
+                  disc. A plain cream backing keeps every logo legible
+                  regardless of its own colours. */}
+              <span className="flex h-36 w-36 items-center justify-center bg-cream-100 shadow-lg shadow-green-900/20 transition duration-300 group-hover:-translate-y-1.5 group-hover:shadow-xl sm:h-44 sm:w-44">
+                <Image
+                  src={b.logo}
+                  alt=""
+                  width={160}
+                  height={80}
+                  className="h-16 w-auto max-w-[75%] object-contain transition duration-300 group-hover:scale-105 sm:h-20"
+                />
               </span>
               <span>
                 <span className="flex items-center justify-center gap-1 text-base font-semibold text-cream-100">
@@ -123,6 +118,34 @@ export function BrandCarousel() {
             </Link>
           </motion.li>
         ))}
+        {/* Private label is a fifth, equally prominent card alongside the
+            four named brands, per client feedback - it isn't a logo, so it
+            gets a plain icon mark on the same cream backing instead. */}
+        <motion.li
+          className="shrink-0"
+          style={{ scrollSnapAlign: "start" }}
+          variants={{
+            hidden: reduce ? {} : { opacity: 0, y: 24 },
+            show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] } },
+          }}
+        >
+          <Link href="/private-label" className="group flex w-40 flex-col items-center gap-4 text-center sm:w-48">
+            <span className="flex h-36 w-36 items-center justify-center bg-cream-100 shadow-lg shadow-green-900/20 transition duration-300 group-hover:-translate-y-1.5 group-hover:shadow-xl sm:h-44 sm:w-44">
+              <Package size={56} weight="bold" className="text-green-700" />
+            </span>
+            <span>
+              <span className="flex items-center justify-center gap-1 text-base font-semibold text-cream-100">
+                Private Label
+                <ArrowUpRight
+                  size={14}
+                  weight="bold"
+                  className="shrink-0 text-gold-500 opacity-0 transition duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:opacity-100"
+                />
+              </span>
+              <span className="mt-1 block text-sm text-cream-100/70">Manufactured under your own brand.</span>
+            </span>
+          </Link>
+        </motion.li>
       </motion.ul>
 
       <Link
