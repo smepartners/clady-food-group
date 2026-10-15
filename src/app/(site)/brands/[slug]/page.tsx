@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Image from "next/image";
-import { Camera } from "@phosphor-icons/react/dist/ssr";
+import { Camera, FacebookLogo, InstagramLogo, TiktokLogo, LinkedinLogo, Globe } from "@phosphor-icons/react/dist/ssr";
 import { Section, Pill, CTAButton, TextureOverlay } from "@/components/ui";
 import { Reveal } from "@/components/reveal";
 import { BrandDetailHero } from "@/components/brand-detail-hero";
@@ -15,17 +15,24 @@ type Brand = {
   seed: string;
   photo: string;
   logo: string;
-  /** A real product-range photo to sit beside the overview copy. Only
-   * Evolving State has one supplied so far (round 5 feedback) - the other
-   * three render the same "photography pending" placeholder used elsewhere
-   * on the site until Zoe supplies theirs. */
+  /** A real product-range photo to sit beside the overview copy. Evolving
+   * State, Galway Roast, Dutch Maid and Slumberjack all have one supplied
+   * now (rounds 5-6). */
   productsImage?: string;
   productsImageAlt?: string;
-  /** True for Dutch Maid only (round 5 feedback: "add website coming soon
-   * line (where social/website will be)") - the other three brands get a
-   * social/website row once Zoe supplies the actual links, not yet in
-   * hand, so nothing renders there for them for now rather than linking to
-   * guessed URLs. */
+  /** Round 6 (Zoe, via George): real social/website links supplied for
+   * Evolving State, Galway Roast and Slumberjack. Dutch Maid's weren't
+   * supplied this round, so it keeps the websiteComingSoon line below
+   * rather than linking to a guessed URL. */
+  social?: {
+    website?: string;
+    facebook?: string;
+    instagram?: string;
+    tiktok?: string;
+    linkedin?: string;
+  };
+  /** True for Dutch Maid only - the other three brands now have a
+   * social/website row (see `social` above). */
   websiteComingSoon?: boolean;
 };
 
@@ -38,8 +45,11 @@ type Brand = {
 // Round 5 feedback (Zoe, via George): B2B/B2C tags removed from every
 // brand's focus line (Slumberjack's "Hot chocolate" tag dropped too, per
 // her note); each page gets a product-range image slot and a "get in
-// touch" button; Dutch Maid gets a "website coming soon" line in place of
-// social links, which aren't ready for the other three yet.
+// touch" button.
+// Round 6 (Zoe, via George): real social/website links and real product
+// range photography supplied for Evolving State, Galway Roast and
+// Slumberjack; Dutch Maid got its real product photo but no social links
+// this round, so it keeps the "website coming soon" line.
 const BRANDS: Record<string, Brand> = {
   "evolving-state": {
     name: "Evolving State",
@@ -50,6 +60,12 @@ const BRANDS: Record<string, Brand> = {
     logo: "/logo-evolving-state.png",
     productsImage: "/photo-evolving-state-products.avif",
     productsImageAlt: "The Evolving State product range",
+    social: {
+      website: "https://evolvingstate.co",
+      facebook: "https://www.facebook.com/profile.php?id=61590720360603",
+      instagram: "https://www.instagram.com/evolvingstate/",
+      tiktok: "https://www.tiktok.com/@evolving.state",
+    },
     paragraphs: [
       "Evolving State is focused on natural and functional products designed to enhance everyday health and wellbeing.",
       "Its portfolio spans functional drinks, supplements, natural wellness and performance, bringing together products that fit naturally into modern lifestyles.",
@@ -62,6 +78,13 @@ const BRANDS: Record<string, Brand> = {
     seed: "clady-galway-roast-coffee",
     photo: "/photo-brand-galway-roast.jpg",
     logo: "/logo-galway-roast.png",
+    productsImage: "/photo-galway-roast-products.jpg",
+    productsImageAlt: "The Galway Roast wholebean product range",
+    social: {
+      website: "https://galwayroast.ie/",
+      facebook: "https://www.facebook.com/galwayroastcoffee",
+      instagram: "https://www.instagram.com/galwayroastcoffee/",
+    },
     paragraphs: [
       "Rooted in place, Galway Roast celebrates Irish heritage, local character and a hint of the Galway coastline in every roast.",
       "The brand brings an authentic sense of Galway to the coffee category, with a focus on quality, flavour and keeping it local.",
@@ -76,6 +99,8 @@ const BRANDS: Record<string, Brand> = {
     seed: "clady-dutch-maid-soluble",
     photo: "/photo-brand-dutch-maid.jpg",
     logo: "/logo-dutch-maid.png",
+    productsImage: "/photo-dutch-maid-products.png",
+    productsImageAlt: "The Dutch Maid product range",
     websiteComingSoon: true,
     paragraphs: [
       "Dutch Maid brings ease, convenience and on-trend flavours together in a versatile range of soluble drinks and ingredients.",
@@ -90,6 +115,12 @@ const BRANDS: Record<string, Brand> = {
     seed: "clady-slumberjack-coffee",
     photo: "/photo-brand-slumberjack.jpg",
     logo: "/logo-slumberjack.svg",
+    productsImage: "/photo-slumberjack-products.webp",
+    productsImageAlt: "The Slumberjack product range",
+    social: {
+      website: "https://www.slumberjackcoffee.com/",
+      linkedin: "https://www.linkedin.com/company/slumberjack-coffee/posts/",
+    },
     paragraphs: [
       "Our signature beverage brand. Slumberjack is the brand from which the Clady Group story began.",
       "Established in 2014, Slumberjack has grown from its family-business roots to offer a broad range of high-quality hot and cold beverage products.",
@@ -147,6 +178,75 @@ export default async function BrandPage({
                 </li>
               ))}
             </ul>
+            {brand.social ? (
+              <ul className="mt-6 flex flex-wrap items-center gap-3">
+                {brand.social.website ? (
+                  <li>
+                    <a
+                      href={brand.social.website}
+                      target="_blank"
+                      rel="noreferrer"
+                      aria-label={`${brand.name} website`}
+                      className="flex h-10 w-10 items-center justify-center rounded-full border border-cream-200 text-green-700 transition duration-300 hover:-translate-y-0.5 hover:border-green-700 hover:bg-green-700 hover:text-cream-100"
+                    >
+                      <Globe size={18} weight="bold" />
+                    </a>
+                  </li>
+                ) : null}
+                {brand.social.facebook ? (
+                  <li>
+                    <a
+                      href={brand.social.facebook}
+                      target="_blank"
+                      rel="noreferrer"
+                      aria-label={`${brand.name} on Facebook`}
+                      className="flex h-10 w-10 items-center justify-center rounded-full border border-cream-200 text-green-700 transition duration-300 hover:-translate-y-0.5 hover:border-green-700 hover:bg-green-700 hover:text-cream-100"
+                    >
+                      <FacebookLogo size={18} weight="bold" />
+                    </a>
+                  </li>
+                ) : null}
+                {brand.social.instagram ? (
+                  <li>
+                    <a
+                      href={brand.social.instagram}
+                      target="_blank"
+                      rel="noreferrer"
+                      aria-label={`${brand.name} on Instagram`}
+                      className="flex h-10 w-10 items-center justify-center rounded-full border border-cream-200 text-green-700 transition duration-300 hover:-translate-y-0.5 hover:border-green-700 hover:bg-green-700 hover:text-cream-100"
+                    >
+                      <InstagramLogo size={18} weight="bold" />
+                    </a>
+                  </li>
+                ) : null}
+                {brand.social.tiktok ? (
+                  <li>
+                    <a
+                      href={brand.social.tiktok}
+                      target="_blank"
+                      rel="noreferrer"
+                      aria-label={`${brand.name} on TikTok`}
+                      className="flex h-10 w-10 items-center justify-center rounded-full border border-cream-200 text-green-700 transition duration-300 hover:-translate-y-0.5 hover:border-green-700 hover:bg-green-700 hover:text-cream-100"
+                    >
+                      <TiktokLogo size={18} weight="bold" />
+                    </a>
+                  </li>
+                ) : null}
+                {brand.social.linkedin ? (
+                  <li>
+                    <a
+                      href={brand.social.linkedin}
+                      target="_blank"
+                      rel="noreferrer"
+                      aria-label={`${brand.name} on LinkedIn`}
+                      className="flex h-10 w-10 items-center justify-center rounded-full border border-cream-200 text-green-700 transition duration-300 hover:-translate-y-0.5 hover:border-green-700 hover:bg-green-700 hover:text-cream-100"
+                    >
+                      <LinkedinLogo size={18} weight="bold" />
+                    </a>
+                  </li>
+                ) : null}
+              </ul>
+            ) : null}
             {brand.websiteComingSoon ? (
               <p className="mt-6 text-sm font-medium uppercase tracking-wide text-olive-600">
                 Website coming soon
