@@ -65,10 +65,13 @@ export default function CsrPage() {
         </Reveal>
       </Section>
 
+      {/* Round 5 feedback: "add some spacing between each of the sections
+          re: our people, our customers etc as they're all a bit squished
+          together" - py-10/gap-4 increased to py-14/gap-6. */}
       <Section className="bg-cream-200/40">
         <RevealStagger className="divide-y divide-cream-200">
           {PILLARS.map((p) => (
-            <div key={p.name} className="grid gap-4 py-10 first:pt-0 last:pb-0 sm:grid-cols-[minmax(0,1fr)_2fr] sm:gap-10">
+            <div key={p.name} className="grid gap-6 py-14 first:pt-0 last:pb-0 sm:grid-cols-[minmax(0,1fr)_2fr] sm:gap-10">
               <div className="flex items-center gap-3">
                 <div className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-full ${TONE_ICON_BG[p.tone]}`}>
                   <p.icon size={22} weight="bold" />
@@ -81,33 +84,9 @@ export default function CsrPage() {
         </RevealStagger>
       </Section>
 
-      <Section>
-        <Reveal>
-          <h2 className="mx-auto max-w-2xl text-center text-2xl font-semibold text-green-700 sm:text-3xl">
-            Our impact
-          </h2>
-          <p className="mx-auto mt-4 max-w-2xl text-center text-ink-soft">
-            We recognise that every business has an impact. As Clady Group
-            continues to grow, we are focused on understanding where we can
-            make the greatest difference and building responsible practices
-            into our future development. Our approach is one of continuous
-            improvement: setting meaningful priorities, measuring progress and
-            taking practical action.
-          </p>
-          <RevealStagger className="mx-auto mt-10 grid max-w-2xl gap-8 sm:grid-cols-2">
-            {GREEN_CREDENTIALS.map((c) => (
-              <div key={c.name} className="flex flex-col items-center gap-3 text-center">
-                <div className="flex h-11 w-11 items-center justify-center rounded-full bg-green-700/10 text-green-700">
-                  <c.icon size={22} weight="bold" />
-                </div>
-                <h3 className="font-semibold text-ink">{c.name}</h3>
-                <p className="text-sm leading-relaxed text-ink-soft">{c.body}</p>
-              </div>
-            ))}
-          </RevealStagger>
-        </Reveal>
-      </Section>
-
+      {/* Round 5 feedback: "should this be higher up?" - moved ahead of
+          "Our impact" so the philosophy statement leads into the concrete
+          proof points below it, rather than following them. */}
       <Section className="relative overflow-hidden bg-green-700">
         <TextureOverlay />
         <Reveal className="relative">
@@ -126,6 +105,41 @@ export default function CsrPage() {
               Building better, responsibly.
             </p>
           </div>
+        </Reveal>
+      </Section>
+
+      {/* Round 5 feedback: "update Clady Group to Clady Food Group" and
+          "style this section so there is more definition to the one above
+          / either background image / CFG watermark / leather texture" -
+          was a plain light section between two dark ones; now its own dark
+          band with the gold leather texture and watermark, matching the
+          weight of "Our responsibility" above it instead of reading as a
+          flat gap between two more deliberate moments. */}
+      <Section className="relative overflow-hidden bg-green-900">
+        <TextureOverlay texture="/texture-leather-gold.jpg" watermark="/logo-icon-watermark-gold.png" />
+        <Reveal className="relative">
+          <h2 className="mx-auto max-w-2xl text-center text-2xl font-semibold text-cream-100 sm:text-3xl">
+            Our impact
+          </h2>
+          <p className="mx-auto mt-4 max-w-2xl text-center text-cream-100/75">
+            We recognise that every business has an impact. As Clady Food
+            Group continues to grow, we are focused on understanding where we
+            can make the greatest difference and building responsible
+            practices into our future development. Our approach is one of
+            continuous improvement: setting meaningful priorities, measuring
+            progress and taking practical action.
+          </p>
+          <RevealStagger className="mx-auto mt-10 grid max-w-2xl gap-8 sm:grid-cols-2">
+            {GREEN_CREDENTIALS.map((c) => (
+              <div key={c.name} className="flex flex-col items-center gap-3 text-center">
+                <div className="flex h-11 w-11 items-center justify-center rounded-full bg-gold-500/15 text-gold-500">
+                  <c.icon size={22} weight="bold" />
+                </div>
+                <h3 className="font-semibold text-cream-100">{c.name}</h3>
+                <p className="text-sm leading-relaxed text-cream-100/75">{c.body}</p>
+              </div>
+            ))}
+          </RevealStagger>
         </Reveal>
       </Section>
     </>

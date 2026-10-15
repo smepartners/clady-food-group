@@ -7,7 +7,28 @@
 // (ARCHITECTURE.md, Build Plan §06 open question 04); all four brands now
 // have one, rendered as a small badge over the product photo (see
 // BrandGrid in ui.tsx) rather than replacing the photo itself.
+// Round 5 feedback: ordered to match the priority order Zoe gave for the
+// /brands index page (Slumberjack, Dutch Maid, Evolving State, Galway
+// Roast) - this is the single source of truth for the nav dropdown, the
+// footer brand list and the homepage brand carousel, so reordering it here
+// keeps all three in sync rather than drifting from /brands' own order.
 export const BRANDS = [
+  {
+    slug: "slumberjack",
+    name: "Slumberjack",
+    seed: "clady-slumberjack-coffee",
+    tone: "green" as const,
+    photo: "/photo-brand-slumberjack.jpg",
+    logo: "/logo-slumberjack.svg",
+  },
+  {
+    slug: "dutch-maid",
+    name: "Dutch Maid",
+    seed: "clady-dutch-maid-soluble",
+    tone: "olive" as const,
+    photo: "/photo-brand-dutch-maid.jpg",
+    logo: "/logo-dutch-maid.png",
+  },
   {
     slug: "evolving-state",
     name: "Evolving State",
@@ -23,21 +44,5 @@ export const BRANDS = [
     tone: "gold" as const,
     photo: "/photo-brand-galway-roast.jpg",
     logo: "/logo-galway-roast.png",
-  },
-  {
-    slug: "dutch-maid",
-    name: "Dutch Maid",
-    seed: "clady-dutch-maid-soluble",
-    tone: "olive" as const,
-    photo: "/photo-brand-dutch-maid.jpg",
-    logo: "/logo-dutch-maid.png",
-  },
-  {
-    slug: "slumberjack",
-    name: "Slumberjack",
-    seed: "clady-slumberjack-coffee",
-    tone: "green" as const,
-    photo: "/photo-brand-slumberjack.jpg",
-    logo: "/logo-slumberjack.svg",
   },
 ] as const;

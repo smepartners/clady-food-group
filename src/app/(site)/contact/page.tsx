@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Section, BrandGrid } from "@/components/ui";
+import { Section } from "@/components/ui";
 import { Reveal } from "@/components/reveal";
 import { ContactHero } from "@/components/contact-hero";
 
@@ -7,9 +7,24 @@ export const metadata: Metadata = { title: "Contact" };
 
 // Field set and destination confirmed with the client (Zoe, SME Partners):
 // name, company, phone, email, message, all routing to one inbox with no
-// per-market split. hello@cladyfoodgroup.co.uk is not live yet, so the form
-// posts as a mailto: for now - swap the <form> action for a proper handler
-// (API route + email provider) once the inbox is set up, before launch.
+// per-market split. The form posts as a mailto: for now - swap the <form>
+// action for a proper handler (API route + email provider) once a real
+// inbox-backed endpoint is set up, before launch.
+//
+// Round 5 feedback (Zoe, via George):
+// - "Update hello@ to sales@" - done below (sales@cladyfoodgroup.com, to
+//   match the footer's address rather than the old .co.uk hello@ one).
+// - "Is the brands list distracting here?" - read as Zoe leaning toward
+//   yes (she's the one who flagged it), so the BrandGrid that used to sit
+//   under the email line has been removed; the page now reads as a clean
+//   get-in-touch moment rather than repeating the brand portfolio a third
+//   time on the site. Easy to reinstate if she'd rather keep it.
+// - "Should we have head office address and phone number here?" - NOT
+//   implemented. No real head office address or phone number has been
+//   supplied yet (the footer's "028 9442 9555" is the general contact
+//   number from this same feedback doc, not confirmed as the head office
+//   line) - needs a real answer from Zoe before this goes in, rather than
+//   guessing a placeholder address.
 //
 // This page used to be a single boxed hero holding the headline, form and
 // brand grid all at once - now the hero (see contact-hero.tsx) is a plain
@@ -37,19 +52,18 @@ export default function ContactPage() {
             <p className="max-w-md text-sm text-ink-soft">
               Prefer email? Reach us directly at{" "}
               <a
-                href="mailto:hello@cladyfoodgroup.co.uk"
+                href="mailto:sales@cladyfoodgroup.com"
                 className="font-medium text-green-700 underline underline-offset-2 hover:text-green-900"
               >
-                hello@cladyfoodgroup.co.uk
+                sales@cladyfoodgroup.com
               </a>
               .
             </p>
-            <BrandGrid cols={2} className="mt-10 border-t border-cream-200 pt-8" />
           </Reveal>
 
           <Reveal delay={0.1}>
             <form
-              action="mailto:hello@cladyfoodgroup.co.uk"
+              action="mailto:sales@cladyfoodgroup.com"
               method="post"
               encType="text/plain"
               className="space-y-5 rounded-2xl border border-cream-200 bg-cream-100 p-6 sm:p-8"

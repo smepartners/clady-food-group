@@ -5,18 +5,17 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { List, X, CaretDown } from "@phosphor-icons/react";
+import { BRANDS } from "@/lib/brands";
 
+// Round 5 feedback: Private Label moved to sit right after the Our Brands
+// dropdown, ahead of About Us/CSR. BRANDS now comes from lib/brands.ts
+// instead of a second, locally-duplicated list, so the dropdown always
+// matches the priority order set on the /brands index page rather than
+// drifting out of sync with it the way the two lists just had.
 const NAV = [
-  { href: "/about", label: "About Us" },
   { href: "/private-label", label: "Private Label" },
+  { href: "/about", label: "About Us" },
   { href: "/csr", label: "CSR" },
-];
-
-const BRANDS = [
-  { slug: "evolving-state", name: "Evolving State" },
-  { slug: "galway-roast", name: "Galway Roast" },
-  { slug: "dutch-maid", name: "Dutch Maid" },
-  { slug: "slumberjack", name: "Slumberjack" },
 ];
 
 /**
@@ -118,7 +117,7 @@ export function SiteHeader() {
                 : "bg-cream-100 text-green-700 hover:bg-cream-200"
             }`}
           >
-            Contact
+            Get in touch
           </Link>
         </nav>
 
@@ -171,7 +170,7 @@ export function SiteHeader() {
             onClick={() => setOpen(false)}
             className="mt-2 rounded-full bg-green-700 px-5 py-2.5 text-center text-cream-100 transition hover:bg-green-900"
           >
-            Contact
+            Get in touch
           </Link>
         </nav>
       ) : null}

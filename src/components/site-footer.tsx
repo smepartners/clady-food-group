@@ -1,13 +1,17 @@
 import Image from "next/image";
 import Link from "next/link";
+import { EnvelopeSimple, Phone, LinkedinLogo } from "@phosphor-icons/react/dist/ssr";
 import { BRANDS } from "@/lib/brands";
 import { FacilityStrip } from "@/components/ui";
 
+// Round 5 feedback: Private Label moved up next to About Us/CSR (matching
+// the header nav reorder), and the label changed from "Contact" to "Get in
+// touch" to match the header CTA's wording.
 const NAV = [
   { href: "/about", label: "About Us" },
   { href: "/private-label", label: "Private Label" },
   { href: "/csr", label: "CSR" },
-  { href: "/contact", label: "Contact" },
+  { href: "/contact", label: "Get in touch" },
 ];
 
 export function SiteFooter() {
@@ -17,19 +21,15 @@ export function SiteFooter() {
         <div className="flex flex-col gap-10 sm:flex-row sm:items-start sm:justify-between">
           <Image
             src="/clady-logo-landscape.png"
-            alt="Clady Group"
+            alt="Clady Food Group"
             width={1600}
             height={317}
             className="h-10 w-auto opacity-90 sm:h-11"
           />
+          {/* Round 5 feedback: brands list leads, ahead of the page-link
+              column, mirroring how prominently the header dropdown and the
+              /brands index page itself treat the brand portfolio. */}
           <div className="flex flex-col gap-8 sm:flex-row sm:gap-16">
-            <nav className="flex flex-wrap gap-x-8 gap-y-2 text-sm text-ink-soft">
-              {NAV.map((item) => (
-                <Link key={item.href} href={item.href} className="transition hover:text-green-700">
-                  {item.label}
-                </Link>
-              ))}
-            </nav>
             <nav>
               <Link
                 href="/brands"
@@ -47,6 +47,13 @@ export function SiteFooter() {
                 ))}
               </ul>
             </nav>
+            <nav className="flex flex-wrap gap-x-8 gap-y-2 text-sm text-ink-soft">
+              {NAV.map((item) => (
+                <Link key={item.href} href={item.href} className="transition hover:text-green-700">
+                  {item.label}
+                </Link>
+              ))}
+            </nav>
           </div>
         </div>
 
@@ -57,8 +64,27 @@ export function SiteFooter() {
           <FacilityStrip tone="light" className="mt-4" />
         </div>
 
-        <div className="mt-10 border-t border-cream-200 pt-6 text-sm text-ink-soft">
-          <p>&copy; {new Date().getFullYear()} Clady Group.</p>
+        {/* Round 5 feedback: contact details added. LinkedIn is rendered as
+            a plain icon (not yet a Link) since Zoe is still setting that
+            page up - swap in the real profile URL once it's live. */}
+        <div className="mt-10 flex flex-col gap-4 border-t border-cream-200 pt-8 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex flex-wrap gap-x-8 gap-y-2 text-sm text-ink-soft">
+            <a href="mailto:sales@cladyfoodgroup.com" className="flex items-center gap-2 transition hover:text-green-700">
+              <EnvelopeSimple size={16} weight="bold" className="text-olive-600" />
+              sales@cladyfoodgroup.com
+            </a>
+            <a href="tel:+442894429555" className="flex items-center gap-2 transition hover:text-green-700">
+              <Phone size={16} weight="bold" className="text-olive-600" />
+              028 9442 9555
+            </a>
+          </div>
+          <span aria-label="LinkedIn (coming soon)" className="text-ink-soft/50">
+            <LinkedinLogo size={20} weight="fill" />
+          </span>
+        </div>
+
+        <div className="mt-6 border-t border-cream-200 pt-6 text-sm text-ink-soft">
+          <p>&copy; {new Date().getFullYear()} Clady Food Group.</p>
           {/* TODO: registered company name, number and address - open question #06 in the build plan */}
         </div>
       </div>

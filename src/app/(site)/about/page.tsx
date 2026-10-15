@@ -1,36 +1,21 @@
 import type { Metadata } from "next";
-import { CalendarBlank, Buildings, Package } from "@phosphor-icons/react/dist/ssr";
-import { Section, ImageFrame, Pill, BrandGrid, PullQuote, TextureOverlay, FacilityStrip, StatTile } from "@/components/ui";
+import { FilmSlate, Storefront, Coffee, ForkKnife, Bed } from "@phosphor-icons/react/dist/ssr";
+import { Section, Container, CTAButton, TextureOverlay, AccentRule } from "@/components/ui";
 import { Reveal } from "@/components/reveal";
 import { AccreditationGrid, type Accreditation } from "@/components/accreditation";
 import { AboutHero } from "@/components/about-hero";
-import { ClientLogoBar } from "@/components/client-logo-bar";
 import { VideoStorySection } from "@/components/video-story-section";
-import { BRANDS } from "@/lib/brands";
 
 export const metadata: Metadata = { title: "About Us" };
 
-// Established 2014 (Slumberjack) - kept as a literal rather than computed
-// from the current date, so the stat doesn't silently drift as years pass.
-// Update by hand at the next content refresh. The "3 manufacturing sites"
-// stat used to carry the Buxton/Belfast/Galway detail as its label text -
-// split out into FacilityStrip below instead, so the three sites read as
-// three distinct, named locations rather than a line of small print.
-const STATS = [
-  { value: "12+", label: "Years established, since 2014", icon: <CalendarBlank size={20} weight="bold" /> },
-  {
-    value: "3",
-    label: "Manufacturing sites across the UK & Ireland",
-    icon: <Buildings size={20} weight="bold" />,
-  },
-  {
-    value: `${BRANDS.length}`,
-    label: "Specialist brands in the portfolio",
-    icon: <Package size={20} weight="bold" />,
-  },
+// Round 5 feedback: each sector now carries its own icon rather than
+// rendering as a plain text Pill - "can this be more visual?"
+const SECTORS = [
+  { name: "Retail", icon: Storefront },
+  { name: "Cafés", icon: Coffee },
+  { name: "Food service", icon: ForkKnife },
+  { name: "Hospitality", icon: Bed },
 ];
-
-const SECTORS = ["Retail", "Cafés", "Food service", "Hospitality"];
 
 // Accreditations confirmed by the client (Zoe, SME Partners) - held across
 // the portfolio rather than by any single brand, so presented as a
@@ -39,14 +24,17 @@ const SECTORS = ["Retail", "Cafés", "Food service", "Hospitality"];
 // factual one-line description of what each scheme covers, not a claim
 // about Clady beyond holding the accreditation itself.
 //
-// `logo` is each certifying body's mark. Rainforest Alliance, Fairtrade and
-// SALSA below are placeholder artwork pulled from each body's own public
+// Round 5 feedback: BRCGS and SALSA removed for now - Zoe wants sign-off
+// from the team before either goes back up, rather than risk forgetting to
+// add them once approved. Left here as a comment so they're easy to
+// reinstate:
+//   { name: "BRCGS Start Basic", note: "Independently audited food safety standard" },
+//   { name: "SALSA", note: "Safe and Local Supplier Approval accreditation", logo: "/logo-salsa.png" },
+//
+// `logo` is each certifying body's mark. Rainforest Alliance and Fairtrade
+// below are placeholder artwork pulled from each body's own public
 // site/Wikimedia, standing in until Clady/Zoe supply the licensed versions -
-// swap the file once received. BRCGS has no logo here: BRCGS's own brand
-// guidelines state their certificated-site logo is only issued on request,
-// tied to the site's certificate number, so there is no generic public
-// version to place - it renders as a text Pill via AccreditationGrid until
-// BRCGS (or Zoe) supplies Clady's actual certificate-linked artwork.
+// swap the file once received.
 const ACCREDITATIONS: Accreditation[] = [
   {
     name: "Rainforest Alliance",
@@ -58,15 +46,6 @@ const ACCREDITATIONS: Accreditation[] = [
     note: "Certified fair trading practices across our supply chain",
     logo: "/logo-fairtrade.png",
   },
-  {
-    name: "BRCGS Start Basic",
-    note: "Independently audited food safety standard",
-  },
-  {
-    name: "SALSA",
-    note: "Safe and Local Supplier Approval accreditation",
-    logo: "/logo-salsa.png",
-  },
 ];
 
 export default function AboutPage() {
@@ -74,24 +53,16 @@ export default function AboutPage() {
     <>
       <AboutHero />
 
-      {/* Full-bleed "impact" band right after the hero, same move the
-          homepage made (see page.tsx there): the scale stats and the
-          portfolio-breadth copy that used to live inside the boxed hero
-          now sit here instead, paired with their own supporting
-          photography, rather than crowding the hero itself. */}
+      {/* Round 5 feedback: "update this to use graphic from home page /
+          remove need for separate stats etc" - the stat row and facility
+          strip that used to sit here are gone, replaced with the same
+          holding-placeholder graphic treatment as the homepage's "One
+          group, multiple capabilities" band, ready to take the same
+          supplied clip (or an About-specific one) once it exists. */}
       <Section className="relative overflow-hidden bg-green-700">
         <TextureOverlay />
-        <div className="relative grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
-          <Reveal className="order-2 lg:order-1">
-            <ImageFrame
-              seed="clady-about-manufacturing"
-              alt="A roaster on Clady Group's production line"
-              src="/photo-roastery-detail.jpg"
-              aspect="aspect-[4/3]"
-              tone="dark"
-            />
-          </Reveal>
-          <Reveal delay={0.1} className="order-1 lg:order-2">
+        <div className="relative grid items-stretch gap-12 lg:grid-cols-2 lg:gap-16">
+          <Reveal className="order-2 flex flex-col justify-center lg:order-1">
             <h2 className="text-2xl font-semibold text-cream-100 sm:text-3xl">
               Today, our portfolio spans <em className="italic text-gold-500">coffee to wellness.</em>
             </h2>
@@ -110,95 +81,58 @@ export default function AboutPage() {
                 products, capabilities and commercial opportunities.
               </p>
             </div>
-            {/* Tone is hardcoded dark, not derived from the Simple/Bold
-                toggle - this band's background is always green-700
-                regardless of preview style, unlike a page hero. */}
-            <div className="mt-6 grid grid-cols-3 gap-x-6 gap-y-8 border-t border-cream-100/15 pt-6">
-              {STATS.map((s) => (
-                <StatTile key={s.label} value={s.value} label={s.label} icon={s.icon} tone="dark" />
-              ))}
+            <div className="mt-8">
+              <CTAButton href="/contact" tone="inverted">
+                Get in touch
+              </CTAButton>
             </div>
-            <FacilityStrip tone="dark" className="mt-6 border-t border-cream-100/15 pt-6" />
+          </Reveal>
+          <Reveal delay={0.1} className="order-1 lg:order-2">
+            <div className="relative flex aspect-[4/5] min-h-[22rem] items-center justify-center overflow-hidden bg-green-900 lg:aspect-auto lg:h-full">
+              <TextureOverlay texture="/texture-leather-green.jpg" />
+              <div className="relative flex flex-col items-center gap-3 px-6 text-center text-cream-100/70">
+                <FilmSlate size={32} weight="bold" />
+                <p className="text-sm font-medium">
+                  Graphic clip to come - holding placeholder
+                </p>
+              </div>
+            </div>
           </Reveal>
         </div>
       </Section>
 
-      <Section className="bg-cream-200/40" pad="py-10 sm:py-14">
-        <Reveal>
-          <h2 className="text-2xl font-semibold text-green-700 sm:text-3xl">At a glance</h2>
-        </Reveal>
-        <Reveal delay={0.08}>
-          <div className="mt-8 border-t border-cream-200 pt-8">
-            <p className="text-sm font-semibold uppercase tracking-wide text-olive-600">
-              Sectors we serve
-            </p>
-            <ul className="mt-4 flex flex-wrap gap-2">
-              {SECTORS.map((s) => (
-                <li key={s}>
-                  <Pill>{s}</Pill>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </Reveal>
-        <Reveal delay={0.1}>
-          <div className="mt-8 border-t border-cream-200 pt-8">
-            <AccreditationGrid items={ACCREDITATIONS} label="Accreditations across our portfolio" />
-          </div>
-        </Reveal>
-      </Section>
-
-      <VideoStorySection
-        heading={
-          <>
-            Hear it <em className="italic text-gold-500">from us.</em>
-          </>
-        }
-        body={
-          <p>
-            A short look at Clady Group, in the words of the people who run
-            it - our roots as a family business, how the group has grown,
-            and what we&apos;re building toward next.
+      {/* Round 5 feedback: "remove image / make this a full width section
+          and move higher up the page" - was an image + text split further
+          down the page; now a full-width band right after the portfolio
+          band, matching the weight of the other full-bleed moments on the
+          site rather than a smaller contained split. */}
+      <Section className="relative overflow-hidden bg-cream-200/40">
+        <Reveal className="relative mx-auto max-w-2xl text-center">
+          <h2 className="text-2xl font-semibold text-green-700 sm:text-3xl">
+            From family business <em className="italic text-gold-700">to group</em>
+          </h2>
+          <p className="mt-6 text-xl italic leading-snug text-green-700 sm:text-2xl">
+            Our heritage as a family business remains central to how we operate.
           </p>
-        }
-      />
-
-      <Section>
-        <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
-          <Reveal>
-            <ImageFrame
-              seed="clady-family-business-heritage"
-              alt="Clady Group's family-business heritage"
-              src="/photo-about-heritage.jpg"
-              aspect="aspect-[4/3]"
-            />
-          </Reveal>
-          <Reveal delay={0.1}>
-            <h2 className="text-2xl font-semibold text-green-700 sm:text-3xl">
-              From family business <em className="italic text-gold-700">to group</em>
-            </h2>
-            <PullQuote className="mt-6">
-              Our heritage as a family business remains central to how we operate.
-            </PullQuote>
-            <div className="mt-6 space-y-4 text-ink-soft">
-              <p>
-                From the beginning, our focus has been on building lasting
-                relationships and creating products that deliver for our customers.
-                As the group has grown, we have retained that approach while
-                developing a broader portfolio and greater capability across the
-                food and drink sector.
-              </p>
-              <p>
-                Our ambition is to continue growing a group of specialist brands
-                that can respond to changing markets while maintaining the
-                personal approach and commercial focus that have shaped our
-                business from the outset.
-              </p>
-            </div>
-          </Reveal>
-        </div>
+          <div className="mt-6 space-y-4 text-ink-soft">
+            <p>
+              From the beginning, our focus has been on building lasting
+              relationships and creating products that deliver for our customers.
+              As the group has grown, we have retained that approach while
+              developing a broader portfolio and greater capability across the
+              food and drink sector.
+            </p>
+            <p>
+              Our ambition is to continue growing a group of specialist brands
+              that can respond to changing markets while maintaining the
+              personal approach and commercial focus that have shaped our
+              business from the outset.
+            </p>
+          </div>
+        </Reveal>
       </Section>
 
+      {/* Round 5 feedback: "higher up the page please". */}
       <Section className="relative overflow-hidden bg-green-700">
         <TextureOverlay />
         <Reveal className="relative">
@@ -229,15 +163,77 @@ export default function AboutPage() {
         </Reveal>
       </Section>
 
-      <Section pad="py-10 sm:py-14">
-        <ClientLogoBar />
-      </Section>
+      {/* Round 5 feedback: "would this be better higher up the page?" -
+          moved up from the bottom of the page to follow straight on from
+          the group narrative above. */}
+      <VideoStorySection
+        heading={
+          <>
+            Hear it <em className="italic text-gold-500">from us.</em>
+          </>
+        }
+        body={
+          <p>
+            A short look at Clady Group, in the words of the people who run
+            it - our roots as a family business, how the group has grown,
+            and what we&apos;re building toward next.
+          </p>
+        }
+      />
 
-      <Section pad="py-10 sm:py-14" className="bg-cream-200/40">
+      {/* Round 5 feedback: "can this be more visual? so each has a graphic
+          icon?" - sectors now render as icon cards instead of text pills.
+          Accreditations below unchanged in treatment, just BRCGS/SALSA
+          removed for now (see ACCREDITATIONS comment above). */}
+      <Section className="bg-cream-200/40" pad="py-10 sm:py-14">
         <Reveal>
-          <BrandGrid />
+          <h2 className="text-2xl font-semibold text-green-700 sm:text-3xl">At a glance</h2>
+        </Reveal>
+        <Reveal delay={0.08}>
+          <div className="mt-8 border-t border-cream-200 pt-8">
+            <p className="text-sm font-semibold uppercase tracking-wide text-olive-600">
+              Sectors we serve
+            </p>
+            <ul className="mt-6 grid grid-cols-2 gap-6 sm:grid-cols-4">
+              {SECTORS.map((s) => (
+                <li key={s.name} className="flex flex-col items-center gap-3 text-center">
+                  <span className="flex h-14 w-14 items-center justify-center rounded-full bg-green-700/10 text-green-700">
+                    <s.icon size={24} weight="bold" />
+                  </span>
+                  <span className="text-sm font-semibold text-ink">{s.name}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </Reveal>
+        <Reveal delay={0.1}>
+          <div className="mt-8 border-t border-cream-200 pt-8">
+            <AccreditationGrid items={ACCREDITATIONS} label="Accreditations across our portfolio" />
+          </div>
         </Reveal>
       </Section>
+
+      {/* Round 5 feedback: "Who we work with" (client logo bar) and "Part
+          of the Clady Food Group" (brand grid) sections removed for now -
+          to go back in once client names are approved to show and once
+          this page needs another brand-portfolio mention. Closes on a
+          get-in-touch CTA instead. */}
+      <section className="relative overflow-hidden bg-green-700 py-14 text-center sm:py-20">
+        <TextureOverlay />
+        <Reveal className="relative">
+          <Container>
+            <AccentRule className="mx-auto" />
+            <h2 className="mx-auto mt-6 max-w-2xl text-2xl font-semibold text-cream-100 sm:text-3xl">
+              Want to know more about Clady Group?
+            </h2>
+            <div className="mt-8 flex justify-center">
+              <CTAButton href="/contact" tone="inverted">
+                Get in touch
+              </CTAButton>
+            </div>
+          </Container>
+        </Reveal>
+      </section>
     </>
   );
 }

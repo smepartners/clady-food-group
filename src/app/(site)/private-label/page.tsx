@@ -7,10 +7,12 @@ import {
   UsersThree,
   CalendarBlank,
   Buildings,
+  Coffee,
+  Drop,
+  TeaBag,
 } from "@phosphor-icons/react/dist/ssr";
-import { Section, IconFeature, Pill, CTAButton, ImageFrame, BrandGrid, TextureOverlay, StatTile } from "@/components/ui";
+import { Section, IconFeature, Pill, CTAButton, ImageFrame, TextureOverlay, StatTile } from "@/components/ui";
 import { Reveal, RevealStagger } from "@/components/reveal";
-import { BRANDS } from "@/lib/brands";
 import { PrivateLabelHero } from "@/components/private-label-hero";
 import { ClientLogoBar } from "@/components/client-logo-bar";
 import { Testimonials } from "@/components/testimonials";
@@ -21,6 +23,10 @@ export const metadata: Metadata = { title: "Private Label" };
 // HOME_STATS there) - led with here too, since a procurement contact
 // evaluating Clady for a white label programme needs to see this is a
 // group with real manufacturing scale before reading about the approach.
+// Round 5 feedback: the brand-count stat ("4 specialist brands") undersold
+// the private label side of the business, since 4 is the group's own
+// owned-brand count, not how many customer brands/SKUs are produced under
+// private label - swapped for "100s" to make that distinction clear.
 const SCALE_STATS = [
   { value: "12+", label: "Years established, since 2014", icon: <CalendarBlank size={20} weight="bold" /> },
   {
@@ -29,10 +35,22 @@ const SCALE_STATS = [
     icon: <Buildings size={20} weight="bold" />,
   },
   {
-    value: `${BRANDS.length}`,
-    label: "Specialist brands in the portfolio",
+    value: "100s",
+    label: "Specialist and private label brands produced",
     icon: <Package size={20} weight="bold" />,
   },
+];
+
+// Round 5 feedback: "please start with Coffee / Powdered drinks /
+// Functional drinks / Tea" - photography exists for three of the four
+// (reusing the closest real brand photography for each category rather
+// than generic stock), Tea gets the standard "photography pending"
+// placeholder until a dedicated shot is supplied.
+const PRODUCE_CATEGORIES = [
+  { name: "Coffee", icon: Coffee, seed: "clady-produce-coffee", photo: "/photo-brand-galway-roast.jpg" },
+  { name: "Powdered drinks", icon: Drop, seed: "clady-produce-powdered", photo: "/photo-brand-dutch-maid.jpg" },
+  { name: "Functional drinks", icon: Lightning, seed: "clady-produce-functional", photo: "/photo-brand-evolving-state.jpg" },
+  { name: "Tea", icon: TeaBag, seed: "clady-produce-tea" },
 ];
 
 const PILLARS = [
@@ -60,9 +78,9 @@ export default function PrivateLabelPage() {
         <div className="relative grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
           <Reveal className="order-2 lg:order-1">
             <ImageFrame
-              seed="clady-private-label-manufacturing"
-              alt="Case packing on Clady Group's production line"
-              src="/photo-production-casepacker.jpg"
+              seed="clady-private-label-roastery"
+              alt="Roasting at Clady Group's production facility"
+              src="/photo-roastery-detail.jpg"
               aspect="aspect-[4/3]"
               tone="dark"
             />
@@ -110,13 +128,30 @@ export default function PrivateLabelPage() {
           />
         </Reveal>
 
-        {/* Real logo marks on brand-tone badges (see ui.tsx BrandGrid),
-            not stock photography standing in for each brand's own
-            imagery - same reasoning as the homepage's "Our brands"
-            section. */}
-        <div className="mt-14 border-t border-cream-200 pt-14">
-          <BrandGrid label="The brands we produce for" />
-        </div>
+        {/* Round 5 feedback: a list of what's actually produced, each with
+            its own small photo - "The brands we produce for" grid that
+            used to sit here has been removed, and a "get in touch" CTA
+            takes its place. */}
+        <RevealStagger className="mt-14 grid gap-8 border-t border-cream-200 pt-14 sm:grid-cols-2 lg:grid-cols-4">
+          {PRODUCE_CATEGORIES.map((c) => (
+            <div key={c.name}>
+              <ImageFrame
+                seed={c.seed}
+                alt={c.photo ? `${c.name} produced by Clady Group` : `${c.name} - photography pending`}
+                src={c.photo}
+                aspect="aspect-[4/3]"
+              />
+              <div className="mt-3 flex items-center gap-2">
+                <c.icon size={18} weight="bold" className="text-green-700" />
+                <h3 className="font-semibold text-ink">{c.name}</h3>
+              </div>
+            </div>
+          ))}
+        </RevealStagger>
+
+        <Reveal className="mt-14 text-center">
+          <CTAButton href="/contact">Get in touch about private label</CTAButton>
+        </Reveal>
       </Section>
 
       <Section className="bg-green-700">

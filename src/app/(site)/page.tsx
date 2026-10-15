@@ -23,9 +23,16 @@ export default function HomePage() {
           will carry that information), so the stats panel has been removed
           rather than kept alongside the new clip. Swap
           /photo-capabilities-placeholder.jpg (or this whole block) out for
-          the real clip once it's supplied. */}
+          the real clip once it's supplied.
+
+          Round 5 feedback: the box was locked to its own aspect ratio
+          (aspect-[4/5] / aspect-[16/11]), independent of how tall the text
+          column happened to be, which is what was leaving a band of cream
+          background below it. `items-stretch` + `h-full` on the box makes
+          it match the text column's own height instead, so the two
+          columns line up top and bottom with no leftover gap. */}
       <Section className="bg-cream-200/40">
-        <div className="relative grid gap-12 lg:grid-cols-12 lg:items-start lg:gap-10">
+        <div className="relative grid gap-12 lg:grid-cols-12 lg:items-stretch lg:gap-10">
           <Reveal className="lg:col-span-5 lg:pt-4">
             <h2 className="text-2xl font-semibold text-green-700 sm:text-3xl">
               One group. <em className="italic text-gold-700">Multiple capabilities.</em>
@@ -46,7 +53,7 @@ export default function HomePage() {
             </div>
           </Reveal>
           <Reveal delay={0.1} className="lg:col-span-7">
-            <div className="relative flex aspect-[4/5] items-center justify-center overflow-hidden bg-green-900 sm:aspect-[16/11]">
+            <div className="relative flex aspect-[4/5] min-h-[22rem] items-center justify-center overflow-hidden bg-green-900 lg:aspect-auto lg:h-full">
               <TextureOverlay texture="/texture-leather-green.jpg" />
               <div className="relative flex flex-col items-center gap-3 px-6 text-center text-cream-100/70">
                 <FilmSlate size={32} weight="bold" />

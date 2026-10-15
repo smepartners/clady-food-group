@@ -70,9 +70,12 @@ export function PageHero({
           <h1 className="mt-4 max-w-2xl text-4xl font-semibold leading-[1.05] text-cream-100 sm:text-6xl">
             {heading}
           </h1>
+          {/* Round 5 feedback: brand logo chip was "super small" on every
+              brand detail page - sized up noticeably (h-12 → h-20, image
+              h-7 → h-12). */}
           {logo ? (
-            <div className="mt-5 flex h-12 w-fit items-center rounded-lg bg-cream-100/95 px-3">
-              <Image src={logo} alt="" width={140} height={48} className="h-7 w-auto object-contain" />
+            <div className="mt-5 flex h-20 w-fit items-center rounded-lg bg-cream-100/95 px-4">
+              <Image src={logo} alt="" width={220} height={80} className="h-12 w-auto object-contain" />
             </div>
           ) : null}
           <AccentRule className="mt-7" />

@@ -1,8 +1,11 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { Section, Pill, BrandGrid } from "@/components/ui";
+import Image from "next/image";
+import { Camera } from "@phosphor-icons/react/dist/ssr";
+import { Section, Pill, CTAButton, TextureOverlay } from "@/components/ui";
 import { Reveal } from "@/components/reveal";
 import { BrandDetailHero } from "@/components/brand-detail-hero";
+import { BrandCarousel } from "@/components/brand-carousel";
 
 type Brand = {
   name: string;
@@ -12,6 +15,18 @@ type Brand = {
   seed: string;
   photo: string;
   logo: string;
+  /** A real product-range photo to sit beside the overview copy. Only
+   * Evolving State has one supplied so far (round 5 feedback) - the other
+   * three render the same "photography pending" placeholder used elsewhere
+   * on the site until Zoe supplies theirs. */
+  productsImage?: string;
+  productsImageAlt?: string;
+  /** True for Dutch Maid only (round 5 feedback: "add website coming soon
+   * line (where social/website will be)") - the other three brands get a
+   * social/website row once Zoe supplies the actual links, not yet in
+   * hand, so nothing renders there for them for now rather than linking to
+   * guessed URLs. */
+  websiteComingSoon?: boolean;
 };
 
 // TODO: once the Sanity project is provisioned, replace this map with a
@@ -19,6 +34,12 @@ type Brand = {
 // for now since there's nothing to gain from wiring a CMS that has no
 // content in it yet. Sub-brand logo marks (Build Plan §06, open question
 // 04) are no longer pending - see `logo` below and public/PHOTO-CREDITS.md.
+//
+// Round 5 feedback (Zoe, via George): B2B/B2C tags removed from every
+// brand's focus line (Slumberjack's "Hot chocolate" tag dropped too, per
+// her note); each page gets a product-range image slot and a "get in
+// touch" button; Dutch Maid gets a "website coming soon" line in place of
+// social links, which aren't ready for the other three yet.
 const BRANDS: Record<string, Brand> = {
   "evolving-state": {
     name: "Evolving State",
@@ -27,6 +48,8 @@ const BRANDS: Record<string, Brand> = {
     seed: "clady-evolving-state-wellness",
     photo: "/photo-brand-evolving-state.jpg",
     logo: "/logo-evolving-state.png",
+    productsImage: "/photo-evolving-state-products.avif",
+    productsImageAlt: "The Evolving State product range",
     paragraphs: [
       "Evolving State is focused on natural and functional products designed to enhance everyday health and wellbeing.",
       "Its portfolio spans functional drinks, supplements, natural wellness and performance, bringing together products that fit naturally into modern lifestyles.",
@@ -35,14 +58,14 @@ const BRANDS: Record<string, Brand> = {
   "galway-roast": {
     name: "Galway Roast",
     strap: "Coffee with a taste of Galway.",
-    focus: "Coffee · B2B · B2C · Irish heritage",
+    focus: "Coffee · Irish heritage · Private label",
     seed: "clady-galway-roast-coffee",
     photo: "/photo-brand-galway-roast.jpg",
     logo: "/logo-galway-roast.png",
     paragraphs: [
       "Rooted in place, Galway Roast celebrates Irish heritage, local character and a hint of the Galway coastline in every roast.",
       "The brand brings an authentic sense of Galway to the coffee category, with a focus on quality, flavour and keeping it local.",
-      "Serving both B2B and B2C customers, Galway Roast offers a distinctive proposition for customers looking for coffee with a genuine sense of place.",
+      "Galway Roast offers a distinctive proposition for customers looking for coffee with a genuine sense of place.",
     ],
   },
   "dutch-maid": {
@@ -53,6 +76,7 @@ const BRANDS: Record<string, Brand> = {
     seed: "clady-dutch-maid-soluble",
     photo: "/photo-brand-dutch-maid.jpg",
     logo: "/logo-dutch-maid.png",
+    websiteComingSoon: true,
     paragraphs: [
       "Dutch Maid brings ease, convenience and on-trend flavours together in a versatile range of soluble drinks and ingredients.",
       "As a private label manufacturer, Dutch Maid supplies premium soluble beverage solutions across a wide range of industries and channels, including vending, catering and foodservice, retail, wholesale and food manufacturing.",
@@ -62,14 +86,14 @@ const BRANDS: Record<string, Brand> = {
   slumberjack: {
     name: "Slumberjack",
     strap: "Our signature beverage brand.",
-    focus: "Coffee · Tea · Hot chocolate · B2B · B2C",
+    focus: "Coffee · Tea · Private label",
     seed: "clady-slumberjack-coffee",
     photo: "/photo-brand-slumberjack.jpg",
     logo: "/logo-slumberjack.svg",
     paragraphs: [
       "Our signature beverage brand. Slumberjack is the brand from which the Clady Group story began.",
       "Established in 2014, Slumberjack has grown from its family-business roots to offer a broad range of high-quality hot and cold beverage products.",
-      "The range spans coffee, tea and hot chocolate, with products designed to serve the needs of B2B customers across different channels and applications.",
+      "The range spans coffee, tea and hot chocolate, with products designed to serve the needs of customers across different channels and applications.",
       "Slumberjack continues to be guided by three simple principles: remain a family business, stay close to the latest taste trends, and offer breadth and variety across formats, flavours and price points.",
     ],
   },
@@ -102,27 +126,71 @@ export default async function BrandPage({
     <>
       <BrandDetailHero brand={brand} />
 
+      {/* Round 5 feedback: overview copy now sits beside a product-range
+          image instead of running full-width alone, and closes with a
+          "get in touch" CTA. The image is a real supplied photo where
+          Zoe's provided one (Evolving State so far) and the standard
+          "photography pending" placeholder everywhere else, ready to swap
+          in once the rest are supplied. */}
       <Section>
-        <div className="max-w-2xl space-y-4 text-ink-soft">
-          {brand.paragraphs.map((p, i) => (
-            <p key={i}>{p}</p>
-          ))}
+        <div className="grid gap-12 lg:grid-cols-12 lg:items-start lg:gap-10">
+          <Reveal className="lg:col-span-7">
+            <div className="max-w-2xl space-y-4 text-ink-soft">
+              {brand.paragraphs.map((p, i) => (
+                <p key={i}>{p}</p>
+              ))}
+            </div>
+            <ul className="mt-8 flex flex-wrap gap-2 border-t border-cream-200 pt-6">
+              {brand.focus.split("·").map((f) => (
+                <li key={f}>
+                  <Pill>{f.trim()}</Pill>
+                </li>
+              ))}
+            </ul>
+            {brand.websiteComingSoon ? (
+              <p className="mt-6 text-sm font-medium uppercase tracking-wide text-olive-600">
+                Website coming soon
+              </p>
+            ) : null}
+            <div className="mt-8">
+              <CTAButton href="/contact">Get in touch about {brand.name}</CTAButton>
+            </div>
+          </Reveal>
+          <Reveal delay={0.1} className="lg:col-span-5">
+            {brand.productsImage ? (
+              <div className="relative aspect-[4/5] overflow-hidden bg-cream-200">
+                <Image
+                  src={brand.productsImage}
+                  alt={brand.productsImageAlt ?? `The ${brand.name} product range`}
+                  fill
+                  sizes="(min-width: 1024px) 40vw, 100vw"
+                  className="object-cover"
+                />
+              </div>
+            ) : (
+              <div className="relative flex aspect-[4/5] items-center justify-center overflow-hidden border border-cream-200 bg-gradient-to-br from-green-700/25 via-gold-500/20 to-olive-400/25">
+                <div className="flex flex-col items-center gap-2 px-6 text-center text-green-700/60">
+                  <Camera size={28} weight="light" />
+                  <p className="text-xs font-medium uppercase tracking-wide">
+                    Product range photography pending
+                  </p>
+                </div>
+              </div>
+            )}
+          </Reveal>
         </div>
-        <Reveal>
-          <ul className="mt-8 flex flex-wrap gap-2 border-t border-cream-200 pt-6">
-            {brand.focus.split("·").map((f) => (
-              <li key={f}>
-                <Pill>{f.trim()}</Pill>
-              </li>
-            ))}
-          </ul>
-        </Reveal>
       </Section>
 
-      <Section className="bg-cream-200/40">
-        <Reveal>
-          <BrandGrid />
-        </Reveal>
+      {/* Round 5 feedback: swapped the static BrandGrid for the same
+          carousel used on the homepage's "Our brands" band, so this
+          closing section reads as the identical brand-portfolio moment
+          wherever it appears on the site rather than a smaller, separate
+          treatment. */}
+      <Section className="relative overflow-hidden bg-green-900">
+        <TextureOverlay texture="/texture-leather-gold.jpg" watermark="/logo-icon-watermark-gold.png" />
+        <div className="relative">
+          <BrandCarousel />
+        </div>
       </Section>
     </>
   );
