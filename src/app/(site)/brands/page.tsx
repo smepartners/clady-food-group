@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
-import { Package } from "@phosphor-icons/react/dist/ssr";
+import { Package, ArrowUpRight } from "@phosphor-icons/react/dist/ssr";
 import { Section, ImageFrame, TextureOverlay } from "@/components/ui";
 import { Reveal, RevealStagger } from "@/components/reveal";
 import { BrandsHero } from "@/components/brands-hero";
@@ -54,47 +54,91 @@ const BRANDS = [
   },
 ];
 
+/** Private Label rendered as a sixth tile in the same list (see the note
+ * on TILES below for why it has to be IN the array, not a sibling JSX
+ * element after `{BRANDS.map(...)}`). */
+const PRIVATE_LABEL_TILE = {
+  slug: "private-label" as const,
+  name: "Private Label",
+  strap: "Manufactured under your own brand.",
+  focus: "Coffee · Tea · Soluble drinks · Wellness",
+};
+
+// RevealStagger (reveal.tsx) calls `children.map(...)` on whatever is
+// passed as its JSX children. `{BRANDS.map(x => <Link/>)}` followed by a
+// sibling `<Link>` for Private Label used to hand it exactly TWO
+// top-level children - the whole mapped array as one, plus the Private
+// Label link as the other - so the CSS grid below only ever saw two grid
+// items (one of them silently containing all four brand cards stacked
+// inside a single cell). That's what Zoe was seeing as an "uneven grid".
+// Building one flat array up front and mapping it once avoids that trap.
+const TILES = [...BRANDS, PRIVATE_LABEL_TILE];
+
 export default function BrandsIndexPage() {
   return (
     <>
       <BrandsHero />
 
+      {/* Round 5 feedback: "Our brands has uneven grid and could do with
+          CTA on each brand and private label" - a 2-up grid left the 5th
+          (Private Label) tile stranded alone with empty space beside it;
+          3-up at the lg breakpoint reads as a deliberate 3+2 layout
+          instead. Every card now ends in an "Explore" link with the same
+          arrow treatment as the homepage's brand carousel, rather than
+          relying on the whole card being a silent click target. */}
       <Section className="bg-cream-200/40">
-        <RevealStagger className="grid gap-10 sm:grid-cols-2">
-          {BRANDS.map((b) => (
-            <Link key={b.slug} href={`/brands/${b.slug}`} className="group block">
-              <div className="relative overflow-hidden transition duration-300 group-hover:-translate-y-1">
-                <ImageFrame seed={b.seed} alt={b.name} src={b.photo} aspect="aspect-[16/10]" />
-                {/* Bigger badge + bigger logo than before - client feedback
-                    was the logos were tricky to see against the photo. */}
-                <div className="absolute bottom-3 left-3 flex h-14 items-center rounded-md bg-cream-100/95 px-3.5 shadow-sm">
-                  <Image src={b.logo} alt="" width={120} height={48} className="h-9 w-auto object-contain" />
-                </div>
-              </div>
-              <h2 className="mt-4 text-lg font-semibold text-ink transition group-hover:text-green-700">
-                {b.name}
-              </h2>
-              <p className="mt-1 text-sm italic text-ink-soft">{b.strap}</p>
-              <p className="mt-3 text-xs uppercase tracking-wide text-olive-600">{b.focus}</p>
-            </Link>
-          ))}
-
-          {/* Fifth tile for Private Label, matching the homepage brand
-              carousel's treatment of it as an equally-prominent fifth card
-              rather than a footnote. */}
-          <Link href="/private-label" className="group block">
-            <div className="relative flex aspect-[16/10] items-center justify-center overflow-hidden bg-green-900 transition duration-300 group-hover:-translate-y-1">
-              <TextureOverlay texture="/texture-leather-green.jpg" />
-              <Package size={40} weight="bold" className="relative text-gold-500" />
-            </div>
-            <h2 className="mt-4 text-lg font-semibold text-ink transition group-hover:text-green-700">
-              Private Label
-            </h2>
-            <p className="mt-1 text-sm italic text-ink-soft">Manufactured under your own brand.</p>
-            <p className="mt-3 text-xs uppercase tracking-wide text-olive-600">
-              Coffee · Tea · Soluble drinks · Wellness
-            </p>
-          </Link>
+        <RevealStagger className="grid gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
+          {TILES.map((t) => {
+            const isPrivateLabel = t.slug === "private-label";
+            return (
+              <Link
+                key={t.slug}
+                href={isPrivateLabel ? "/private-label" : `/brands/${t.slug}`}
+                className="group block"
+              >
+                {isPrivateLabel ? (
+                  <div className="relative flex aspect-[16/10] items-center justify-center overflow-hidden bg-green-900 transition duration-300 group-hover:-translate-y-1">
+                    <TextureOverlay texture="/texture-leather-green.jpg" />
+                    <Package size={40} weight="bold" className="relative text-gold-500" />
+                  </div>
+                ) : (
+                  <div className="relative overflow-hidden transition duration-300 group-hover:-translate-y-1">
+                    <ImageFrame
+                      seed={(t as (typeof BRANDS)[number]).seed}
+                      alt={t.name}
+                      src={(t as (typeof BRANDS)[number]).photo}
+                      aspect="aspect-[16/10]"
+                    />
+                    {/* Bigger badge + bigger logo than before - client
+                        feedback was the logos were tricky to see against
+                        the photo. */}
+                    <div className="absolute bottom-3 left-3 flex h-14 items-center rounded-md bg-cream-100/95 px-3.5 shadow-sm">
+                      <Image
+                        src={(t as (typeof BRANDS)[number]).logo}
+                        alt=""
+                        width={120}
+                        height={48}
+                        className="h-9 w-auto object-contain"
+                      />
+                    </div>
+                  </div>
+                )}
+                <h2 className="mt-4 text-lg font-semibold text-ink transition group-hover:text-green-700">
+                  {t.name}
+                </h2>
+                <p className="mt-1 text-sm italic text-ink-soft">{t.strap}</p>
+                <p className="mt-3 text-xs uppercase tracking-wide text-olive-600">{t.focus}</p>
+                <span className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-green-700">
+                  Explore {t.name}
+                  <ArrowUpRight
+                    size={14}
+                    weight="bold"
+                    className="shrink-0 text-gold-700 transition duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                  />
+                </span>
+              </Link>
+            );
+          })}
         </RevealStagger>
       </Section>
 

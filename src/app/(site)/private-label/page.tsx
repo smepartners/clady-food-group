@@ -11,7 +11,7 @@ import {
   Drop,
   TeaBag,
 } from "@phosphor-icons/react/dist/ssr";
-import { Section, IconFeature, Pill, CTAButton, ImageFrame, TextureOverlay, StatTile } from "@/components/ui";
+import { Section, Container, Pill, CTAButton, ImageFrame, TextureOverlay, StatTile, AccentRule } from "@/components/ui";
 import { Reveal, RevealStagger } from "@/components/reveal";
 import { PrivateLabelHero } from "@/components/private-label-hero";
 import { ClientLogoBar } from "@/components/client-logo-bar";
@@ -62,6 +62,15 @@ const PILLARS = [
 ];
 
 const MARKETS = ["Vending", "Catering & foodservice", "Retail", "Wholesale", "Food manufacturing"];
+
+// Matches ValuesDarkBand's icon treatment (values-section.tsx) - a ring
+// rather than a filled disc, cream text for green/olive since both read
+// the same against a dark background there too.
+const PILLAR_ICON_TONE = {
+  gold: "bg-gold-500/20 text-gold-500 ring-gold-500/30",
+  green: "bg-cream-100/10 text-cream-100 ring-cream-100/15",
+  olive: "bg-cream-100/10 text-cream-100 ring-cream-100/15",
+} as const;
 
 export default function PrivateLabelPage() {
   return (
@@ -154,43 +163,75 @@ export default function PrivateLabelPage() {
         </Reveal>
       </Section>
 
-      <Section className="bg-green-700">
-        <Reveal>
-          <h2 className="mx-auto max-w-2xl text-center text-2xl font-semibold text-cream-100 sm:text-3xl">
-            A flexible approach
-          </h2>
-          <div className="mx-auto mt-6 max-w-2xl space-y-4 text-center text-cream-100/75">
-            <p>
+      {/* Round 5 feedback: "A flexible approach and onwards not matching
+          the style of the homepage" - this was a flat bg-green-700 block
+          with no texture or CTA; now matches the homepage's closing
+          "Built for better partnerships" band (home/page.tsx) exactly:
+          texture overlay, soft corner glows, inverted CTA button. */}
+      <section className="relative overflow-hidden bg-green-700 py-14 text-center sm:py-20">
+        <TextureOverlay />
+        <div className="absolute -left-16 -top-16 h-56 w-56 rounded-full bg-gold-500/15 blur-3xl" />
+        <div className="absolute -bottom-20 -right-10 h-56 w-56 rounded-full bg-olive-400/15 blur-3xl" />
+        <Reveal className="relative">
+          <Container>
+            <h2 className="mx-auto max-w-2xl text-2xl font-semibold text-cream-100 sm:text-3xl">
+              A flexible approach
+            </h2>
+            <p className="mx-auto mt-4 max-w-xl text-cream-100/80">
               We work collaboratively with customers to understand the
-              opportunity and develop solutions around their needs.
+              opportunity and develop solutions around their needs. Whether
+              you are looking to launch a new proposition, extend an
+              existing range or source a proven product under your own
+              brand, our capabilities can support you.
             </p>
-            <p>
-              Whether you are looking to launch a new proposition, extend an
-              existing range or source a proven product under your own brand,
-              our capabilities can support you.
-            </p>
-          </div>
+            <div className="mt-8 flex justify-center">
+              <CTAButton href="/contact" tone="inverted">
+                Talk to us about your opportunity
+              </CTAButton>
+            </div>
+          </Container>
         </Reveal>
-      </Section>
+      </section>
 
-      <Section>
-        <Reveal>
-          <h2 className="text-2xl font-semibold text-green-700 sm:text-3xl">
-            From idea to opportunity
-          </h2>
-        </Reveal>
-        <RevealStagger className="mt-10 grid gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-5">
-          {PILLARS.map((p, i) => (
-            <IconFeature
-              key={p.name}
-              icon={<p.icon size={22} weight="bold" />}
-              name={p.name}
-              body={p.body}
-              tone={p.tone}
-              index={i + 1}
-            />
-          ))}
-        </RevealStagger>
+      {/* Round 5 feedback: "idea to opportunity can show the same as on
+          the homepage" - was a 5-up IconFeature card grid with numbered
+          badges (the pre-round-4 pattern already dropped everywhere
+          else); now the same dark, full-bleed divide-y band as the
+          homepage's "What drives us" (values-section.tsx ValuesDarkBand),
+          down to the corner glows and ring icon treatment. */}
+      <Section className="relative overflow-hidden bg-green-900">
+        <TextureOverlay />
+        <div className="absolute -left-24 top-0 h-72 w-72 rounded-full bg-gold-500/10 blur-3xl" aria-hidden="true" />
+        <div className="absolute -right-16 bottom-0 h-80 w-80 rounded-full bg-olive-400/10 blur-3xl" aria-hidden="true" />
+        <div className="relative">
+          <Reveal className="max-w-xl">
+            <p className="text-sm font-semibold uppercase tracking-[0.16em] text-gold-500/90">
+              Our approach
+            </p>
+            <h2 className="mt-3 text-3xl font-semibold text-cream-100 sm:text-4xl">
+              From idea to opportunity
+            </h2>
+            <AccentRule className="mt-6" />
+          </Reveal>
+          <RevealStagger className="mt-14 divide-y divide-cream-100/10 border-t border-cream-100/10">
+            {PILLARS.map((p) => (
+              <div
+                key={p.name}
+                className="group flex flex-col gap-4 py-8 sm:flex-row sm:items-center sm:gap-10 sm:py-10"
+              >
+                <div className="flex items-center gap-4 sm:w-64 sm:shrink-0">
+                  <span
+                    className={`flex h-14 w-14 shrink-0 items-center justify-center rounded-full ring-1 ring-inset transition duration-300 group-hover:scale-105 ${PILLAR_ICON_TONE[p.tone]}`}
+                  >
+                    <p.icon size={22} weight="bold" />
+                  </span>
+                  <h3 className="text-xl font-semibold text-cream-100 sm:text-2xl">{p.name}</h3>
+                </div>
+                <p className="max-w-xl text-cream-100/70 sm:text-lg">{p.body}</p>
+              </div>
+            ))}
+          </RevealStagger>
+        </div>
       </Section>
 
       <Section className="bg-cream-200/40">
