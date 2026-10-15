@@ -1,10 +1,10 @@
-import { FilmSlate } from "@phosphor-icons/react/dist/ssr";
 import { Section, Container, CTAButton, TextureOverlay } from "@/components/ui";
 import { Reveal } from "@/components/reveal";
 import { HeroSwitcher } from "@/components/hero-switcher";
 import { ParallaxBand } from "@/components/parallax-band";
 import { BrandCarousel } from "@/components/brand-carousel";
 import { ValuesSwitcher } from "@/components/values-section";
+import { CapabilitiesVideoPanel } from "@/components/capabilities-video-panel";
 
 export default function HomePage() {
   return (
@@ -17,13 +17,11 @@ export default function HomePage() {
           the visual follows on the right, with square rather than rounded
           corners, per the previous round of client feedback.
 
-          The visual slot is a holding placeholder - Zoe/Sonia are having a
-          graphic clip produced for this spot, which will replace the need
-          for the stats panel that used to float over it (the clip itself
-          will carry that information), so the stats panel has been removed
-          rather than kept alongside the new clip. Swap
-          /photo-capabilities-placeholder.jpg (or this whole block) out for
-          the real clip once it's supplied.
+          The visual slot now carries the same shortened corporate video as
+          the hero (CapabilitiesVideoPanel, reusing home-hero-video.tsx's
+          asset) - the client confirmed Oct 2026 the upload was meant for
+          both spots, not just the hero, so this is no longer a holding
+          placeholder for a separate graphic clip.
 
           Round 5 feedback: the box was locked to its own aspect ratio
           (aspect-[4/5] / aspect-[16/11]), independent of how tall the text
@@ -53,15 +51,7 @@ export default function HomePage() {
             </div>
           </Reveal>
           <Reveal delay={0.1} className="lg:col-span-7">
-            <div className="relative flex aspect-[4/5] min-h-[22rem] items-center justify-center overflow-hidden bg-green-900 lg:aspect-auto lg:h-full">
-              <TextureOverlay texture="/texture-leather-green.jpg" />
-              <div className="relative flex flex-col items-center gap-3 px-6 text-center text-cream-100/70">
-                <FilmSlate size={32} weight="bold" />
-                <p className="text-sm font-medium">
-                  Graphic clip to come - holding placeholder
-                </p>
-              </div>
-            </div>
+            <CapabilitiesVideoPanel />
           </Reveal>
         </div>
       </Section>
