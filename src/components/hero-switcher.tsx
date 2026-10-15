@@ -11,11 +11,13 @@ import { HomeHeroVideo } from "@/components/home-hero-video";
  * pill in the bottom-right corner rather than anything inside the hero
  * itself, so it reads as a review control rather than a piece of real
  * site content, and stays reachable while scrolling the rest of the
- * page. Defaults to the grid, since that's the version the brief has
- * settled on; this is for comparing, not for picking a permanent default.
+ * page. Defaults to video now that the real shortened company video is
+ * in (Round 6) - the client asked where the uploaded clip was on the
+ * homepage, since the grid default meant it only showed up if a visitor
+ * happened to click the toggle. Still kept for comparing/reverting.
  */
 export function HeroSwitcher() {
-  const [variant, setVariant] = useState<"grid" | "video">("grid");
+  const [variant, setVariant] = useState<"grid" | "video">("video");
 
   return (
     <div>
