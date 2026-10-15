@@ -1,16 +1,19 @@
 import Image from "next/image";
 import { InstagramLogo, ArrowUpRight } from "@phosphor-icons/react/dist/ssr";
-import { Reveal, RevealStagger } from "@/components/reveal";
+import { Reveal } from "@/components/reveal";
 
 /**
- * Instagram content, group-wide.
+ * Instagram content, per brand page only (not a cross-site highlight -
+ * tried that on Home/About/Private Label and it was asked to come back
+ * off, Oct 2026: just the brand's own page, not a group-wide feature).
  *
  * There's no API access wired up yet - a live, auto-updating feed needs a
  * widget account (SnapWidget/Elfsight) that only George can create, since
  * account signup isn't something this build process does on a client's
  * behalf. So for now every brand with a confirmed Instagram handle gets a
- * styled "follow" teaser instead of a scraped feed. Once a widget embed
- * code exists for a brand, set its `instagramWidgetId` below and swap the
+ * styled "follow" teaser instead of a scraped feed - just a link out to the
+ * real profile, not actual pulled-in posts. Once a widget embed code
+ * exists for a brand, set its `instagramWidgetId` below and swap the
  * teaser card for the live SnapWidget iframe in `BrandInstagramSection`.
  *
  * Confirmed handles (Round 6 social links, George, Oct 2026):
@@ -76,29 +79,6 @@ function InstagramFollowCard({
         />
       </div>
     </a>
-  );
-}
-
-/** For Home / About / Private Label: a mixed grid of every brand with a
- * confirmed Instagram handle, giving those pages a "the group in action"
- * social moment. Renders nothing if no brand has a handle yet. */
-export function GroupInstagramHighlight() {
-  return (
-    <div>
-      <Reveal>
-        <p className="text-sm font-semibold uppercase tracking-wide text-olive-600">
-          Follow the group
-        </p>
-        <h2 className="mt-2 text-2xl font-semibold text-ink sm:text-3xl">
-          Our brands on Instagram
-        </h2>
-      </Reveal>
-      <RevealStagger className="mt-8 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
-        {INSTAGRAM_BRANDS.map((b) => (
-          <InstagramFollowCard key={b.slug} brand={b} />
-        ))}
-      </RevealStagger>
-    </div>
   );
 }
 

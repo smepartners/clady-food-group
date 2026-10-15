@@ -14,7 +14,6 @@ import {
 import { Section, Container, CTAButton, ImageFrame, TextureOverlay, StatTile, AccentRule } from "@/components/ui";
 import { Reveal, RevealStagger } from "@/components/reveal";
 import { PrivateLabelHero } from "@/components/private-label-hero";
-import { GroupInstagramHighlight } from "@/components/instagram-feed";
 
 export const metadata: Metadata = { title: "Private Label" };
 
@@ -236,12 +235,7 @@ export default function PrivateLabelPage() {
           testimonial content in those last two was placeholder (fictional
           names/quotes) rather than confirmed, permitted real customers, so
           they've come out rather than stay as unlabelled placeholder
-          content on a live page. A real social-proof section (Instagram
-          follow grid) takes their place below instead. */}
-      <Section pad="py-10 sm:py-14">
-        <GroupInstagramHighlight />
-      </Section>
-
+          content on a live page. */}
       <Section pad="pt-0 pb-14 sm:pb-20">
         <Reveal className="text-center">
           <CTAButton href="/contact">

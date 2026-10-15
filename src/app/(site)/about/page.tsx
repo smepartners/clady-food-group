@@ -5,7 +5,6 @@ import { Reveal } from "@/components/reveal";
 import { AccreditationGrid, type Accreditation } from "@/components/accreditation";
 import { AboutHero } from "@/components/about-hero";
 import { VideoStorySection } from "@/components/video-story-section";
-import { GroupInstagramHighlight } from "@/components/instagram-feed";
 
 export const metadata: Metadata = { title: "About Us" };
 
@@ -217,13 +216,8 @@ export default function AboutPage() {
       {/* Round 5 feedback: "Who we work with" (client logo bar) and "Part
           of the Clady Food Group" (brand grid) sections removed for now -
           to go back in once client names are approved to show and once
-          this page needs another brand-portfolio mention. */}
-
-      <Section pad="py-10 sm:py-14">
-        <GroupInstagramHighlight />
-      </Section>
-
-      {/* Closes on a get-in-touch CTA. */}
+          this page needs another brand-portfolio mention. Closes on a
+          get-in-touch CTA instead. */}
       <section className="relative overflow-hidden bg-green-700 py-14 text-center sm:py-20">
         <TextureOverlay />
         <Reveal className="relative">

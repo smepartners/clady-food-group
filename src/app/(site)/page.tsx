@@ -5,7 +5,6 @@ import { HeroSwitcher } from "@/components/hero-switcher";
 import { ParallaxBand } from "@/components/parallax-band";
 import { BrandCarousel } from "@/components/brand-carousel";
 import { ValuesSwitcher } from "@/components/values-section";
-import { GroupInstagramHighlight } from "@/components/instagram-feed";
 
 export default function HomePage() {
   return (
@@ -91,13 +90,6 @@ export default function HomePage() {
         <div className="relative">
           <BrandCarousel />
         </div>
-      </Section>
-
-      {/* Social proof, right after the brand portfolio moment above -
-          see instagram-feed.tsx for why this is a styled follow teaser
-          rather than a live scraped feed for now. */}
-      <Section pad="py-14 sm:py-20">
-        <GroupInstagramHighlight />
       </Section>
 
       {/* Four built concepts, switchable live via the fixed pill (bottom
