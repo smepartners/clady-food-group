@@ -6,6 +6,7 @@ import { Section, Pill, CTAButton, TextureOverlay } from "@/components/ui";
 import { Reveal } from "@/components/reveal";
 import { BrandDetailHero } from "@/components/brand-detail-hero";
 import { BrandCarousel } from "@/components/brand-carousel";
+import { BrandInstagramSection } from "@/components/instagram-feed";
 
 type Brand = {
   name: string;
@@ -279,6 +280,13 @@ export default async function BrandPage({
             )}
           </Reveal>
         </div>
+      </Section>
+
+      {/* Instagram: a follow teaser for brands with a confirmed handle
+          (Evolving State, Galway Roast so far - see instagram-feed.tsx).
+          Renders nothing for brands without one yet. */}
+      <Section pad="py-10 sm:py-14">
+        <BrandInstagramSection slug={slug} />
       </Section>
 
       {/* Round 5 feedback: swapped the static BrandGrid for the same
