@@ -111,13 +111,18 @@ function InstagramPostCard({
       rel="noreferrer"
       className="group block overflow-hidden rounded-xl border border-cream-200 bg-cream-100 transition duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-ink/10"
     >
+      {/* object-contain rather than object-cover - two of these are reel
+          thumbnails (portrait 9:16 / landscape 16:9), not square, and
+          cropping them to fill the square cut off part of the shot. The
+          cream fill behind shows the letterboxing is intentional rather
+          than a stretched/broken image. */}
       <div className="relative aspect-square overflow-hidden bg-cream-200">
         <Image
           src={post.image}
           alt={`${brandName} Instagram post`}
           fill
           sizes="(min-width: 1024px) 25vw, 50vw"
-          className="object-cover transition duration-500 group-hover:scale-105"
+          className="object-contain transition duration-500 group-hover:scale-105"
         />
       </div>
       <div className="flex items-start justify-between gap-3 p-4">
