@@ -11,11 +11,9 @@ import {
   Drop,
   TeaBag,
 } from "@phosphor-icons/react/dist/ssr";
-import { Section, Container, Pill, CTAButton, ImageFrame, TextureOverlay, StatTile, AccentRule } from "@/components/ui";
+import { Section, Container, CTAButton, ImageFrame, TextureOverlay, StatTile, AccentRule } from "@/components/ui";
 import { Reveal, RevealStagger } from "@/components/reveal";
 import { PrivateLabelHero } from "@/components/private-label-hero";
-import { ClientLogoBar } from "@/components/client-logo-bar";
-import { Testimonials } from "@/components/testimonials";
 
 export const metadata: Metadata = { title: "Private Label" };
 
@@ -60,8 +58,6 @@ const PILLARS = [
   { icon: CheckCircle, tone: "gold" as const, name: "Consistency", body: "A focus on dependable product quality and reliable customer relationships." },
   { icon: UsersThree, tone: "green" as const, name: "Collaboration", body: "A partnership approach from initial brief through to finished product." },
 ];
-
-const MARKETS = ["Vending", "Catering & foodservice", "Retail", "Wholesale", "Food manufacturing"];
 
 // Matches ValuesDarkBand's icon treatment (values-section.tsx) - a ring
 // rather than a filled disc, cream text for green/olive since both read
@@ -234,37 +230,12 @@ export default function PrivateLabelPage() {
         </div>
       </Section>
 
-      <Section className="bg-cream-200/40">
-        <Reveal>
-          <h2 className="text-2xl font-semibold text-green-700 sm:text-3xl">
-            Across multiple markets
-          </h2>
-          <p className="mt-4 max-w-2xl text-ink-soft">
-            Our private label capabilities support customers across areas including:
-          </p>
-          <ul className="mt-4 flex flex-wrap gap-3">
-            {MARKETS.map((m) => (
-              <li key={m}>
-                <Pill>{m}</Pill>
-              </li>
-            ))}
-          </ul>
-          <p className="mt-6 max-w-2xl text-ink-soft">
-            From instant coffee and hot chocolate to functional and wellness
-            products, we can help create beverage solutions that fit your brand
-            and your market.
-          </p>
-        </Reveal>
-      </Section>
-
-      <Section>
-        <ClientLogoBar />
-      </Section>
-
-      <Section className="bg-cream-200/40">
-        <Testimonials />
-      </Section>
-
+      {/* Round 6 feedback: "Across multiple markets", "Who we work with"
+          and "What customers say" all removed - the client-logo and
+          testimonial content in those last two was placeholder (fictional
+          names/quotes) rather than confirmed, permitted real customers, so
+          they've come out rather than stay as unlabelled placeholder
+          content on a live page. */}
       <Section pad="pt-0 pb-14 sm:pb-20">
         <Reveal className="text-center">
           <CTAButton href="/contact">
