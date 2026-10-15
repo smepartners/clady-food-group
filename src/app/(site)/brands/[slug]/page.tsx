@@ -35,6 +35,15 @@ type Brand = {
   /** True for Dutch Maid only - the other three brands now have a
    * social/website row (see `social` above). */
   websiteComingSoon?: boolean;
+  /** A third-party certification tied to this specific site/entity rather
+   * than held group-wide (see ACCREDITATIONS in about/page.tsx for the
+   * group-wide ones). Slumberjack only for now - see the note above its
+   * entry below. */
+  certification?: {
+    logo: string;
+    logoAlt: string;
+    body: string;
+  };
 };
 
 // TODO: once the Sanity project is provisioned, replace this map with a
@@ -121,6 +130,19 @@ const BRANDS: Record<string, Brand> = {
     social: {
       website: "https://www.slumberjackcoffee.com/",
       linkedin: "https://www.linkedin.com/company/slumberjack-coffee/posts/",
+    },
+    // BRCGS Start (Basic) certification, confirmed by the client (Oct
+    // 2026) - tied to the Slumberjack Coffee site specifically, not the
+    // group as a whole, so it's shown here rather than in the group-wide
+    // ACCREDITATIONS list on /about. Per BRCGS's own usage requirements:
+    // the official, unaltered logo, shown with the company name
+    // ("Slumberjack Coffee", matching the certificate) on this page only,
+    // with the scope stated accurately (roasted/ground coffee and instant
+    // powder drink blends - not the wider Slumberjack product range).
+    certification: {
+      logo: "/logo-brcgs-start.png",
+      logoAlt: "BRCGS Start certification mark",
+      body: "Slumberjack Coffee is BRCGS Start certified (Basic level) for roasted and ground coffee and instant powder drink blends.",
     },
     paragraphs: [
       "Our signature beverage brand. Slumberjack is the brand from which the Clady Group story began.",
@@ -252,6 +274,20 @@ export default async function BrandPage({
               <p className="mt-6 text-sm font-medium uppercase tracking-wide text-olive-600">
                 Website coming soon
               </p>
+            ) : null}
+            {brand.certification ? (
+              <div className="mt-8 flex items-center gap-4 border-t border-cream-200 pt-6">
+                <div className="relative h-10 w-32 shrink-0">
+                  <Image
+                    src={brand.certification.logo}
+                    alt={brand.certification.logoAlt}
+                    fill
+                    sizes="128px"
+                    className="object-contain object-left"
+                  />
+                </div>
+                <p className="text-sm leading-relaxed text-ink-soft">{brand.certification.body}</p>
+              </div>
             ) : null}
             <div className="mt-8">
               <CTAButton href="/contact">Get in touch about {brand.name}</CTAButton>
