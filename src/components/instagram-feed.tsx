@@ -91,6 +91,11 @@ export const INSTAGRAM_BRANDS = [
         image: "/instagram/galway-roast-post-2.jpg",
         caption: "#galwayroast #coffeelovers #lidlireland #supportlocal #coffeetime",
       },
+      {
+        url: "https://www.instagram.com/galwayroastcoffee/reel/DVYP7q6iPXB/",
+        image: "/instagram/galway-roast-post-3.jpg",
+        caption: "#lidlireland #lidl #supportlocalbrand #coffeelover",
+      },
     ],
   },
 ] as const;
