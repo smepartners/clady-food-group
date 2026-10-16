@@ -90,15 +90,20 @@ export default function PrivateLabelPage() {
         <div className="relative grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
           <Reveal className="order-2 lg:order-1">
             {/* Round 7 feedback: "update more than a logo photo to the
-                large one below this section" - swapped for the same
+                large one below this section" - swapped for the
                 production-packing-line photo that used to sit in the
-                "What we produce" band below (now removed from there, see
-                that section's comment), rather than the roastery detail
-                shot. */}
+                "What we produce" band below, rather than the roastery
+                detail shot.
+                Round 8 feedback: "photo in the more than a logo section
+                still not updated - can be this one" plus a specific
+                Google Drive photo - George wanted a different shot than
+                the packing line: a closer, higher-resolution view of the
+                roasters themselves. Downloaded from the supplied Drive
+                link and added as photo-roastery-row.jpg. */}
             <ImageFrame
-              seed="clady-private-label-production-line"
-              alt="The packing and labelling line at Clady Group's Buxton site"
-              src="/photo-production-packing.jpg"
+              seed="clady-private-label-roastery-row"
+              alt="A row of roasters at Clady Group's production facility"
+              src="/photo-roastery-row.jpg"
               aspect="aspect-[4/3]"
             />
           </Reveal>
