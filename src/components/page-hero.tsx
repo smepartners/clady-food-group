@@ -30,6 +30,7 @@ export function PageHero({
   cta,
   compact = false,
   logo,
+  logoSize = "default",
 }: {
   image: string;
   alt: string;
@@ -45,6 +46,13 @@ export function PageHero({
    * public/PHOTO-CREDITS.md) rendered as a white chip above the heading,
    * next to the plain-text eyebrow rather than replacing it. */
   logo?: string;
+  /** Round 7 feedback: Dutch Maid's logo is a tall, near-square lockup
+   * (icon + wordmark + tagline + date stacked vertically), not the wide,
+   * short mark every other brand supplied - at the shared chip size its
+   * wordmark was too small to read. `logoSize="lg"` gives it a taller
+   * chip so the same logo file renders legibly; every other brand keeps
+   * the default. */
+  logoSize?: "default" | "lg";
 }) {
   return (
     <section className="relative isolate overflow-hidden bg-green-900">
@@ -74,8 +82,18 @@ export function PageHero({
               brand detail page - sized up noticeably (h-12 → h-20, image
               h-7 → h-12). */}
           {logo ? (
-            <div className="mt-5 flex h-20 w-fit items-center rounded-lg bg-cream-100/95 px-4">
-              <Image src={logo} alt="" width={220} height={80} className="h-12 w-auto object-contain" />
+            <div
+              className={`mt-5 flex w-fit items-center rounded-lg bg-cream-100/95 px-4 ${
+                logoSize === "lg" ? "h-28" : "h-20"
+              }`}
+            >
+              <Image
+                src={logo}
+                alt=""
+                width={220}
+                height={80}
+                className={`w-auto object-contain ${logoSize === "lg" ? "h-20" : "h-12"}`}
+              />
             </div>
           ) : null}
           <AccentRule className="mt-7" />

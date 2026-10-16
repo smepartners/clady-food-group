@@ -7,8 +7,10 @@ import { PageHero } from "@/components/page-hero";
  * every other hero on the site. */
 export function BrandDetailHero({
   brand,
+  slug,
 }: {
   brand: { name: string; strap: string; seed: string; photo: string; logo: string };
+  slug?: string;
 }) {
   return (
     <PageHero
@@ -18,6 +20,7 @@ export function BrandDetailHero({
       heading={brand.name}
       subheading={brand.strap}
       logo={brand.logo}
+      logoSize={slug === "dutch-maid" ? "lg" : "default"}
       compact
     />
   );

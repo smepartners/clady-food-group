@@ -94,7 +94,14 @@ export default function BrandsIndexPage() {
               <Link
                 key={t.slug}
                 href={isPrivateLabel ? "/private-label" : `/brands/${t.slug}`}
-                className="group block"
+                // Round 7 feedback: "Explore Slumberjack" sat higher than
+                // the other cards' CTAs - each card's strap/focus text
+                // wraps to a different number of lines, so the CTA that
+                // used to follow straight after it landed at a different
+                // height per card even within the same grid row. flex-col
+                // + mt-auto on the CTA below pins it to the same baseline
+                // across every card in a row instead.
+                className="group flex h-full flex-col"
               >
                 {isPrivateLabel ? (
                   <div className="relative flex aspect-[16/10] items-center justify-center overflow-hidden bg-green-900 transition duration-300 group-hover:-translate-y-1">
@@ -123,19 +130,21 @@ export default function BrandsIndexPage() {
                     </div>
                   </div>
                 )}
-                <h2 className="mt-4 text-lg font-semibold text-ink transition group-hover:text-green-700">
-                  {t.name}
-                </h2>
-                <p className="mt-1 text-sm italic text-ink-soft">{t.strap}</p>
-                <p className="mt-3 text-xs uppercase tracking-wide text-olive-600">{t.focus}</p>
-                <span className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-green-700">
-                  Explore {t.name}
-                  <ArrowUpRight
-                    size={14}
-                    weight="bold"
-                    className="shrink-0 text-gold-700 transition duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-                  />
-                </span>
+                <div className="flex flex-1 flex-col">
+                  <h2 className="mt-4 text-lg font-semibold text-ink transition group-hover:text-green-700">
+                    {t.name}
+                  </h2>
+                  <p className="mt-1 text-sm italic text-ink-soft">{t.strap}</p>
+                  <p className="mt-3 text-xs uppercase tracking-wide text-olive-600">{t.focus}</p>
+                  <span className="mt-auto inline-flex items-center gap-1 pt-4 text-sm font-semibold text-green-700">
+                    Explore {t.name}
+                    <ArrowUpRight
+                      size={14}
+                      weight="bold"
+                      className="shrink-0 text-gold-700 transition duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                    />
+                  </span>
+                </div>
               </Link>
             );
           })}

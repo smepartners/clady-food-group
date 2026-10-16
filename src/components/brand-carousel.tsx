@@ -101,7 +101,20 @@ export function BrandCarousel() {
                   alt=""
                   width={160}
                   height={80}
-                  className="h-16 w-auto max-w-[75%] object-contain transition duration-300 group-hover:scale-105 sm:h-20"
+                  // Round 7 feedback: Dutch Maid's mark reads smaller than
+                  // the other three brands here. Its logo is a tall,
+                  // nearly-square lockup (icon + wordmark + tagline + date
+                  // stacked vertically) rather than the wide, short marks
+                  // the other brands supplied, so sizing every logo by the
+                  // same fixed height left Dutch Maid's far narrower (and
+                  // its fine-detail wordmark harder to read) than the
+                  // others even at "the same size". Sized up specifically
+                  // for Dutch Maid so its visual weight matches the rest.
+                  className={`w-auto object-contain transition duration-300 group-hover:scale-105 ${
+                    b.slug === "dutch-maid"
+                      ? "h-28 max-w-[88%] sm:h-32"
+                      : "h-16 max-w-[75%] sm:h-20"
+                  }`}
                 />
               </span>
               <span>

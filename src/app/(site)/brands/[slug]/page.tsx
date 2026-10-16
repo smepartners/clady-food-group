@@ -178,7 +178,7 @@ export default async function BrandPage({
 
   return (
     <>
-      <BrandDetailHero brand={brand} />
+      <BrandDetailHero brand={brand} slug={slug} />
 
       {/* Round 5 feedback: overview copy now sits beside a product-range
           image instead of running full-width alone, and closes with a
@@ -186,7 +186,7 @@ export default async function BrandPage({
           Zoe's provided one (Evolving State so far) and the standard
           "photography pending" placeholder everywhere else, ready to swap
           in once the rest are supplied. */}
-      <Section>
+      <Section pad="pt-14 sm:pt-20 pb-10 sm:pb-14">
         <div className="grid gap-12 lg:grid-cols-12 lg:items-start lg:gap-10">
           <Reveal className="lg:col-span-7">
             <div className="max-w-2xl space-y-4 text-ink-soft">
@@ -295,17 +295,22 @@ export default async function BrandPage({
           </Reveal>
           <Reveal delay={0.1} className="lg:col-span-5">
             {brand.productsImage ? (
-              <div className="relative aspect-[4/5] overflow-hidden bg-cream-200">
+              // Round 7 feedback: "can the frame be square/images set to
+              // fit please? It's clipping parts of the images" - object-cover
+              // in a 4/5 box was cropping the supplied product shots.
+              // Square frame + object-contain shows the whole image, with
+              // the cream background filling any letterboxing.
+              <div className="relative aspect-square overflow-hidden bg-cream-200">
                 <Image
                   src={brand.productsImage}
                   alt={brand.productsImageAlt ?? `The ${brand.name} product range`}
                   fill
                   sizes="(min-width: 1024px) 40vw, 100vw"
-                  className="object-cover"
+                  className="object-contain"
                 />
               </div>
             ) : (
-              <div className="relative flex aspect-[4/5] items-center justify-center overflow-hidden border border-cream-200 bg-gradient-to-br from-green-700/25 via-gold-500/20 to-olive-400/25">
+              <div className="relative flex aspect-square items-center justify-center overflow-hidden border border-cream-200 bg-gradient-to-br from-green-700/25 via-gold-500/20 to-olive-400/25">
                 <div className="flex flex-col items-center gap-2 px-6 text-center text-green-700/60">
                   <Camera size={28} weight="light" />
                   <p className="text-xs font-medium uppercase tracking-wide">
@@ -318,12 +323,18 @@ export default async function BrandPage({
         </div>
       </Section>
 
-      {/* Instagram: a follow teaser for brands with a confirmed handle
-          (Evolving State, Galway Roast so far - see instagram-feed.tsx).
-          Renders nothing for brands without one yet. */}
-      <Section pad="py-10 sm:py-14">
-        <BrandInstagramSection slug={slug} />
-      </Section>
+      {/* Instagram: a follow teaser/post grid for brands with a confirmed
+          handle (just Evolving State for now - Round 7 feedback pulled
+          Galway Roast's feed back off, so it's skipped here rather than
+          rendering an empty section for it). Round 7 also asked for less
+          gap above this and a light background so it reads clearly as its
+          own section rather than floating against the overview block
+          above. Renders nothing for brands without a confirmed handle. */}
+      {slug !== "galway-roast" ? (
+        <Section pad="pt-10 pb-10 sm:pt-14 sm:pb-14" className="bg-cream-200/40">
+          <BrandInstagramSection slug={slug} />
+        </Section>
+      ) : null}
 
       {/* Round 5 feedback: swapped the static BrandGrid for the same
           carousel used on the homepage's "Our brands" band, so this
