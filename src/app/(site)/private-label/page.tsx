@@ -82,10 +82,16 @@ export default function PrivateLabelPage() {
         <TextureOverlay />
         <div className="relative grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
           <Reveal className="order-2 lg:order-1">
+            {/* Round 7 feedback: "update more than a logo photo to the
+                large one below this section" - swapped for the same
+                production-packing-line photo that used to sit in the
+                "What we produce" band below (now removed from there, see
+                that section's comment), rather than the roastery detail
+                shot. */}
             <ImageFrame
-              seed="clady-private-label-roastery"
-              alt="Roasting at Clady Group's production facility"
-              src="/photo-roastery-detail.jpg"
+              seed="clady-private-label-production-line"
+              alt="The packing and labelling line at Clady Group's Buxton site"
+              src="/photo-production-packing.jpg"
               aspect="aspect-[4/3]"
               tone="dark"
             />
@@ -124,20 +130,18 @@ export default function PrivateLabelPage() {
           <p className="text-sm font-semibold uppercase tracking-wide text-olive-600">
             What we produce
           </p>
-          <ImageFrame
-            seed="clady-private-label-production-line"
-            alt="The packing and labelling line at Clady Group's Buxton site"
-            src="/photo-production-packing.jpg"
-            aspect="aspect-[16/9]"
-            className="mt-6"
-          />
         </Reveal>
 
         {/* Round 5 feedback: a list of what's actually produced, each with
             its own small photo - "The brands we produce for" grid that
             used to sit here has been removed, and a "get in touch" CTA
-            takes its place. */}
-        <RevealStagger className="mt-14 grid gap-8 border-t border-cream-200 pt-14 sm:grid-cols-2 lg:grid-cols-4">
+            takes its place.
+            Round 7 feedback: "remove the large picture in what we produce
+            and just have the 4 blocks" - the production-packing-line
+            photo that used to sit above this grid has been removed (it
+            now lives in the "More than a logo" band above instead, see
+            that section's comment), leaving just the 4 category blocks. */}
+        <RevealStagger className="mt-6 grid gap-8 border-t border-cream-200 pt-10 sm:grid-cols-2 lg:grid-cols-4">
           {PRODUCE_CATEGORIES.map((c) => (
             <div key={c.name}>
               <ImageFrame
@@ -235,14 +239,14 @@ export default function PrivateLabelPage() {
           testimonial content in those last two was placeholder (fictional
           names/quotes) rather than confirmed, permitted real customers, so
           they've come out rather than stay as unlabelled placeholder
-          content on a live page. */}
-      <Section pad="pt-0 pb-14 sm:pb-20">
-        <Reveal className="text-center">
-          <CTAButton href="/contact">
-            Talk to us about your next private label opportunity
-          </CTAButton>
-        </Reveal>
-      </Section>
+          content on a live page.
+          Round 7 feedback: "CTA under from idea to opportunity block is
+          floating / has a ton of white space around it - remove cream
+          section with it in?" - that closing CTA Section sat alone on the
+          plain page background right after the dark "From idea to
+          opportunity" band, with nothing else in it. Removed outright:
+          the page now ends on that band, and "A flexible approach"
+          higher up already carries its own get-in-touch CTA. */}
     </>
   );
 }
