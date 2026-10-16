@@ -74,9 +74,14 @@ export function SiteFooter() {
 
         {/* Round 5 feedback: contact details added. Round 6: CFG's LinkedIn
             page is live, so the icon is now a real link rather than the
-            placeholder it was. */}
-        <div className="mt-10 flex flex-col gap-4 border-t border-cream-200 pt-8 sm:flex-row sm:items-center sm:justify-between">
-          <div className="flex flex-wrap gap-x-8 gap-y-2 text-sm text-ink-soft">
+            placeholder it was.
+            Round 7 feedback: "can the LinkedIn icon be beside the phone
+            number and a little bigger" - moved out of its own
+            justify-between slot and into the same contact-details group
+            as email/phone, directly after the phone link, and sized up
+            (20 -> 24). */}
+        <div className="mt-10 border-t border-cream-200 pt-8">
+          <div className="flex flex-wrap items-center gap-x-8 gap-y-2 text-sm text-ink-soft">
             <a href="mailto:sales@cladyfoodgroup.com" className="flex items-center gap-2 transition hover:text-green-700">
               <EnvelopeSimple size={16} weight="bold" className="text-olive-600" />
               sales@cladyfoodgroup.com
@@ -85,16 +90,16 @@ export function SiteFooter() {
               <Phone size={16} weight="bold" className="text-olive-600" />
               028 9442 9555
             </a>
+            <a
+              href="https://www.linkedin.com/company/clady-food-group"
+              target="_blank"
+              rel="noreferrer"
+              aria-label="Clady Food Group on LinkedIn"
+              className="flex items-center text-ink-soft transition hover:text-green-700"
+            >
+              <LinkedinLogo size={24} weight="fill" />
+            </a>
           </div>
-          <a
-            href="https://www.linkedin.com/company/clady-food-group"
-            target="_blank"
-            rel="noreferrer"
-            aria-label="Clady Food Group on LinkedIn"
-            className="text-ink-soft transition hover:text-green-700"
-          >
-            <LinkedinLogo size={20} weight="fill" />
-          </a>
         </div>
 
         <div className="mt-6 border-t border-cream-200 pt-6 text-sm text-ink-soft">

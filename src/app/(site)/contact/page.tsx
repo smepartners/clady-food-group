@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Phone } from "@phosphor-icons/react/dist/ssr";
 import { Section } from "@/components/ui";
 import { Reveal } from "@/components/reveal";
 import { ContactHero } from "@/components/contact-hero";
@@ -19,12 +20,15 @@ export const metadata: Metadata = { title: "Contact" };
 //   under the email line has been removed; the page now reads as a clean
 //   get-in-touch moment rather than repeating the brand portfolio a third
 //   time on the site. Easy to reinstate if she'd rather keep it.
-// - "Should we have head office address and phone number here?" - NOT
-//   implemented. No real head office address or phone number has been
-//   supplied yet (the footer's "028 9442 9555" is the general contact
-//   number from this same feedback doc, not confirmed as the head office
-//   line) - needs a real answer from Zoe before this goes in, rather than
-//   guessing a placeholder address.
+// - "Should we have head office address and phone number here?" / Round 7
+//   feedback: "Contact number / head office address not added" - the
+//   phone number is now added below (028 9442 9555, the same confirmed
+//   number already live in the footer). No real head office street
+//   address has been supplied by Zoe anywhere in the brand pack or
+//   client context - checked again this round rather than guessing a
+//   placeholder - so that part stays out until she confirms one; see the
+//   matching TODO in site-footer.tsx (open question #06 in the build
+//   plan).
 //
 // This page used to be a single boxed hero holding the headline, form and
 // brand grid all at once - now the hero (see contact-hero.tsx) is a plain
@@ -59,6 +63,18 @@ export default function ContactPage() {
               </a>
               .
             </p>
+            {/* Round 7 feedback: "contact number / head office address
+                not added" - phone number added (same confirmed number as
+                the footer). No head office street address has been
+                supplied yet - see the comment block above this
+                component. */}
+            <a
+              href="tel:+442894429555"
+              className="mt-3 flex w-fit items-center gap-2 text-sm font-medium text-green-700 hover:text-green-900"
+            >
+              <Phone size={16} weight="bold" />
+              028 9442 9555
+            </a>
           </Reveal>
 
           <Reveal delay={0.1}>
