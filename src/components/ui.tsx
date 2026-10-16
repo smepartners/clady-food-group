@@ -402,25 +402,13 @@ export function StatTile({
  * shown as what it is: three separate, named sites. */
 export function FacilityStrip({
   tone = "light",
-  layout = "row",
   className = "",
 }: {
   tone?: "light" | "dark";
-  /** "row" (default) wraps sites left-to-right - the original full-width
-   * treatment. "col" stacks them, for a narrow column context (the
-   * footer's redesigned grid) where a wrapped row reads as ragged rather
-   * than tidy. A separate prop rather than overriding `flex-wrap` via
-   * className, since Tailwind resolves conflicting utilities by their
-   * order in the generated stylesheet rather than the className prop
-   * order, so a passed-in override isn't guaranteed to win (see the
-   * note on Lede above). */
-  layout?: "row" | "col";
   className?: string;
 }) {
   return (
-    <ul
-      className={`flex ${layout === "col" ? "flex-col gap-y-3" : "flex-wrap gap-x-8 gap-y-3"} ${className}`}
-    >
+    <ul className={`flex flex-wrap gap-x-8 gap-y-3 ${className}`}>
       {FACILITIES.map((f) => (
         <li key={f.name} className="flex items-center gap-2">
           <MapPin
