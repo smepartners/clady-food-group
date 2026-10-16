@@ -16,7 +16,15 @@ const NAV = [
 
 export function SiteFooter() {
   return (
-    <footer className="relative mt-24 overflow-hidden border-t border-cream-200 bg-cream-200/40">
+    // Round 7 feedback (CSR page): "white section above footer to be
+    // removed" - this `mt-24` top margin let the page's own plain
+    // background show through as a flat, unstyled gap between the last
+    // page section and the footer's own bordered/tinted background,
+    // most visible on a page (like CSR) whose last section is a dark
+    // full-bleed band. Dropped so the footer sits flush against
+    // whatever the page ends on - the footer's own `border-t` already
+    // provides the visual separation.
+    <footer className="relative overflow-hidden border-t border-cream-200 bg-cream-200/40">
       <div className="relative mx-auto max-w-6xl px-4 py-14 sm:px-6">
         <div className="flex flex-col gap-10 sm:flex-row sm:items-start sm:justify-between">
           <Image

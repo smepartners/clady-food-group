@@ -67,34 +67,63 @@ export default function CsrPage() {
 
       {/* Round 5 feedback: "add some spacing between each of the sections
           re: our people, our customers etc as they're all a bit squished
-          together" - py-10/gap-4 increased to py-14/gap-6. */}
+          together" - py-10/gap-4 increased to py-14/gap-6.
+          Round 7 feedback: "spacing not added between right hand text for
+          Our people, Our customers and partners and Our products" - the
+          Round 5 fix never actually rendered: `first:pt-0 last:pb-0`
+          match `:first-child`/`:last-child` against each row's own DOM
+          parent, but RevealStagger wraps every row in its own individual
+          motion.div, so each row is the *only* child of its wrapper and
+          matches both `first:` and `last:` at once - stripping py-14
+          from every row, not just the actual first/last. The icon+
+          heading column only looked spaced apart because it's
+          vertically centered within a row whose height is still set by
+          the (unpadded) paragraph column; the paragraphs themselves,
+          left-aligned to the top of that same row, ended up touching
+          with ~1px between them. Fixed by computing top/bottom padding
+          from the array index instead of relying on CSS first/last. */}
       <Section className="bg-cream-200/40">
         <RevealStagger className="divide-y divide-cream-200">
-          {PILLARS.map((p) => (
-            <div key={p.name} className="grid gap-6 py-14 first:pt-0 last:pb-0 sm:grid-cols-[minmax(0,1fr)_2fr] sm:gap-10">
-              <div className="flex items-center gap-3">
-                <div className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-full ${TONE_ICON_BG[p.tone]}`}>
-                  <p.icon size={22} weight="bold" />
+          {PILLARS.map((p, i) => {
+            const isFirst = i === 0;
+            const isLast = i === PILLARS.length - 1;
+            return (
+              <div
+                key={p.name}
+                className={`grid gap-6 sm:grid-cols-[minmax(0,1fr)_2fr] sm:gap-10 ${
+                  isFirst ? "pb-14" : isLast ? "pt-14" : "py-14"
+                }`}
+              >
+                <div className="flex items-center gap-3">
+                  <div className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-full ${TONE_ICON_BG[p.tone]}`}>
+                    <p.icon size={22} weight="bold" />
+                  </div>
+                  <h3 className="font-semibold text-ink">{p.name}</h3>
                 </div>
-                <h3 className="font-semibold text-ink">{p.name}</h3>
+                <p className="text-ink-soft">{p.body}</p>
               </div>
-              <p className="text-ink-soft">{p.body}</p>
-            </div>
-          ))}
+            );
+          })}
         </RevealStagger>
       </Section>
 
       {/* Round 5 feedback: "should this be higher up?" - moved ahead of
           "Our impact" so the philosophy statement leads into the concrete
-          proof points below it, rather than following them. */}
-      <Section className="relative overflow-hidden bg-green-700">
+          proof points below it, rather than following them.
+          Round 7 feedback: "Our responsibility section and Our impact are
+          both green, please update one" - this one moves from green-700
+          to olive-600 (already part of the brand palette, used for icon
+          tints elsewhere on this page) so the two dark bands read as
+          distinct from each other rather than two shades of the same
+          colour back to back. */}
+      <Section className="relative overflow-hidden bg-olive-600">
         <TextureOverlay />
         <Reveal className="relative">
           <div className="mx-auto max-w-2xl text-center">
             <h2 className="text-2xl font-semibold text-cream-100 sm:text-3xl">
               Our responsibility
             </h2>
-            <p className="mt-4 text-cream-100/75">
+            <p className="mt-4 text-cream-100/85">
               For us, responsible business is not a standalone initiative. It
               is part of how we operate. Our values of excellence, innovation,
               consistency, agility and collaboration guide the way we work and
