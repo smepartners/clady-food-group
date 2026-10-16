@@ -22,27 +22,52 @@ import { Reveal } from "@/components/reveal";
  * same video can introduce itself differently depending on where it sits
  * (e.g. a first-visit "see who we are" framing on the homepage vs. a
  * fuller "hear it from us" framing on About, next to the heritage copy).
+ *
+ * `tone` defaults to the original dark treatment (every existing caller
+ * keeps rendering exactly as before). Round 7 feedback on the About page
+ * asked for this block on "a white background (no curved border on
+ * video)" once it became the 3rd block there - `tone="light"` flips the
+ * section and text colours to light-on-dark's opposite and drops the
+ * video's rounded corners, without touching any other page that reuses
+ * this component.
  */
 export function VideoStorySection({
   heading,
   body,
+  tone = "dark",
 }: {
   heading: ReactNode;
   body: ReactNode;
+  tone?: "dark" | "light";
 }) {
   const [playing, setPlaying] = useState(false);
+  const isLight = tone === "light";
 
   return (
-    <Section className="relative overflow-hidden bg-green-700">
-      <TextureOverlay />
+    <Section
+      className={`relative overflow-hidden ${isLight ? "bg-cream-100" : "bg-green-700"}`}
+    >
+      {isLight ? null : <TextureOverlay />}
       <div className="relative grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
         <Reveal>
-          <h2 className="text-2xl font-semibold text-cream-100 sm:text-3xl">{heading}</h2>
-          <div className="mt-5 space-y-4 text-cream-100/75">{body}</div>
+          <h2
+            className={`text-2xl font-semibold sm:text-3xl ${
+              isLight ? "text-green-700" : "text-cream-100"
+            }`}
+          >
+            {heading}
+          </h2>
+          <div className={`mt-5 space-y-4 ${isLight ? "text-ink-soft" : "text-cream-100/75"}`}>
+            {body}
+          </div>
         </Reveal>
 
         <Reveal delay={0.1}>
-          <div className="relative aspect-video overflow-hidden rounded-2xl bg-green-900">
+          <div
+            className={`relative aspect-video overflow-hidden bg-green-900 ${
+              isLight ? "" : "rounded-2xl"
+            }`}
+          >
             {playing ? (
               <video
                 src="/video-company-story.mp4"
