@@ -111,26 +111,29 @@ export default function CsrPage() {
           "Our impact" so the philosophy statement leads into the concrete
           proof points below it, rather than following them.
           Round 7 feedback: "Our responsibility section and Our impact are
-          both green, please update one" - this one moves from green-700
-          to olive-600 (already part of the brand palette, used for icon
-          tints elsewhere on this page) so the two dark bands read as
-          distinct from each other rather than two shades of the same
-          colour back to back. */}
-      <Section className="relative overflow-hidden bg-olive-600">
-        <TextureOverlay />
-        <Reveal className="relative">
+          both green, please update one" - first attempt moved this one
+          from green-700 to olive-600, on the basis it's a different
+          Tailwind token. Round 8 feedback: still reading as "both green" -
+          fair, since every dark tone in this palette (green-900, green-700,
+          olive-600) is some shade of green, there wasn't actually a
+          distinct third colour to reach for. Flipped to light instead
+          (matching the two Sections above it on this page), which is a
+          real contrast rather than a different green - "Our impact" below
+          stays the one dark, textured band on the page. */}
+      <Section className="bg-cream-200/40">
+        <Reveal>
           <div className="mx-auto max-w-2xl text-center">
-            <h2 className="text-2xl font-semibold text-cream-100 sm:text-3xl">
+            <h2 className="text-2xl font-semibold text-green-700 sm:text-3xl">
               Our responsibility
             </h2>
-            <p className="mt-4 text-cream-100/85">
+            <p className="mt-4 text-ink-soft">
               For us, responsible business is not a standalone initiative. It
               is part of how we operate. Our values of excellence, innovation,
               consistency, agility and collaboration guide the way we work and
               provide the foundation for building a business that is
               successful for the long term.
             </p>
-            <p className="mt-8 text-xl italic leading-snug text-gold-500 sm:text-2xl">
+            <p className="mt-8 text-xl italic leading-snug text-gold-700 sm:text-2xl">
               Building better, responsibly.
             </p>
           </div>
