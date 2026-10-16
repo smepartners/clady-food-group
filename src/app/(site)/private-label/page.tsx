@@ -78,8 +78,15 @@ export default function PrivateLabelPage() {
           their own full-width band with supporting photography, matching
           how ABF/P&G/Unilever pair a scale statement with its own section
           rather than crowding the hero. */}
-      <Section className="relative overflow-hidden bg-green-700">
-        <TextureOverlay />
+      {/* Round 8 feedback: "can the section colours be checked here
+          there's lots of green by each other" - the hero immediately
+          above this is a full-bleed photo under a heavy green-900
+          gradient wash (page-hero.tsx), so a green-700 band straight
+          after it read as two green sections back to back. Flipped to
+          light (same move About's portfolio section made for the same
+          reason - see that page's comment), so the dark hero gets actual
+          contrast beneath it instead of more green. */}
+      <Section className="relative overflow-hidden bg-cream-200/40">
         <div className="relative grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
           <Reveal className="order-2 lg:order-1">
             {/* Round 7 feedback: "update more than a logo photo to the
@@ -93,14 +100,13 @@ export default function PrivateLabelPage() {
               alt="The packing and labelling line at Clady Group's Buxton site"
               src="/photo-production-packing.jpg"
               aspect="aspect-[4/3]"
-              tone="dark"
             />
           </Reveal>
           <Reveal delay={0.1} className="order-1 lg:order-2">
-            <h2 className="text-2xl font-semibold text-cream-100 sm:text-3xl">
-              More than <em className="italic text-gold-500">a logo on a product.</em>
+            <h2 className="text-2xl font-semibold text-green-700 sm:text-3xl">
+              More than <em className="italic text-gold-700">a logo on a product.</em>
             </h2>
-            <div className="mt-5 space-y-4 text-cream-100/75">
+            <div className="mt-5 space-y-4 text-ink-soft">
               <p>
                 Private label is about creating the right proposition for
                 your customers, your market and your commercial objectives -
@@ -114,11 +120,9 @@ export default function PrivateLabelPage() {
                 categories, formats, flavours and price points.
               </p>
             </div>
-            {/* Tone hardcoded dark - this band's background stays
-                green-700 in both preview styles. */}
-            <div className="mt-6 grid grid-cols-3 gap-x-6 gap-y-8 border-t border-cream-100/15 pt-6">
+            <div className="mt-6 grid grid-cols-3 gap-x-6 gap-y-8 border-t border-cream-200 pt-6">
               {SCALE_STATS.map((s) => (
-                <StatTile key={s.label} value={s.value} label={s.label} icon={s.icon} tone="dark" />
+                <StatTile key={s.label} value={s.value} label={s.label} icon={s.icon} />
               ))}
             </div>
           </Reveal>
