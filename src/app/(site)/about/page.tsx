@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
-import { FilmSlate, Storefront, Coffee, ForkKnife, Bed } from "@phosphor-icons/react/dist/ssr";
+import { Storefront, Coffee, ForkKnife, Bed } from "@phosphor-icons/react/dist/ssr";
 import { Section, Container, CTAButton, TextureOverlay, AccentRule } from "@/components/ui";
 import { Reveal } from "@/components/reveal";
 import { AccreditationGrid, type Accreditation } from "@/components/accreditation";
 import { AboutHero } from "@/components/about-hero";
 import { VideoStorySection } from "@/components/video-story-section";
+import { CapabilitiesVideoPanel } from "@/components/capabilities-video-panel";
 
 export const metadata: Metadata = { title: "About Us" };
 
@@ -45,6 +46,17 @@ const ACCREDITATIONS: Accreditation[] = [
     name: "Fairtrade",
     note: "Certified fair trading practices across our supply chain",
     logo: "/logo-fairtrade.png",
+  },
+  // Round 8 feedback: "we can have the other one here but need to state
+  // underneath that it is relevant to Slumberjack Coffee" - BRCGS Start
+  // is held by Slumberjack Coffee specifically (see its certification
+  // block on the Slumberjack brand page, brands/[slug]/page.tsx), not the
+  // group as a whole like Rainforest Alliance/Fairtrade above, so the
+  // note says so explicitly rather than reading as a group-wide claim.
+  {
+    name: "BRCGS Start Basic",
+    note: "Independently audited food safety standard, held by Slumberjack Coffee",
+    logo: "/logo-brcgs-start.png",
   },
 ];
 
@@ -90,16 +102,19 @@ export default function AboutPage() {
               <CTAButton href="/contact">Get in touch</CTAButton>
             </div>
           </Reveal>
+          {/* Round 8 feedback: "animation needs to be added where
+              placeholder is" - the holding placeholder here used the same
+              treatment as the homepage's "One group, multiple
+              capabilities" panel before that panel had its own clip; now
+              it plays the same CFG brand animation (CapabilitiesVideoPanel,
+              see that component's comment) rather than staying a
+              placeholder. Reusing it here is deliberate, not a stopgap:
+              it's the group's only dedicated brand animation, and this
+              block makes the same "our portfolio as a whole" statement as
+              the capabilities panel does - if a dedicated About-page clip
+              gets supplied later, swap it in here instead. */}
           <Reveal delay={0.1} className="order-1 lg:order-2">
-            <div className="relative flex aspect-[4/5] min-h-[22rem] items-center justify-center overflow-hidden bg-green-900 lg:aspect-auto lg:h-full">
-              <TextureOverlay texture="/texture-leather-green.jpg" />
-              <div className="relative flex flex-col items-center gap-3 px-6 text-center text-cream-100/70">
-                <FilmSlate size={32} weight="bold" />
-                <p className="text-sm font-medium">
-                  Graphic clip to come - holding placeholder
-                </p>
-              </div>
-            </div>
+            <CapabilitiesVideoPanel />
           </Reveal>
         </div>
       </Section>
@@ -205,8 +220,11 @@ export default function AboutPage() {
         <Reveal>
           <h2 className="text-2xl font-semibold text-green-700 sm:text-3xl">At a glance</h2>
         </Reveal>
+        {/* Round 8 feedback: "can the gap between At a glance and sectors
+            we serve be reduced" - mt-8/pt-8 (64px plus the divider line)
+            tightened to mt-5/pt-5. */}
         <Reveal delay={0.08}>
-          <div className="mt-8 border-t border-cream-200 pt-8">
+          <div className="mt-5 border-t border-cream-200 pt-5">
             <p className="text-sm font-semibold uppercase tracking-wide text-olive-600">
               Sectors we serve
             </p>
