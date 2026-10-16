@@ -2,6 +2,7 @@
 
 import { useState, type FormEvent } from "react";
 import { CheckCircle, WarningCircle } from "@phosphor-icons/react/dist/ssr";
+import { gtagEvent } from "@/lib/gtag";
 
 /**
  * The Contact page's enquiry form (src/app/(site)/contact/page.tsx). Posts
@@ -13,6 +14,15 @@ import { CheckCircle, WarningCircle } from "@phosphor-icons/react/dist/ssr";
  * Needs a client component (the mailto version didn't) since submitting now
  * means an async fetch with loading/success/error state, rather than the
  * browser handing off to a mailto: link.
+ *
+ * GA4 tracking (George, Oct 2026 - "make sure form submissions are tracked
+ * as events"): fires on a confirmed successful send (not on every click of
+ * Send, which would also count failed/retried attempts) -
+ * - `generate_lead`: GA4's own recommended event name for a contact/lead
+ *   form, so it's picked up by any "Lead" conversion/goal set up in GA4
+ *   without extra configuration.
+ * - `form_submit`: a plainer, non-reserved event carrying the same detail,
+ *   in case reporting is built around a custom event name instead.
  */
 const FIELDS = [
   { name: "name", label: "Name", type: "text", autoComplete: "name" },
@@ -39,6 +49,8 @@ export function ContactForm() {
         body: JSON.stringify(data),
       });
       if (!res.ok) throw new Error("Request failed");
+      gtagEvent("generate_lead", { form_name: "contact" });
+      gtagEvent("form_submit", { form_name: "contact" });
       setStatus("success");
       form.reset();
     } catch {
