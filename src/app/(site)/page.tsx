@@ -17,11 +17,11 @@ export default function HomePage() {
           the visual follows on the right, with square rather than rounded
           corners, per the previous round of client feedback.
 
-          The visual slot now carries the same shortened corporate video as
-          the hero (CapabilitiesVideoPanel, reusing home-hero-video.tsx's
-          asset) - the client confirmed Oct 2026 the upload was meant for
-          both spots, not just the hero, so this is no longer a holding
-          placeholder for a separate graphic clip.
+          The visual slot carries its own second video (CapabilitiesVideoPanel)
+          - originally the same clip as the hero, since the client's first
+          upload was confirmed for both spots, but now a dedicated brand
+          animation supplied separately (Oct 2026), so the hero and this
+          panel show two different clips rather than the same one twice.
 
           Round 5 feedback: the box was locked to its own aspect ratio
           (aspect-[4/5] / aspect-[16/11]), independent of how tall the text

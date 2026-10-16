@@ -3,14 +3,19 @@ import { Phone } from "@phosphor-icons/react/dist/ssr";
 import { Section } from "@/components/ui";
 import { Reveal } from "@/components/reveal";
 import { ContactHero } from "@/components/contact-hero";
+import { ContactForm } from "@/components/contact-form";
 
 export const metadata: Metadata = { title: "Contact" };
 
 // Field set and destination confirmed with the client (Zoe, SME Partners):
 // name, company, phone, email, message, all routing to one inbox with no
-// per-market split. The form posts as a mailto: for now - swap the <form>
-// action for a proper handler (API route + email provider) once a real
-// inbox-backed endpoint is set up, before launch.
+// per-market split. Previously posted as a mailto: link, which only worked
+// if the visitor's own device had an email client configured - per George's
+// instruction (Oct 2026) this now posts to /api/contact (ContactForm,
+// contact-form.tsx), which sends via Resend to sales@cladyfoodgroup.com,
+// cc'd to hello@thesmepartners.co.uk. See the setup notes at the top of
+// src/app/api/contact/route.ts for what still needs a real Resend account/
+// API key/verified sending domain before this is live.
 //
 // Round 5 feedback (Zoe, via George):
 // - "Update hello@ to sales@" - done below (sales@cladyfoodgroup.com, to
@@ -37,13 +42,6 @@ export const metadata: Metadata = { title: "Contact" };
 // normal light background in both preview styles (unlike the hero, it was
 // never on dark green), so unlike the old hero-embedded form it doesn't
 // need Simple/Bold-aware styling at all.
-
-const FIELDS = [
-  { name: "name", label: "Name", type: "text", autoComplete: "name" },
-  { name: "company", label: "Company", type: "text", autoComplete: "organization" },
-  { name: "phone", label: "Phone", type: "tel", autoComplete: "tel" },
-  { name: "email", label: "Email", type: "email", autoComplete: "email" },
-];
 
 export default function ContactPage() {
   return (
@@ -78,48 +76,7 @@ export default function ContactPage() {
           </Reveal>
 
           <Reveal delay={0.1}>
-            <form
-              action="mailto:sales@cladyfoodgroup.com"
-              method="post"
-              encType="text/plain"
-              className="space-y-5 rounded-2xl border border-cream-200 bg-cream-100 p-6 sm:p-8"
-            >
-              <div className="grid gap-5 sm:grid-cols-2">
-                {FIELDS.map((f) => (
-                  <div key={f.name}>
-                    <label htmlFor={f.name} className="text-sm font-medium text-ink">
-                      {f.label}
-                    </label>
-                    <input
-                      id={f.name}
-                      name={f.name}
-                      type={f.type}
-                      autoComplete={f.autoComplete}
-                      required={f.name === "name" || f.name === "email"}
-                      className="mt-1.5 w-full rounded-lg border border-cream-200 bg-cream-100 px-3.5 py-2.5 text-sm text-ink outline-none transition focus:border-green-700"
-                    />
-                  </div>
-                ))}
-              </div>
-              <div>
-                <label htmlFor="message" className="text-sm font-medium text-ink">
-                  Message
-                </label>
-                <textarea
-                  id="message"
-                  name="message"
-                  rows={5}
-                  required
-                  className="mt-1.5 w-full resize-none rounded-lg border border-cream-200 bg-cream-100 px-3.5 py-2.5 text-sm text-ink outline-none transition focus:border-green-700"
-                />
-              </div>
-              <button
-                type="submit"
-                className="inline-flex w-fit items-center justify-center rounded-full bg-green-700 px-6 py-3 text-sm font-medium text-cream-100 shadow-lg shadow-green-700/20 transition duration-300 hover:-translate-y-0.5 hover:bg-green-900 hover:shadow-xl hover:shadow-green-700/30 active:translate-y-0 active:scale-[0.98]"
-              >
-                Send message
-              </button>
-            </form>
+            <ContactForm />
           </Reveal>
         </div>
       </Section>

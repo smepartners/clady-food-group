@@ -5,11 +5,18 @@ import { TextureOverlay } from "@/components/ui";
 
 /**
  * The visual half of "One group, multiple capabilities" (home/page.tsx).
- * Reuses the same shortened corporate video as the hero (home-hero-video.tsx)
- * rather than a second, separate graphic clip - the client confirmed
- * (Oct 2026) the upload was meant for both spots, not just the hero.
- * Muted/looping/autoplaying, same as the hero treatment, with the same
- * reduced-motion fallback to a static poster frame.
+ *
+ * Previously reused the same shortened corporate video as the hero
+ * (home-hero-video.tsx) - the client had confirmed (Oct 2026) that upload
+ * was meant for both spots. A dedicated second clip has since been
+ * supplied (CFG_Website_Animation.mp4, Oct 2026): a silent brand
+ * animation - leather-texture title cards, the Buxton/Belfast/Galway
+ * manufacturing map, a "100s of specialist and private label" stat
+ * card, closing on the full logo lockup - so the hero and this panel no
+ * longer show the identical clip. Still muted/looping/autoplaying, same
+ * as before, with the same reduced-motion fallback to a static poster
+ * frame (now one pulled from this clip's own manufacturing-map beat,
+ * rather than the hero's factory-floor poster).
  */
 export function CapabilitiesVideoPanel() {
   const reduce = useReducedMotion();
@@ -19,8 +26,8 @@ export function CapabilitiesVideoPanel() {
       {reduce ? (
         // eslint-disable-next-line @next/next/no-img-element
         <img
-          src="/photo-video-poster.jpg"
-          alt="A still from Clady Group's company story video, showing the Buxton manufacturing site"
+          src="/photo-video-capabilities-poster.jpg"
+          alt="An animated map of Clady Group's manufacturing sites in Buxton, Belfast and Galway"
           className="absolute inset-0 h-full w-full object-cover"
         />
       ) : (
@@ -29,11 +36,12 @@ export function CapabilitiesVideoPanel() {
           muted
           loop
           playsInline
-          poster="/photo-video-poster.jpg"
+          poster="/photo-video-capabilities-poster.jpg"
+          aria-label="Clady Group brand animation - our manufacturing footprint across Buxton, Belfast and Galway, and the scale of what we produce"
           className="absolute inset-0 h-full w-full object-cover"
         >
-          <source src="/video-hero-full.webm" type="video/webm" />
-          <source src="/video-hero-full.mp4" type="video/mp4" />
+          <source src="/video-capabilities.webm" type="video/webm" />
+          <source src="/video-capabilities.mp4" type="video/mp4" />
         </video>
       )}
     </div>
