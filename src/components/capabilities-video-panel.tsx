@@ -17,13 +17,20 @@ import { TextureOverlay } from "@/components/ui";
  * as before, with the same reduced-motion fallback to a static poster
  * frame (now one pulled from this clip's own manufacturing-map beat,
  * rather than the hero's factory-floor poster).
+ *
+ * SHOW_VIDEO temporarily false (George, Oct 2026) - same hold as the hero
+ * video (home-hero-video.tsx): falling back to the static poster frame
+ * here too until video is switched back on sitewide. Flip back to true
+ * once resolved.
  */
+const SHOW_VIDEO = false;
+
 export function CapabilitiesVideoPanel() {
   const reduce = useReducedMotion();
   return (
     <div className="relative flex aspect-[4/5] min-h-[22rem] items-center justify-center overflow-hidden bg-green-900 lg:aspect-auto lg:h-full">
       <TextureOverlay texture="/texture-leather-green.jpg" />
-      {reduce ? (
+      {!SHOW_VIDEO || reduce ? (
         // eslint-disable-next-line @next/next/no-img-element
         <img
           src="/photo-video-capabilities-poster.jpg"
