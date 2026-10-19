@@ -19,12 +19,22 @@ import { useReducedMotion } from "motion/react";
  * into the source are far enough down that they're cropped out at typical
  * hero heights, same as how video-company-story.mp4 already gets cropped
  * in other full-bleed treatments on the site.
+ *
+ * SHOW_VIDEO temporarily false (George, Oct 2026) - on mobile the video's
+ * wide 16:9 source gets cropped hard left/right by object-cover against
+ * this section's tall, narrow mobile viewport, zooming into a thin centre
+ * slice. Falling back to the static poster frame everywhere until that's
+ * fixed (likely: a shorter mobile height so the crop ratio is less
+ * extreme) rather than shipping the cropped video. Flip back to true once
+ * resolved.
  */
+const SHOW_VIDEO = false;
+
 export function HomeHeroVideo() {
   const reduce = useReducedMotion();
   return (
     <section className="relative isolate h-[90vh] min-h-[560px] w-full overflow-hidden bg-green-900 sm:min-h-[640px]">
-      {reduce ? (
+      {!SHOW_VIDEO || reduce ? (
         // eslint-disable-next-line @next/next/no-img-element
         <img
           src="/photo-video-poster.jpg"
