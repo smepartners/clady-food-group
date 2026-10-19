@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { Resend } from "resend";
+import { contactEnquiryEmail } from "@/lib/email-templates";
 
 /**
  * Handles the Contact page form (src/components/contact-form.tsx). Replaces
@@ -71,12 +72,7 @@ export async function POST(request: Request) {
   const fromEmail = process.env.CONTACT_FROM_EMAIL || "onboarding@resend.dev";
   const resend = new Resend(apiKey);
 
-  const fieldRows = [
-    ["Name", name],
-    ["Company", company || "-"],
-    ["Phone", phone || "-"],
-    ["Email", email],
-  ];
+  const { html, text } = contactEnquiryEmail({ name, company, phone, email, message });
 
   try {
     const { error } = await resend.emails.send({
@@ -85,24 +81,8 @@ export async function POST(request: Request) {
       cc: [CC_EMAIL],
       replyTo: email,
       subject: `New enquiry from ${name}${company ? ` (${company})` : ""}`,
-      text: [
-        ...fieldRows.map(([label, value]) => `${label}: ${value}`),
-        "",
-        "Message:",
-        message,
-      ].join("\n"),
-      html: `
-        <table style="font-family: sans-serif; font-size: 14px; border-collapse: collapse;">
-          ${fieldRows
-            .map(
-              ([label, value]) =>
-                `<tr><td style="padding: 4px 12px 4px 0; color: #55604F;">${label}</td><td style="padding: 4px 0;"><strong>${escapeHtml(value)}</strong></td></tr>`
-            )
-            .join("")}
-        </table>
-        <p style="font-family: sans-serif; font-size: 14px; color: #55604F; margin-top: 16px;">Message:</p>
-        <p style="font-family: sans-serif; font-size: 14px; white-space: pre-wrap;">${escapeHtml(message)}</p>
-      `,
+      text,
+      html,
     });
 
     if (error) {
@@ -115,13 +95,4 @@ export async function POST(request: Request) {
   }
 
   return NextResponse.json({ ok: true });
-}
-
-function escapeHtml(value: string) {
-  return value
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#039;");
 }
