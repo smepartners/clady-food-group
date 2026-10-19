@@ -31,9 +31,21 @@ import { TextureOverlay } from "@/components/ui";
  * ambient background shot, and its 1400x1080 frame doesn't match this
  * panel's own aspect ratio at most breakpoints (aspect-[4/5] on mobile
  * in particular). object-cover was cropping text off both edges (e.g.
- * "Clady Food Group" clipped to "lady Food Grou"). object-contain
- * letterboxes instead, which reads fine here since the clip's own
- * background is the same leather texture as this panel's.
+ * "Clady Food Group" clipped to "lady Food Grou").
+ *
+ * object-contain avoids that, but on its own just trades cropped text for
+ * flat letterbox bars either side whenever the panel's shape and the
+ * clip's shape disagree - and on desktop they usually do, since this panel
+ * deliberately stretches to match the text column's own height (see the
+ * items-stretch/h-full note above) rather than keeping a fixed aspect
+ * ratio, so its rendered shape varies. George flagged those bars (Oct
+ * 2026) as looking broken. Fixed with a second copy of the poster behind
+ * the contained foreground - scaled up, blurred and dimmed with
+ * object-cover so it fills the panel completely - so any letterbox space
+ * reads as a soft continuation of the same image rather than a flat bar.
+ * Deliberately always the static poster (not a second video), even while
+ * the foreground video plays: it's blurred enough that the two beats never
+ * being in sync is not noticeable, and it avoids running the clip twice.
  */
 const SHOW_VIDEO = true;
 
@@ -42,6 +54,16 @@ export function CapabilitiesVideoPanel() {
   return (
     <div className="relative flex aspect-[4/5] min-h-[22rem] items-center justify-center overflow-hidden bg-green-900 lg:aspect-auto lg:h-full">
       <TextureOverlay texture="/texture-leather-green.jpg" />
+
+      {/* Blurred fill - see the object-contain note above. Decorative only. */}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src="/photo-video-capabilities-poster.jpg"
+        alt=""
+        aria-hidden="true"
+        className="absolute inset-0 h-full w-full scale-125 object-cover opacity-70 blur-2xl"
+      />
+
       {!SHOW_VIDEO || reduce ? (
         // eslint-disable-next-line @next/next/no-img-element
         <img
