@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import Script from "next/script";
 import { GA_MEASUREMENT_ID } from "@/lib/gtag";
+import { SITE_URL } from "@/lib/site";
 import "./globals.css";
 
 const poppins = Poppins({
@@ -11,6 +12,11 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
+  // Now that the site is live at cladyfoodgroup.com (George, Oct 2026),
+  // this lets Next resolve relative OG/canonical URLs against the real
+  // domain instead of leaving them relative (which would otherwise warn
+  // and break link previews on social/messaging apps).
+  metadataBase: new URL(SITE_URL),
   title: {
     default: "Clady Group",
     template: "%s | Clady Group",
