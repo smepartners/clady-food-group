@@ -1,15 +1,19 @@
 import { Section, Container, CTAButton, TextureOverlay } from "@/components/ui";
 import { Reveal } from "@/components/reveal";
-import { HeroSwitcher } from "@/components/hero-switcher";
+import { HomeHeroVideo } from "@/components/home-hero-video";
 import { ParallaxBand } from "@/components/parallax-band";
 import { BrandCarousel } from "@/components/brand-carousel";
-import { ValuesSwitcher } from "@/components/values-section";
+import { ValuesDarkBand } from "@/components/values-section";
 import { CapabilitiesVideoPanel } from "@/components/capabilities-video-panel";
 
 export default function HomePage() {
   return (
     <>
-      <HeroSwitcher />
+      {/* George (Oct 2026): drop the live review toggles for both the hero
+          and values sections - video hero and the dark-band values concept
+          are the confirmed picks, so the switcher pills (dev/review-only
+          UI, never meant to ship) come out and these render directly. */}
+      <HomeHeroVideo />
 
       {/* Light/beige, not dark green - with the hero already dark green,
           opening straight into another dark-green block here read as more
@@ -86,7 +90,7 @@ export default function HomePage() {
           left) - see values-section.tsx for the rationale. Replaces the
           original five-equal-card grid, which read as disconnected from
           the bolder full-bleed sections around it. */}
-      <ValuesSwitcher />
+      <ValuesDarkBand />
 
       {/* Full width rather than a contained rounded card, per client
           feedback - matches the brand carousel band above it as an
