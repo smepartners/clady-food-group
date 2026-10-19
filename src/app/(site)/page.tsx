@@ -41,7 +41,7 @@ export default function HomePage() {
             </h2>
             <div className="mt-5 space-y-4 text-ink-soft">
               <p>
-                With manufacturing operations in Buxton, Belfast and Galway,
+                With manufacturing operations in Buxton and Belfast,
                 Clady Group brings together a broad portfolio of complementary
                 expertise across branded beverages, wellness, soluble drinks and
                 private label manufacturing.
@@ -71,7 +71,7 @@ export default function HomePage() {
         alt="The packing and labelling line at Clady Group's Buxton site"
         eyebrow="Our capability"
         heading="Real manufacturing scale, behind every brand."
-        body="From roasting and blending to packing and dispatch, our teams manufacture across three sites in England, Northern Ireland and Ireland - built to support brands and private label customers at volume."
+        body="From roasting and blending to packing and dispatch, our teams manufacture across two sites in England and Northern Ireland - built to support brands and private label customers at volume."
       />
 
       {/* Bigger, more deliberate moment than a quiet grid at the bottom of

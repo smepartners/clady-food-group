@@ -10,20 +10,23 @@ import { TextureOverlay } from "@/components/ui";
  * (home-hero-video.tsx) - the client had confirmed (Oct 2026) that upload
  * was meant for both spots. A dedicated second clip has since been
  * supplied (CFG_Website_Animation.mp4, Oct 2026): a silent brand
- * animation - leather-texture title cards, the Buxton/Belfast/Galway
- * manufacturing map, a "100s of specialist and private label" stat
- * card, closing on the full logo lockup - so the hero and this panel no
- * longer show the identical clip. Still muted/looping/autoplaying, same
- * as before, with the same reduced-motion fallback to a static poster
- * frame (now one pulled from this clip's own manufacturing-map beat,
- * rather than the hero's factory-floor poster).
+ * animation - leather-texture title cards, the Buxton/Belfast manufacturing
+ * map, a "100s of specialist and private label" stat card, closing on the
+ * full logo lockup - so the hero and this panel no longer show the
+ * identical clip. Still muted/looping/autoplaying, with the same
+ * reduced-motion fallback to a static poster frame pulled from this clip's
+ * own closing logo-lockup beat.
  *
- * SHOW_VIDEO temporarily false (George, Oct 2026) - same hold as the hero
- * video (home-hero-video.tsx): falling back to the static poster frame
- * here too until video is switched back on sitewide. Flip back to true
- * once resolved.
+ * This was briefly disabled (SHOW_VIDEO = false, George, Oct 2026) because
+ * the original clip's manufacturing-map beat had "Galway" labelled on the
+ * map graphic - visible in the poster frame even with video off, which
+ * wasn't wanted once Galway was removed elsewhere on the site. Fixed by
+ * swapping in the client's updated clip (CFG_Website_Animation_2_Sites.mp4,
+ * Oct 2026), whose map beat shows only Buxton and Belfast, and re-grabbing
+ * the poster from its closing logo-lockup frame (19.5s in) rather than the
+ * map beat, so video is back on.
  */
-const SHOW_VIDEO = false;
+const SHOW_VIDEO = true;
 
 export function CapabilitiesVideoPanel() {
   const reduce = useReducedMotion();
@@ -34,7 +37,7 @@ export function CapabilitiesVideoPanel() {
         // eslint-disable-next-line @next/next/no-img-element
         <img
           src="/photo-video-capabilities-poster.jpg"
-          alt="An animated map of Clady Group's manufacturing sites in Buxton, Belfast and Galway"
+          alt="The Clady Food Group logo and strapline on a leather texture background"
           className="absolute inset-0 h-full w-full object-cover"
         />
       ) : (
@@ -44,7 +47,7 @@ export function CapabilitiesVideoPanel() {
           loop
           playsInline
           poster="/photo-video-capabilities-poster.jpg"
-          aria-label="Clady Group brand animation - our manufacturing footprint across Buxton, Belfast and Galway, and the scale of what we produce"
+          aria-label="Clady Group brand animation - our manufacturing footprint across Buxton and Belfast, and the scale of what we produce"
           className="absolute inset-0 h-full w-full object-cover"
         >
           <source src="/video-capabilities.webm" type="video/webm" />

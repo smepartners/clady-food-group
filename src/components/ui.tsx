@@ -393,13 +393,13 @@ export function StatTile({
   );
 }
 
-/** Compact list of the group's manufacturing sites (Buxton, Belfast,
- * Galway - see lib/facilities.ts) with a pin marker per site. A multi-site
+/** Compact list of the group's manufacturing sites (Buxton, Belfast -
+ * see lib/facilities.ts) with a pin marker per site. A multi-site
  * manufacturing footprint is one of the more concrete, truthful signals of
  * scale Clady can make - client feedback was that the site reads smaller
  * than the business actually is, and this is real information that was
  * previously buried as a label string on a single stat tile rather than
- * shown as what it is: three separate, named sites. */
+ * shown as what it is: two separate, named sites. */
 export function FacilityStrip({
   tone = "light",
   className = "",

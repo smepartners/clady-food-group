@@ -28,8 +28,8 @@ export const metadata: Metadata = { title: "Private Label" };
 const SCALE_STATS = [
   { value: "12+", label: "Years established, since 2014", icon: <CalendarBlank size={20} weight="bold" /> },
   {
-    value: "3",
-    label: "Manufacturing sites across the UK & Ireland",
+    value: "2",
+    label: "Manufacturing sites across the UK",
     icon: <Buildings size={20} weight="bold" />,
   },
   {
