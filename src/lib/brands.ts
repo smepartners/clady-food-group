@@ -8,10 +8,16 @@
 // have one, rendered as a small badge over the product photo (see
 // BrandGrid in ui.tsx) rather than replacing the photo itself.
 // Round 5 feedback: ordered to match the priority order Zoe gave for the
-// /brands index page (Slumberjack, Dutch Maid, Evolving State, Galway
-// Roast) - this is the single source of truth for the nav dropdown, the
-// footer brand list and the homepage brand carousel, so reordering it here
-// keeps all three in sync rather than drifting from /brands' own order.
+// /brands index page (Slumberjack, Dutch Maid, Evolving State) - this is
+// the single source of truth for the nav dropdown, the footer brand list
+// and the homepage brand carousel, so reordering it here keeps all three
+// in sync rather than drifting from /brands' own order.
+// Galway Roast removed from the group portfolio (George, Oct 2026) -
+// taken out of this list and every place that derives from it, plus the
+// /brands index, the brand detail route and the Instagram section. Its
+// page (/brands/galway-roast) now 404s rather than being deleted outright,
+// and its photo/logo assets are left in public/ unused rather than
+// deleted, in case this needs reverting.
 export const BRANDS = [
   {
     slug: "slumberjack",
@@ -36,13 +42,5 @@ export const BRANDS = [
     tone: "green" as const,
     photo: "/photo-brand-evolving-state.jpg",
     logo: "/logo-evolving-state.png",
-  },
-  {
-    slug: "galway-roast",
-    name: "Galway Roast",
-    seed: "clady-galway-roast-coffee",
-    tone: "gold" as const,
-    photo: "/photo-brand-galway-roast.jpg",
-    logo: "/logo-galway-roast.png",
   },
 ] as const;

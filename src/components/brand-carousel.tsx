@@ -13,7 +13,6 @@ import { BRANDS } from "@/lib/brands";
 // shared BRANDS list) so a card reads as more than a logo and a link.
 const STRAPS: Record<(typeof BRANDS)[number]["slug"], string> = {
   "evolving-state": "Everyday wellness made easy.",
-  "galway-roast": "Coffee with a taste of Galway.",
   "dutch-maid": "Convenience made simple.",
   slumberjack: "Our signature beverage brand.",
 };

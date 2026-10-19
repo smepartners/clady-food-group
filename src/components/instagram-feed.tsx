@@ -28,10 +28,11 @@ import { Reveal, RevealStagger } from "@/components/reveal";
  *
  * Confirmed handles (Round 6 social links, George, Oct 2026):
  * - Evolving State: instagram.com/evolvingstate
- * - Galway Roast: instagram.com/galwayroastcoffee
  * Slumberjack and Dutch Maid don't have a confirmed handle yet - both are
  * left out of INSTAGRAM_BRANDS until one is supplied, same pattern as the
  * "coming soon" treatment Dutch Maid already gets for its website.
+ * Galway Roast's entry (instagram.com/galwayroastcoffee) was removed when
+ * the brand came off the site (George, Oct 2026) - see lib/brands.ts.
  */
 export const INSTAGRAM_BRANDS = [
   {
@@ -68,33 +69,6 @@ export const INSTAGRAM_BRANDS = [
         url: "https://www.instagram.com/evolvingstate/reel/DdGpwoDxNKQ/",
         image: "/instagram/evolving-state-post-4.jpg",
         caption: "POV: You can't decide…",
-      },
-    ],
-  },
-  {
-    slug: "galway-roast",
-    name: "Galway Roast",
-    handle: "galwayroastcoffee",
-    url: "https://www.instagram.com/galwayroastcoffee/",
-    photo: "/photo-galway-roast-products.jpg",
-    logo: "/logo-galway-roast.png",
-    instagramWidgetId: undefined as string | undefined,
-    posts: [
-      {
-        url: "https://www.instagram.com/galwayroastcoffee/p/DdYTWs3OdAP/",
-        image: "/instagram/galway-roast-post-1.jpg",
-        caption:
-          "☕ BIG NEWS! The Galway Roast Decaf Coffee is available in Lidl stores across Ireland - 100% Irish-crafted decaf, premium flavour, zero caffeine.",
-      },
-      {
-        url: "https://www.instagram.com/galwayroastcoffee/reel/DVO879sjtM5/",
-        image: "/instagram/galway-roast-post-2.jpg",
-        caption: "#galwayroast #coffeelovers #lidlireland #supportlocal #coffeetime",
-      },
-      {
-        url: "https://www.instagram.com/galwayroastcoffee/reel/DVYP7q6iPXB/",
-        image: "/instagram/galway-roast-post-3.jpg",
-        caption: "#lidlireland #lidl #supportlocalbrand #coffeelover",
       },
     ],
   },

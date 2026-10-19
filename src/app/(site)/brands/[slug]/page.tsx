@@ -17,14 +17,14 @@ type Brand = {
   photo: string;
   logo: string;
   /** A real product-range photo to sit beside the overview copy. Evolving
-   * State, Galway Roast, Dutch Maid and Slumberjack all have one supplied
-   * now (rounds 5-6). */
+   * State, Dutch Maid and Slumberjack all have one supplied now
+   * (rounds 5-6). */
   productsImage?: string;
   productsImageAlt?: string;
   /** Round 6 (Zoe, via George): real social/website links supplied for
-   * Evolving State, Galway Roast and Slumberjack. Dutch Maid's weren't
-   * supplied this round, so it keeps the websiteComingSoon line below
-   * rather than linking to a guessed URL. */
+   * Evolving State and Slumberjack. Dutch Maid's weren't supplied this
+   * round, so it keeps the websiteComingSoon line below rather than
+   * linking to a guessed URL. */
   social?: {
     website?: string;
     facebook?: string;
@@ -57,9 +57,12 @@ type Brand = {
 // her note); each page gets a product-range image slot and a "get in
 // touch" button.
 // Round 6 (Zoe, via George): real social/website links and real product
-// range photography supplied for Evolving State, Galway Roast and
-// Slumberjack; Dutch Maid got its real product photo but no social links
-// this round, so it keeps the "website coming soon" line.
+// range photography supplied for Evolving State and Slumberjack; Dutch
+// Maid got its real product photo but no social links this round, so it
+// keeps the "website coming soon" line.
+// Galway Roast removed from the group portfolio (George, Oct 2026) - its
+// entry here is gone, so /brands/galway-roast now 404s via notFound()
+// below rather than being a reachable page. See lib/brands.ts.
 const BRANDS: Record<string, Brand> = {
   "evolving-state": {
     name: "Evolving State",
@@ -79,26 +82,6 @@ const BRANDS: Record<string, Brand> = {
     paragraphs: [
       "Evolving State is focused on natural and functional products designed to enhance everyday health and wellbeing.",
       "Its portfolio spans functional drinks, supplements, natural wellness and performance, bringing together products that fit naturally into modern lifestyles.",
-    ],
-  },
-  "galway-roast": {
-    name: "Galway Roast",
-    strap: "Coffee with a taste of Galway.",
-    focus: "Coffee · Irish heritage · Private label",
-    seed: "clady-galway-roast-coffee",
-    photo: "/photo-brand-galway-roast.jpg",
-    logo: "/logo-galway-roast.png",
-    productsImage: "/photo-galway-roast-products.jpg",
-    productsImageAlt: "The Galway Roast wholebean product range",
-    social: {
-      website: "https://galwayroast.ie/",
-      facebook: "https://www.facebook.com/galwayroastcoffee",
-      instagram: "https://www.instagram.com/galwayroastcoffee/",
-    },
-    paragraphs: [
-      "Rooted in place, Galway Roast celebrates Irish heritage, local character and a hint of the Galway coastline in every roast.",
-      "The brand brings an authentic sense of Galway to the coffee category, with a focus on quality, flavour and keeping it local.",
-      "Galway Roast offers a distinctive proposition for customers looking for coffee with a genuine sense of place.",
     ],
   },
   "dutch-maid": {
@@ -324,17 +307,14 @@ export default async function BrandPage({
       </Section>
 
       {/* Instagram: a follow teaser/post grid for brands with a confirmed
-          handle (just Evolving State for now - Round 7 feedback pulled
-          Galway Roast's feed back off, so it's skipped here rather than
-          rendering an empty section for it). Round 7 also asked for less
-          gap above this and a light background so it reads clearly as its
-          own section rather than floating against the overview block
-          above. Renders nothing for brands without a confirmed handle. */}
-      {slug !== "galway-roast" ? (
-        <Section pad="pt-10 pb-10 sm:pt-14 sm:pb-14" className="bg-cream-200/40">
-          <BrandInstagramSection slug={slug} />
-        </Section>
-      ) : null}
+          handle (just Evolving State for now). Round 7 asked for less gap
+          above this and a light background so it reads clearly as its own
+          section rather than floating against the overview block above.
+          BrandInstagramSection itself renders nothing for a brand with no
+          confirmed handle, so no extra guard is needed here. */}
+      <Section pad="pt-10 pb-10 sm:pt-14 sm:pb-14" className="bg-cream-200/40">
+        <BrandInstagramSection slug={slug} />
+      </Section>
 
       {/* Round 5 feedback: swapped the static BrandGrid for the same
           carousel used on the homepage's "Our brands" band, so this

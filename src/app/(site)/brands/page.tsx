@@ -10,11 +10,13 @@ export const metadata: Metadata = { title: "Our Brands" };
 
 // `logo` is each brand's real supplied logo mark (Oct 2026) - see
 // public/PHOTO-CREDITS.md and the matching comment on lib/brands.ts.
-// Round 5 feedback: ordered Slumberjack, Dutch Maid, Evolving State, Galway
-// Roast, Private Label (priority order supplied by Zoe); B2B/B2C tags
-// dropped from every focus line, and a "Private label" tag added to every
-// brand except Evolving State (the one brand that isn't produced under
-// private label too).
+// Round 5 feedback: ordered Slumberjack, Dutch Maid, Evolving State,
+// Private Label (priority order supplied by Zoe); B2B/B2C tags dropped
+// from every focus line, and a "Private label" tag added to every brand
+// except Evolving State (the one brand that isn't produced under private
+// label too).
+// Galway Roast removed from the group portfolio (George, Oct 2026) - see
+// the matching comment on lib/brands.ts.
 const BRANDS = [
   {
     slug: "slumberjack",
@@ -42,15 +44,6 @@ const BRANDS = [
     seed: "clady-evolving-state-wellness",
     photo: "/photo-brand-evolving-state.jpg",
     logo: "/logo-evolving-state.png",
-  },
-  {
-    slug: "galway-roast",
-    name: "Galway Roast",
-    strap: "Coffee with a taste of Galway.",
-    focus: "Coffee · Irish heritage · Private label",
-    seed: "clady-galway-roast-coffee",
-    photo: "/photo-brand-galway-roast.jpg",
-    logo: "/logo-galway-roast.png",
   },
 ];
 
