@@ -20,20 +20,24 @@ import { useReducedMotion } from "motion/react";
  * hero heights, same as how video-company-story.mp4 already gets cropped
  * in other full-bleed treatments on the site.
  *
- * SHOW_VIDEO temporarily false (George, Oct 2026) - on mobile the video's
- * wide 16:9 source gets cropped hard left/right by object-cover against
- * this section's tall, narrow mobile viewport, zooming into a thin centre
- * slice. Falling back to the static poster frame everywhere until that's
- * fixed (likely: a shorter mobile height so the crop ratio is less
- * extreme) rather than shipping the cropped video. Flip back to true once
- * resolved.
+ * Was briefly disabled (SHOW_VIDEO = false, George, Oct 2026): on mobile
+ * the video's wide 16:9 source was getting cropped hard left/right by
+ * object-cover against this section's tall, narrow mobile viewport (it was
+ * running a flat 90vh at every breakpoint, so a portrait phone forced a
+ * container aspect ratio far narrower than the video's, zooming into a
+ * thin centre slice). Fixed by tiering the height down on mobile and back
+ * up through the breakpoints, rather than one height everywhere, so the
+ * container's aspect ratio stays closer to the video's 16:9 and the crop
+ * is far less severe - not eliminated (a true full-bleed edge-to-edge
+ * video on a portrait phone can't match a landscape source without some
+ * crop), but no longer the extreme zoom it was. Video back on.
  */
-const SHOW_VIDEO = false;
+const SHOW_VIDEO = true;
 
 export function HomeHeroVideo() {
   const reduce = useReducedMotion();
   return (
-    <section className="relative isolate h-[90vh] min-h-[560px] w-full overflow-hidden bg-green-900 sm:min-h-[640px]">
+    <section className="relative isolate h-[58vh] min-h-[560px] w-full overflow-hidden bg-green-900 sm:h-[75vh] sm:min-h-[600px] lg:h-[90vh] lg:min-h-[640px]">
       {!SHOW_VIDEO || reduce ? (
         // eslint-disable-next-line @next/next/no-img-element
         <img
