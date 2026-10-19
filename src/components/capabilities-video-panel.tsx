@@ -25,6 +25,15 @@ import { TextureOverlay } from "@/components/ui";
  * Oct 2026), whose map beat shows only Buxton and Belfast, and re-grabbing
  * the poster from its closing logo-lockup frame (19.5s in) rather than the
  * map beat, so video is back on.
+ *
+ * object-contain, not object-cover (George, Oct 2026): the clip is
+ * type-led - title cards, map labels, the logo lockup - rather than an
+ * ambient background shot, and its 1400x1080 frame doesn't match this
+ * panel's own aspect ratio at most breakpoints (aspect-[4/5] on mobile
+ * in particular). object-cover was cropping text off both edges (e.g.
+ * "Clady Food Group" clipped to "lady Food Grou"). object-contain
+ * letterboxes instead, which reads fine here since the clip's own
+ * background is the same leather texture as this panel's.
  */
 const SHOW_VIDEO = true;
 
@@ -38,7 +47,7 @@ export function CapabilitiesVideoPanel() {
         <img
           src="/photo-video-capabilities-poster.jpg"
           alt="The Clady Food Group logo and strapline on a leather texture background"
-          className="absolute inset-0 h-full w-full object-cover"
+          className="absolute inset-0 h-full w-full object-contain"
         />
       ) : (
         <video
@@ -48,7 +57,7 @@ export function CapabilitiesVideoPanel() {
           playsInline
           poster="/photo-video-capabilities-poster.jpg"
           aria-label="Clady Group brand animation - our manufacturing footprint across Buxton and Belfast, and the scale of what we produce"
-          className="absolute inset-0 h-full w-full object-cover"
+          className="absolute inset-0 h-full w-full object-contain"
         >
           <source src="/video-capabilities.webm" type="video/webm" />
           <source src="/video-capabilities.mp4" type="video/mp4" />
