@@ -44,12 +44,13 @@ const SCALE_STATS = [
 // (reusing the closest real brand photography for each category rather
 // than generic stock), Tea gets the standard "photography pending"
 // placeholder until a dedicated shot is supplied.
-// Coffee previously reused Galway Roast's product photo here - with that
-// brand removed from the site (George, Oct 2026), this tile falls back to
-// the same "photography pending" placeholder as Tea until a generic
-// coffee shot (or another brand's) is supplied.
+// Coffee briefly fell back to the same placeholder (George, Oct 2026) when
+// Galway Roast was removed as a brand sitewide - the filename was the only
+// Galway tie here though, the photo itself is just a close-up of roasted
+// beans with no Galway branding, logo or text visible in it, so it's safe
+// to keep using and has been put back.
 const PRODUCE_CATEGORIES = [
-  { name: "Coffee", icon: Coffee, seed: "clady-produce-coffee" },
+  { name: "Coffee", icon: Coffee, seed: "clady-produce-coffee", photo: "/photo-brand-galway-roast.jpg" },
   { name: "Powdered drinks", icon: Drop, seed: "clady-produce-powdered", photo: "/photo-brand-dutch-maid.jpg" },
   { name: "Functional drinks", icon: Lightning, seed: "clady-produce-functional", photo: "/photo-brand-evolving-state.jpg" },
   { name: "Tea", icon: TeaBag, seed: "clady-produce-tea" },
