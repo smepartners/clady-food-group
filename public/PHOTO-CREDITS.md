@@ -79,3 +79,4 @@ where each one is used.
 | photo-brand-galway-roast.jpg | Galway Roast brand imagery | Unsplash | photo-1753837787691 |
 | photo-brand-dutch-maid.jpg | Dutch Maid brand imagery | Unsplash | photo-1629248990514 |
 | photo-brand-slumberjack.jpg | Slumberjack brand imagery | Unsplash | photo-1619860703338 |
+| photo-produce-tea.jpg | Tea category tile, Private Label "What we produce" grid | Unsplash | photo-1763617702099 (晨曦 Hey) |
