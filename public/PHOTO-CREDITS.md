@@ -34,6 +34,9 @@ pulled from `video-company-story.mp4` are noted as such.
 | logo-galway-roast.png | Galway Roast brand mark (brand grid, brand index, brand detail hero) | Client-supplied logo artwork |
 | logo-dutch-maid.png | Dutch Maid brand mark (brand grid, brand index, brand detail hero) | Client-supplied logo artwork |
 | logo-slumberjack.svg | Slumberjack brand mark (brand grid, brand index, brand detail hero) | Client-supplied logo artwork |
+| photo-produce-coffee.jpg | Coffee category tile, Private Label "What we produce" grid | Client-supplied, via Drive (Oct 2026) |
+| photo-produce-powdered.jpg | Powdered drinks category tile, Private Label "What we produce" grid | Client-supplied, via Drive (Oct 2026) |
+| photo-produce-tea.jpg | Tea category tile, Private Label "What we produce" grid | Client-supplied, via Drive (Oct 2026) - replaces the brief Unsplash stock placeholder below |
 
 ## Orphaned stock (no longer referenced)
 
@@ -44,6 +47,7 @@ page; safe to delete in a later cleanup pass.
 
 - `photo-home-manufacturing.jpg` - previously the Home manufacturing band image, replaced by `photo-roastery-floor.jpg`.
 - `photo-private-label-bottling.jpg` - previously the Private Label hero and showcase lead tile, replaced by `photo-production-packing.jpg`.
+- `photo-brand-galway-roast.jpg` - previously the Private Label "What we produce" Coffee tile (itself a stand-in for an earlier, removed Galway Roast product shot of the same name - see table below), replaced by the dedicated `photo-produce-coffee.jpg`.
 
 ## Home hero: two concepts, one toggle
 
@@ -79,4 +83,3 @@ where each one is used.
 | photo-brand-galway-roast.jpg | Galway Roast brand imagery | Unsplash | photo-1753837787691 |
 | photo-brand-dutch-maid.jpg | Dutch Maid brand imagery | Unsplash | photo-1629248990514 |
 | photo-brand-slumberjack.jpg | Slumberjack brand imagery | Unsplash | photo-1619860703338 |
-| photo-produce-tea.jpg | Tea category tile, Private Label "What we produce" grid | Unsplash | photo-1763617702099 (晨曦 Hey) |

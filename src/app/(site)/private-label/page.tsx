@@ -40,21 +40,18 @@ const SCALE_STATS = [
 ];
 
 // Round 5 feedback: "please start with Coffee / Powdered drinks /
-// Functional drinks / Tea" - photography exists for three of the four
-// (reusing the closest real brand photography for each category rather
-// than generic stock).
-// Coffee briefly fell back to a "photography pending" placeholder (George,
-// Oct 2026) when Galway Roast was removed as a brand sitewide - the
-// filename was the only Galway tie here though, the photo itself is just
-// a close-up of roasted beans with no Galway branding, logo or text
-// visible in it, so it's safe to keep using and has been put back.
-// Tea had no photography at all through Round 5-9 (none of the three
-// brands is tea-led, so there was nothing existing to reuse) - George
-// asked for a stock shot (Oct 2026); photo-produce-tea.jpg is free-licence
-// Unsplash stock, see PHOTO-CREDITS.md.
+// Functional drinks / Tea" - all four now have dedicated real client
+// photography (George, Oct 2026), supplied via Drive after this grid ran
+// for several rounds on reused brand photography/stock:
+// - Coffee and Powdered drinks previously reused Galway Roast's and Dutch
+//   Maid's own product photos here as the closest available stand-ins;
+//   both now have their own dedicated shots instead.
+// - Tea had no photography at all through Round 5-9 (none of the three
+//   owned brands is tea-led), briefly filled with free-licence Unsplash
+//   stock (see PHOTO-CREDITS.md history) until this real photo arrived.
 const PRODUCE_CATEGORIES = [
-  { name: "Coffee", icon: Coffee, seed: "clady-produce-coffee", photo: "/photo-brand-galway-roast.jpg" },
-  { name: "Powdered drinks", icon: Drop, seed: "clady-produce-powdered", photo: "/photo-brand-dutch-maid.jpg" },
+  { name: "Coffee", icon: Coffee, seed: "clady-produce-coffee", photo: "/photo-produce-coffee.jpg" },
+  { name: "Powdered drinks", icon: Drop, seed: "clady-produce-powdered", photo: "/photo-produce-powdered.jpg" },
   { name: "Functional drinks", icon: Lightning, seed: "clady-produce-functional", photo: "/photo-brand-evolving-state.jpg" },
   { name: "Tea", icon: TeaBag, seed: "clady-produce-tea", photo: "/photo-produce-tea.jpg" },
 ];
