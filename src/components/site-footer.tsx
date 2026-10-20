@@ -41,7 +41,17 @@ export function SiteFooter() {
             alt="Clady Food Group"
             width={1600}
             height={317}
-            className="h-10 w-auto opacity-90 sm:h-11"
+            // Squished on mobile (George, Oct 2026): the wrapper is
+            // `flex flex-col` below `sm:`, and flex's default
+            // align-items: stretch was stretching this image to the
+            // full cross-axis width of its column (~358px) while
+            // height stayed pinned at h-10 (40px) - way off this
+            // logo's actual ~5:1 aspect ratio, so it rendered squashed
+            // wide. self-start opts it out of the stretch so its width
+            // follows from the aspect ratio again, same as it already
+            // did at sm: and up (where the row layout's
+            // items-start already prevented the stretch).
+            className="h-10 w-auto self-start opacity-90 sm:h-11"
           />
           {/* Round 5 feedback: brands list leads, ahead of the page-link
               column, mirroring how prominently the header dropdown and the
