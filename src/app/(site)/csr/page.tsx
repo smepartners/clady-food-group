@@ -3,24 +3,32 @@ import { UsersThree, Handshake, Leaf, SunHorizon, CloudCheck } from "@phosphor-i
 import { Section, TextureOverlay } from "@/components/ui";
 import { Reveal, RevealStagger } from "@/components/reveal";
 import { CsrHero } from "@/components/csr-hero";
+import { getCsrPageContent, getCsrInitiatives } from "@/lib/csr-page-data";
 
 export const metadata: Metadata = { title: "CSR" };
 
-const PILLARS = [
+// Icon name -> component lookups for the Sanity-driven pillars/initiatives
+// below (the schemas store a controlled string, not an upload).
+const PILLAR_ICONS: Record<string, typeof UsersThree> = { UsersThree, Handshake, Leaf };
+const INITIATIVE_ICONS: Record<string, typeof CloudCheck> = { CloudCheck, SunHorizon };
+
+// Fallbacks, used only if Sanity is unreachable/empty - see
+// src/lib/csr-page-data.ts.
+const FALLBACK_PILLARS = [
   {
-    icon: UsersThree,
+    icon: "UsersThree",
     tone: "gold" as const,
     name: "Our people",
     body: "Our business is built by people. We want to create an environment where our teams can contribute, develop and take pride in what they do. We value collaboration, respect and accountability, and recognise the importance of strong relationships across our business.",
   },
   {
-    icon: Handshake,
+    icon: "Handshake",
     tone: "green" as const,
     name: "Our customers and partners",
     body: "Responsible business starts with doing what we say we will do. We aim to build long-term relationships based on trust, transparency and consistent delivery. We work collaboratively with customers and partners to understand expectations and continually improve the way we operate.",
   },
   {
-    icon: Leaf,
+    icon: "Leaf",
     tone: "olive" as const,
     name: "Our products",
     body: "Consumer expectations are changing, and we believe businesses have a responsibility to respond. Across our portfolio, we are exploring opportunities to develop products that reflect changing preferences, including growing interest in wellness, functionality, convenience and evolving taste profiles. We also recognise the importance of responsible sourcing, with a particular focus on ethical and responsible supply chains across key commodities such as coffee.",
@@ -33,35 +41,30 @@ const TONE_ICON_BG = {
   olive: "bg-olive-600/10 text-olive-600",
 } as const;
 
-// Green credentials confirmed by the client (Zoe, SME Partners). The wider
-// list of sustainability initiatives is still being confirmed - these two
-// are established facts, not part of that pending roadmap.
-const GREEN_CREDENTIALS = [
+const FALLBACK_GREEN_CREDENTIALS = [
   {
-    icon: CloudCheck,
+    icon: "CloudCheck",
     name: "Carbon neutral",
     body: "As a company, and across our carbon neutral product range, we measure our emissions through My Emissions and offset them through verified projects on the Ecologi platform.",
   },
   {
-    icon: SunHorizon,
+    icon: "SunHorizon",
     name: "Solar-powered manufacturing",
     body: "Solar panels on the roof of our Belfast factory generate green energy for our manufacturing operations.",
   },
 ];
 
-export default function CsrPage() {
+export default async function CsrPage() {
+  const [content, liveInitiatives] = await Promise.all([getCsrPageContent(), getCsrInitiatives()]);
+  const PILLARS = content.pillars?.length ? content.pillars : FALLBACK_PILLARS;
+  const GREEN_CREDENTIALS = liveInitiatives.length ? liveInitiatives : FALLBACK_GREEN_CREDENTIALS;
   return (
     <>
-      <CsrHero />
+      <CsrHero subheading={content.hero.subtext} image={content.hero.image} />
 
       <Section className="bg-cream-200/40" pad="pt-10 pb-0 sm:pt-14 sm:pb-0">
         <Reveal>
-          <p className="max-w-2xl text-lg font-medium leading-relaxed text-ink sm:text-xl">
-            As our group develops, we are committed to building responsible
-            practices into the way we work, from the products we develop and
-            the partners we work with to the way we support our people and
-            manage our impact.
-          </p>
+          <p className="max-w-2xl text-lg font-medium leading-relaxed text-ink sm:text-xl">{content.intro}</p>
         </Reveal>
       </Section>
 
@@ -87,6 +90,7 @@ export default function CsrPage() {
           {PILLARS.map((p, i) => {
             const isFirst = i === 0;
             const isLast = i === PILLARS.length - 1;
+            const PillarIcon = PILLAR_ICONS[p.icon] ?? UsersThree;
             return (
               <div
                 key={p.name}
@@ -96,7 +100,7 @@ export default function CsrPage() {
               >
                 <div className="flex items-center gap-3">
                   <div className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-full ${TONE_ICON_BG[p.tone]}`}>
-                    <p.icon size={22} weight="bold" />
+                    <PillarIcon size={22} weight="bold" />
                   </div>
                   <h3 className="font-semibold text-ink">{p.name}</h3>
                 </div>
@@ -126,15 +130,9 @@ export default function CsrPage() {
             <h2 className="text-2xl font-semibold text-green-700 sm:text-3xl">
               Our responsibility
             </h2>
-            <p className="mt-4 text-ink-soft">
-              For us, responsible business is not a standalone initiative. It
-              is part of how we operate. Our values of excellence, innovation,
-              consistency, agility and collaboration guide the way we work and
-              provide the foundation for building a business that is
-              successful for the long term.
-            </p>
+            <p className="mt-4 text-ink-soft">{content.responsibilitySection.body}</p>
             <p className="mt-8 text-xl italic leading-snug text-gold-700 sm:text-2xl">
-              Building better, responsibly.
+              {content.responsibilitySection.quote}
             </p>
           </div>
         </Reveal>
@@ -153,24 +151,20 @@ export default function CsrPage() {
           <h2 className="mx-auto max-w-2xl text-center text-2xl font-semibold text-cream-100 sm:text-3xl">
             Our impact
           </h2>
-          <p className="mx-auto mt-4 max-w-2xl text-center text-cream-100/75">
-            We recognise that every business has an impact. As Clady Food
-            Group continues to grow, we are focused on understanding where we
-            can make the greatest difference and building responsible
-            practices into our future development. Our approach is one of
-            continuous improvement: setting meaningful priorities, measuring
-            progress and taking practical action.
-          </p>
+          <p className="mx-auto mt-4 max-w-2xl text-center text-cream-100/75">{content.impactSection.body}</p>
           <RevealStagger className="mx-auto mt-10 grid max-w-2xl gap-8 sm:grid-cols-2">
-            {GREEN_CREDENTIALS.map((c) => (
-              <div key={c.name} className="flex flex-col items-center gap-3 text-center">
-                <div className="flex h-11 w-11 items-center justify-center rounded-full bg-gold-500/15 text-gold-500">
-                  <c.icon size={22} weight="bold" />
+            {GREEN_CREDENTIALS.map((c) => {
+              const InitiativeIcon = INITIATIVE_ICONS[c.icon] ?? CloudCheck;
+              return (
+                <div key={c.name} className="flex flex-col items-center gap-3 text-center">
+                  <div className="flex h-11 w-11 items-center justify-center rounded-full bg-gold-500/15 text-gold-500">
+                    <InitiativeIcon size={22} weight="bold" />
+                  </div>
+                  <h3 className="font-semibold text-cream-100">{c.name}</h3>
+                  <p className="text-sm leading-relaxed text-cream-100/75">{c.body}</p>
                 </div>
-                <h3 className="font-semibold text-cream-100">{c.name}</h3>
-                <p className="text-sm leading-relaxed text-cream-100/75">{c.body}</p>
-              </div>
-            ))}
+              );
+            })}
           </RevealStagger>
         </Reveal>
       </Section>

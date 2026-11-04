@@ -55,18 +55,39 @@ Slumberjack brand doc back from the API and by loading `/brands/slumberjack`
 in dev - its BRCGS certification text and product photo now come from
 Sanity, not a hardcoded map).
 
-**What's wired to fetch live, and what isn't yet:** only the brand detail
-page (`/brands/[slug]`, via `src/lib/brands-data.ts`) fetches from Sanity
-so far, with a same-shaped static fallback in that file if Sanity is ever
-unreachable. Every other page (Home, About, Private Label, CSR, Contact,
-the `/brands` index, the nav/footer via `siteSettings`) still renders its
-original hardcoded copy - the schema, queries and seeded content for all
-of them are ready and live in the dataset (see `src/sanity/lib/queries.ts`
-for the matching query per page), but the page components themselves
-haven't been switched over to call `client.fetch(QUERY)` yet. That's a
-mechanical swap now (follow the `brands-data.ts` pattern: fetch, map
-Sanity image refs through `urlForImage`, fall back to static content on
-error), not new design or schema work - next up.
+**What's wired to fetch live:** every page now fetches from Sanity -
+Home, About, Private Label, CSR, Contact and the brand detail page, plus
+the sitewide footer (contact details + manufacturing sites, via
+`siteSettings`/`facility`). Each page has its own small data-access file
+under `src/lib/` (`home-page-data.ts`, `about-page-data.ts`,
+`private-label-page-data.ts`, `csr-page-data.ts`, `brands-data.ts`,
+`site-settings-data.ts`) that fetches the matching query, maps any
+Sanity image refs through `urlForImage`, and falls back to the site's
+original hardcoded copy if Sanity is ever unreachable or a document is
+missing - so a Sanity outage degrades to the old static site rather than
+a broken page. Verified in dev across all of them (confirmed via Sanity
+CDN image URLs and live seeded copy appearing in each page's HTML).
+
+Headings that mix plain and emphasised text (an inline `<em>` splitting
+a headline, e.g. "Built around *your business.*") deliberately stay as
+hardcoded JSX rather than Sanity fields - representing that in GROQ/
+portable text would need a bigger schema change (marks within a string),
+and a stylised headline like this isn't really day-to-day copy a client
+edits anyway. Subtext, body paragraphs, CTA labels, images and repeatable
+cards (stats, pillars, categories, accreditations, values) are all live.
+
+**Still hardcoded by design:** the main header nav (`site-header.tsx` is
+a client component for the mobile menu, so wiring it would need the nav
+links threaded through the layout as props - nav structure changes rarely
+enough that this wasn't worth doing yet) and the `/brands` index page
+(it intentionally carries its own slightly different `focus`/strap copy
+per brand from the brand detail pages - see its own comment - so pointing
+it at the same `brand` documents would risk silently merging two
+deliberately-separate copy sets). The `aboutPage.manufacturingSection`
+schema field also has nothing to wire to - no manufacturing image band
+currently exists in the real About page design (the photo it would have
+used, `photo-roastery-detail.jpg`, isn't referenced anywhere in the
+current page) - leave it unused or remove it in a later cleanup pass.
 
 Re-running `npm run seed:sanity` is safe (every seeded document has a
 fixed `_id` and uses `createOrReplace`), but don't run it again once

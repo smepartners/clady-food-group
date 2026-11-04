@@ -34,7 +34,22 @@ import { useReducedMotion } from "motion/react";
  */
 const SHOW_VIDEO = true;
 
-export function HomeHeroVideo() {
+// Nov 2026: eyebrow/subtext/CTA label are now optional props, driven by
+// Sanity's homePage.hero (see page.tsx) with these as the fallback
+// defaults. The heading itself stays hardcoded JSX, not a prop - it uses
+// an inline <em> for "your business." that a plain Sanity string field
+// can't represent without a bigger schema change (portable text with
+// marks), and a stylised headline like this isn't the kind of copy a
+// client edits day to day anyway.
+export function HomeHeroVideo({
+  eyebrow = "Clady Group",
+  subtext = "A group of specialist food, confectionery and beverage brands and capabilities, delivering quality, choice and flexibility to customers across B2B and B2C markets.",
+  ctaLabel = "Explore our brands",
+}: {
+  eyebrow?: string;
+  subtext?: string;
+  ctaLabel?: string;
+}) {
   const reduce = useReducedMotion();
   return (
     <section className="relative isolate h-[58vh] min-h-[560px] w-full overflow-hidden bg-green-900 sm:h-[75vh] sm:min-h-[600px] lg:h-[90vh] lg:min-h-[640px]">
@@ -70,20 +85,16 @@ export function HomeHeroVideo() {
         <Container>
           <Reveal className="max-w-xl pb-14 sm:pb-20">
             <p className="text-sm font-semibold uppercase tracking-[0.16em] text-gold-500/90">
-              Clady Group
+              {eyebrow}
             </p>
             <h1 className="mt-4 text-4xl font-semibold leading-[1.05] text-cream-100 sm:text-6xl">
               Built around <em className="italic text-gold-500">your business.</em>
             </h1>
             <AccentRule className="mt-7" />
-            <p className="mt-7 max-w-lg text-lg leading-relaxed text-cream-100/85">
-              A group of specialist food, confectionery and beverage brands and
-              capabilities, delivering quality, choice and flexibility to
-              customers across B2B and B2C markets.
-            </p>
+            <p className="mt-7 max-w-lg text-lg leading-relaxed text-cream-100/85">{subtext}</p>
             <div className="mt-10">
               <CTAButton href="/brands" tone="inverted">
-                Explore our brands
+                {ctaLabel}
               </CTAButton>
             </div>
           </Reveal>

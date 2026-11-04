@@ -403,13 +403,18 @@ export function StatTile({
 export function FacilityStrip({
   tone = "light",
   className = "",
+  items = FACILITIES,
 }: {
   tone?: "light" | "dark";
   className?: string;
+  /** Nov 2026: optional override so callers can pass facilities fetched
+   * live from Sanity (see site-footer.tsx) - defaults to the static
+   * FACILITIES list from lib/facilities.ts when omitted. */
+  items?: readonly { name: string; region: string }[];
 }) {
   return (
     <ul className={`flex flex-wrap gap-x-8 gap-y-3 ${className}`}>
-      {FACILITIES.map((f) => (
+      {items.map((f) => (
         <li key={f.name} className="flex items-center gap-2">
           <MapPin
             size={18}

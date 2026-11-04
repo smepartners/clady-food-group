@@ -6,6 +6,7 @@ import { AccreditationGrid, type Accreditation } from "@/components/accreditatio
 import { AboutHero } from "@/components/about-hero";
 import { VideoStorySection } from "@/components/video-story-section";
 import { CapabilitiesVideoPanel } from "@/components/capabilities-video-panel";
+import { getAboutPageContent, getAccreditations } from "@/lib/about-page-data";
 
 export const metadata: Metadata = { title: "About Us" };
 
@@ -36,7 +37,10 @@ const SECTORS = [
 // below are placeholder artwork pulled from each body's own public
 // site/Wikimedia, standing in until Clady/Zoe supply the licensed versions -
 // swap the file once received.
-const ACCREDITATIONS: Accreditation[] = [
+// Nov 2026: this is now the fallback only - getAccreditations() fetches
+// the live `accreditation` documents from Sanity (see AboutPage below),
+// falling back to this list if Sanity is unreachable or empty.
+const STATIC_ACCREDITATIONS: Accreditation[] = [
   {
     name: "Rainforest Alliance",
     note: "Certified sustainable and responsible sourcing",
@@ -60,10 +64,15 @@ const ACCREDITATIONS: Accreditation[] = [
   },
 ];
 
-export default function AboutPage() {
+export default async function AboutPage() {
+  const [content, liveAccreditations] = await Promise.all([
+    getAboutPageContent(),
+    getAccreditations(),
+  ]);
+  const accreditations = liveAccreditations.length ? liveAccreditations : STATIC_ACCREDITATIONS;
   return (
     <>
-      <AboutHero />
+      <AboutHero subheading={content.hero.subtext} image={content.hero.image} ctaLabel={content.hero.ctaLabel} />
 
       {/* Round 5 feedback: "update this to use graphic from home page /
           remove need for separate stats etc" - the stat row and facility
@@ -84,19 +93,7 @@ export default function AboutPage() {
               Today, our portfolio spans <em className="italic text-gold-700">coffee to wellness.</em>
             </h2>
             <div className="mt-5 space-y-4 text-ink-soft">
-              <p>
-                Established in 2014 through Slumberjack, the group has
-                developed from its family-business roots into a broader
-                platform serving customers across branded and private label
-                markets.
-              </p>
-              <p>
-                Our portfolio spans coffee, tea, hot chocolate, functional
-                beverages, wellness products, soluble drinks and beverage
-                ingredients. Each business has its own identity and area of
-                expertise, giving our customers access to a broader range of
-                products, capabilities and commercial opportunities.
-              </p>
+              {content.portfolioSection.paragraphs?.map((p, i) => <p key={i}>{p}</p>)}
             </div>
             <div className="mt-8">
               <CTAButton href="/contact">Get in touch</CTAButton>
@@ -136,22 +133,10 @@ export default function AboutPage() {
             From family business <em className="italic text-gold-500">to group</em>
           </h2>
           <p className="mt-6 text-xl italic leading-snug text-gold-500 sm:text-2xl">
-            Our heritage as a family business remains central to how we operate.
+            {content.heritageSection.paragraphs?.[0]}
           </p>
           <div className="mt-6 space-y-4 text-cream-100/75">
-            <p>
-              From the beginning, our focus has been on building lasting
-              relationships and creating products that deliver for our customers.
-              As the group has grown, we have retained that approach while
-              developing a broader portfolio and greater capability across the
-              food and drink sector.
-            </p>
-            <p>
-              Our ambition is to continue growing a group of specialist brands
-              that can respond to changing markets while maintaining the
-              personal approach and commercial focus that have shaped our
-              business from the outset.
-            </p>
+            {content.heritageSection.paragraphs?.slice(1).map((p, i) => <p key={i}>{p}</p>)}
           </div>
         </Reveal>
       </Section>
@@ -186,25 +171,10 @@ export default function AboutPage() {
             How we work
           </h2>
           <div className="mx-auto mt-6 max-w-2xl space-y-4 text-center text-cream-100/75">
-            <p>
-              We combine the scale and breadth of an ambitious and capable group
-              with the responsiveness of a family business.
-            </p>
-            <p>
-              Our customers operate in fast-moving markets, where quality,
-              reliability and the ability to respond quickly matter. We take a
-              practical, collaborative approach, working closely with customers
-              and partners to understand their requirements, identify
-              opportunities and deliver solutions that work commercially.
-            </p>
-            <p>
-              We stay close to changing consumer tastes and market trends, while
-              maintaining a consistent focus on quality and service.
-            </p>
+            {content.howWeWorkSection.paragraphs?.slice(0, -1).map((p, i) => <p key={i}>{p}</p>)}
           </div>
           <p className="mx-auto mt-10 max-w-xl text-center text-xl italic leading-snug text-gold-500 sm:text-2xl">
-            The result is a business that is ambitious enough to grow, but
-            agile enough to respond.
+            {content.howWeWorkSection.paragraphs?.at(-1)}
           </p>
         </Reveal>
       </Section>
@@ -252,7 +222,7 @@ export default function AboutPage() {
       <Section className="relative overflow-hidden bg-green-700" pad="py-10 sm:py-14">
         <TextureOverlay />
         <Reveal className="relative">
-          <AccreditationGrid items={ACCREDITATIONS} label="Accreditations across our portfolio" />
+          <AccreditationGrid items={accreditations} label="Accreditations across our portfolio" />
         </Reveal>
       </Section>
 

@@ -70,11 +70,34 @@ const ICON_TONE_DARK = {
   olive: "bg-cream-100/10 text-cream-100",
 } as const;
 
+// Maps the icon name string stored on a Sanity valuePillar document back
+// to the matching Phosphor component - the schema uses a controlled list
+// of these exact names (see schemaTypes/valuePillar.ts).
+const ICONS: Record<string, typeof Sparkle> = {
+  Sparkle,
+  Lightbulb,
+  CheckCircle,
+  Lightning,
+  UsersThree,
+};
+
+export type ValuePillarData = {
+  name: string;
+  body: string;
+  icon: string;
+  tone: "gold" | "green" | "olive";
+};
+
 /** Full-bleed dark band, oversized editorial type instead of cards. Matches
  * the hero/brand carousel's own green-900 + TextureOverlay treatment, so the
  * section reads as a sibling of those rather than a lighter aside between
- * them. */
-export function ValuesDarkBand() {
+ * them.
+ *
+ * Nov 2026: optional `values` prop, driven by Sanity's `valuePillar`
+ * documents (see page.tsx) - defaults to the static VALUES above if
+ * omitted or if Sanity returns nothing. */
+export function ValuesDarkBand({ values }: { values?: ValuePillarData[] } = {}) {
+  const items = values?.length ? values : VALUES;
   return (
     <Section className="relative overflow-hidden bg-green-900">
       <TextureOverlay />
@@ -96,28 +119,31 @@ export function ValuesDarkBand() {
             values, not a sequence of steps, so the numbering implied an
             order that wasn't intended. */}
         <RevealStagger className="mt-14 divide-y divide-cream-100/10 border-t border-cream-100/10">
-          {VALUES.map((v) => (
-            <div
-              key={v.name}
-              className="group flex flex-col gap-4 py-8 sm:flex-row sm:items-center sm:gap-10 sm:py-10"
-            >
-              <div className="flex items-center gap-4 sm:w-64 sm:shrink-0">
-                {/* Circular, matching the brand badges elsewhere on the
-                    page, rather than the square icon tiles used before -
-                    a ring rather than a filled disc so it reads as an
-                    outline mark, not another solid block. */}
-                <span
-                  className={`flex h-14 w-14 shrink-0 items-center justify-center rounded-full ring-1 ring-inset transition duration-300 group-hover:scale-105 ${ICON_TONE_DARK[v.tone]} ${
-                    v.tone === "gold" ? "ring-gold-500/30" : "ring-cream-100/15"
-                  }`}
-                >
-                  <v.icon size={22} weight="bold" />
-                </span>
-                <h3 className="text-xl font-semibold text-cream-100 sm:text-2xl">{v.name}</h3>
+          {items.map((v) => {
+            const Icon = typeof v.icon === "string" ? ICONS[v.icon] ?? Sparkle : v.icon;
+            return (
+              <div
+                key={v.name}
+                className="group flex flex-col gap-4 py-8 sm:flex-row sm:items-center sm:gap-10 sm:py-10"
+              >
+                <div className="flex items-center gap-4 sm:w-64 sm:shrink-0">
+                  {/* Circular, matching the brand badges elsewhere on the
+                      page, rather than the square icon tiles used before -
+                      a ring rather than a filled disc so it reads as an
+                      outline mark, not another solid block. */}
+                  <span
+                    className={`flex h-14 w-14 shrink-0 items-center justify-center rounded-full ring-1 ring-inset transition duration-300 group-hover:scale-105 ${ICON_TONE_DARK[v.tone]} ${
+                      v.tone === "gold" ? "ring-gold-500/30" : "ring-cream-100/15"
+                    }`}
+                  >
+                    <Icon size={22} weight="bold" />
+                  </span>
+                  <h3 className="text-xl font-semibold text-cream-100 sm:text-2xl">{v.name}</h3>
+                </div>
+                <p className="max-w-xl text-cream-100/70 sm:text-lg">{v.body}</p>
               </div>
-              <p className="max-w-xl text-cream-100/70 sm:text-lg">{v.body}</p>
-            </div>
-          ))}
+            );
+          })}
         </RevealStagger>
       </div>
     </Section>

@@ -3,6 +3,7 @@ import Link from "next/link";
 import { EnvelopeSimple, Phone, LinkedinLogo } from "@phosphor-icons/react/dist/ssr";
 import { BRANDS } from "@/lib/brands";
 import { FacilityStrip } from "@/components/ui";
+import { getContactDetails, getFacilities } from "@/lib/site-settings-data";
 
 // Round 5 feedback: Private Label moved up next to About Us/CSR (matching
 // the header nav reorder), and the label changed from "Contact" to "Get in
@@ -14,7 +15,11 @@ const NAV = [
   { href: "/contact", label: "Get in touch" },
 ];
 
-export function SiteFooter() {
+export async function SiteFooter() {
+  // Nov 2026: contact details and the manufacturing sites now come from
+  // Sanity (siteSettings/facility documents), with the same values as a
+  // fallback if Sanity is unreachable - see lib/site-settings-data.ts.
+  const [contact, facilities] = await Promise.all([getContactDetails(), getFacilities()]);
   return (
     // Round 7 feedback (CSR page): "white section above footer to be
     // removed" - this `mt-24` top margin let the page's own plain
@@ -88,7 +93,7 @@ export function SiteFooter() {
           <p className="text-xs font-semibold uppercase tracking-wide text-olive-600">
             Where we manufacture
           </p>
-          <FacilityStrip tone="light" className="mt-4" />
+          <FacilityStrip tone="light" className="mt-4" items={facilities} />
         </div>
 
         {/* Round 5 feedback: contact details added. Round 6: CFG's LinkedIn
@@ -101,14 +106,21 @@ export function SiteFooter() {
             (20 -> 24). */}
         <div className="mt-10 border-t border-cream-200 pt-8">
           <div className="flex flex-wrap items-center gap-x-8 gap-y-2 text-sm text-ink-soft">
-            <a href="mailto:sales@cladyfoodgroup.com" className="flex items-center gap-2 transition hover:text-green-700">
-              <EnvelopeSimple size={16} weight="bold" className="text-olive-600" />
-              sales@cladyfoodgroup.com
-            </a>
-            <a href="tel:+442894429555" className="flex items-center gap-2 transition hover:text-green-700">
-              <Phone size={16} weight="bold" className="text-olive-600" />
-              028 9442 9555
-            </a>
+            {contact.email ? (
+              <a href={`mailto:${contact.email}`} className="flex items-center gap-2 transition hover:text-green-700">
+                <EnvelopeSimple size={16} weight="bold" className="text-olive-600" />
+                {contact.email}
+              </a>
+            ) : null}
+            {contact.phone ? (
+              <a
+                href={`tel:${contact.phone.replace(/[^\d+]/g, "")}`}
+                className="flex items-center gap-2 transition hover:text-green-700"
+              >
+                <Phone size={16} weight="bold" className="text-olive-600" />
+                {contact.phone}
+              </a>
+            ) : null}
             <a
               href="https://www.linkedin.com/company/clady-food-group"
               target="_blank"

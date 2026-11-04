@@ -4,8 +4,33 @@ import { Section } from "@/components/ui";
 import { Reveal } from "@/components/reveal";
 import { ContactHero } from "@/components/contact-hero";
 import { ContactForm } from "@/components/contact-form";
+import { client } from "@/sanity/lib/client";
+import { CONTACT_PAGE_QUERY } from "@/sanity/lib/queries";
+import { getContactDetails } from "@/lib/site-settings-data";
 
 export const metadata: Metadata = { title: "Contact" };
+
+type ContactPageDoc = { hero?: { subtext?: string }; emailPrompt?: string };
+
+async function getContactPageContent() {
+  const fallback = {
+    subtext:
+      "Whether you're exploring a private label opportunity or want to know more about one of our brands, we'd like to hear from you.",
+    emailPrompt: "Prefer email? Reach us directly at",
+  };
+  try {
+    const doc = await client.fetch<ContactPageDoc | null>(CONTACT_PAGE_QUERY);
+    if (doc) {
+      return {
+        subtext: doc.hero?.subtext ?? fallback.subtext,
+        emailPrompt: doc.emailPrompt ?? fallback.emailPrompt,
+      };
+    }
+  } catch {
+    // fall through
+  }
+  return fallback;
+}
 
 // Field set and destination confirmed with the client (Zoe, SME Partners):
 // name, company, phone, email, message, all routing to one inbox with no
@@ -43,36 +68,41 @@ export const metadata: Metadata = { title: "Contact" };
 // never on dark green), so unlike the old hero-embedded form it doesn't
 // need Simple/Bold-aware styling at all.
 
-export default function ContactPage() {
+export default async function ContactPage() {
+  const [content, contact] = await Promise.all([getContactPageContent(), getContactDetails()]);
   return (
     <>
-      <ContactHero />
+      <ContactHero subheading={content.subtext} />
 
       <Section>
         <div className="grid gap-12 lg:grid-cols-2 lg:gap-16">
           <Reveal>
-            <p className="max-w-md text-sm text-ink-soft">
-              Prefer email? Reach us directly at{" "}
-              <a
-                href="mailto:sales@cladyfoodgroup.com"
-                className="font-medium text-green-700 underline underline-offset-2 hover:text-green-900"
-              >
-                sales@cladyfoodgroup.com
-              </a>
-              .
-            </p>
+            {contact.email ? (
+              <p className="max-w-md text-sm text-ink-soft">
+                {content.emailPrompt}{" "}
+                <a
+                  href={`mailto:${contact.email}`}
+                  className="font-medium text-green-700 underline underline-offset-2 hover:text-green-900"
+                >
+                  {contact.email}
+                </a>
+                .
+              </p>
+            ) : null}
             {/* Round 7 feedback: "contact number / head office address
                 not added" - phone number added (same confirmed number as
                 the footer). No head office street address has been
                 supplied yet - see the comment block above this
                 component. */}
-            <a
-              href="tel:+442894429555"
-              className="mt-3 flex w-fit items-center gap-2 text-sm font-medium text-green-700 hover:text-green-900"
-            >
-              <Phone size={16} weight="bold" />
-              028 9442 9555
-            </a>
+            {contact.phone ? (
+              <a
+                href={`tel:${contact.phone.replace(/[^\d+]/g, "")}`}
+                className="mt-3 flex w-fit items-center gap-2 text-sm font-medium text-green-700 hover:text-green-900"
+              >
+                <Phone size={16} weight="bold" />
+                {contact.phone}
+              </a>
+            ) : null}
           </Reveal>
 
           <Reveal delay={0.1}>

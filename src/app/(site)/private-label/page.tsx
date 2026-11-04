@@ -14,54 +14,42 @@ import {
 import { Section, Container, CTAButton, ImageFrame, TextureOverlay, StatTile, AccentRule } from "@/components/ui";
 import { Reveal, RevealStagger } from "@/components/reveal";
 import { PrivateLabelHero } from "@/components/private-label-hero";
+import {
+  getPrivateLabelPageContent,
+  getProduceCategories,
+  getScaleStats,
+} from "@/lib/private-label-page-data";
 
 export const metadata: Metadata = { title: "Private Label" };
 
-// Same confirmed scale facts as the homepage and About page (see STATS /
-// HOME_STATS there) - led with here too, since a procurement contact
-// evaluating Clady for a white label programme needs to see this is a
-// group with real manufacturing scale before reading about the approach.
-// Round 5 feedback: the brand-count stat ("4 specialist brands") undersold
-// the private label side of the business, since 4 is the group's own
-// owned-brand count, not how many customer brands/SKUs are produced under
-// private label - swapped for "100s" to make that distinction clear.
-const SCALE_STATS = [
-  { value: "12+", label: "Years established, since 2014", icon: <CalendarBlank size={20} weight="bold" /> },
-  {
-    value: "2",
-    label: "Manufacturing sites across the UK",
-    icon: <Buildings size={20} weight="bold" />,
-  },
-  {
-    value: "100s",
-    label: "Specialist and private label brands produced",
-    icon: <Package size={20} weight="bold" />,
-  },
+// Icon name -> component lookups for the Sanity-driven stats/categories/
+// pillars below (the schemas store a controlled string, not an upload -
+// see the matching schemaTypes/*.ts comments).
+const STAT_ICONS: Record<string, typeof CalendarBlank> = { CalendarBlank, Buildings, Package };
+const PRODUCE_ICONS: Record<string, typeof Coffee> = { Coffee, Drop, Lightning, TeaBag };
+const PILLAR_ICONS: Record<string, typeof Package> = { Package, ChartLineUp, Lightning, CheckCircle, UsersThree };
+
+// Fallbacks, used only if Sanity is unreachable/empty - see
+// src/lib/private-label-page-data.ts.
+const FALLBACK_SCALE_STATS = [
+  { value: "12+", label: "Years established, since 2014", icon: "CalendarBlank" },
+  { value: "2", label: "Manufacturing sites across the UK", icon: "Buildings" },
+  { value: "100s", label: "Specialist and private label brands produced", icon: "Package" },
 ];
 
-// Round 5 feedback: "please start with Coffee / Powdered drinks /
-// Functional drinks / Tea" - all four now have dedicated real client
-// photography (George, Oct 2026), supplied via Drive after this grid ran
-// for several rounds on reused brand photography/stock:
-// - Coffee and Powdered drinks previously reused Galway Roast's and Dutch
-//   Maid's own product photos here as the closest available stand-ins;
-//   both now have their own dedicated shots instead.
-// - Tea had no photography at all through Round 5-9 (none of the three
-//   owned brands is tea-led), briefly filled with free-licence Unsplash
-//   stock (see PHOTO-CREDITS.md history) until this real photo arrived.
-const PRODUCE_CATEGORIES = [
-  { name: "Coffee", icon: Coffee, seed: "clady-produce-coffee", photo: "/photo-produce-coffee.jpg" },
-  { name: "Powdered drinks", icon: Drop, seed: "clady-produce-powdered", photo: "/photo-produce-powdered.jpg" },
-  { name: "Functional drinks", icon: Lightning, seed: "clady-produce-functional", photo: "/photo-brand-evolving-state.jpg" },
-  { name: "Tea", icon: TeaBag, seed: "clady-produce-tea", photo: "/photo-produce-tea.jpg" },
+const FALLBACK_PRODUCE_CATEGORIES = [
+  { name: "Coffee", icon: "Coffee", seed: "clady-produce-coffee", photo: "/photo-produce-coffee.jpg" },
+  { name: "Powdered drinks", icon: "Drop", seed: "clady-produce-powdered", photo: "/photo-produce-powdered.jpg" },
+  { name: "Functional drinks", icon: "Lightning", seed: "clady-produce-functional", photo: "/photo-brand-evolving-state.jpg" },
+  { name: "Tea", icon: "TeaBag", seed: "clady-produce-tea", photo: "/photo-produce-tea.jpg" },
 ];
 
-const PILLARS = [
-  { icon: Package, tone: "gold" as const, name: "Product expertise", body: "Knowledge across a broad range of beverage categories and formats." },
-  { icon: ChartLineUp, tone: "green" as const, name: "Market awareness", body: "An understanding of changing consumer tastes and emerging beverage trends." },
-  { icon: Lightning, tone: "olive" as const, name: "Flexibility", body: "Solutions developed around different customer requirements, channels and price points." },
-  { icon: CheckCircle, tone: "gold" as const, name: "Consistency", body: "A focus on dependable product quality and reliable customer relationships." },
-  { icon: UsersThree, tone: "green" as const, name: "Collaboration", body: "A partnership approach from initial brief through to finished product." },
+const FALLBACK_PILLARS = [
+  { icon: "Package", tone: "gold" as const, name: "Product expertise", body: "Knowledge across a broad range of beverage categories and formats." },
+  { icon: "ChartLineUp", tone: "green" as const, name: "Market awareness", body: "An understanding of changing consumer tastes and emerging beverage trends." },
+  { icon: "Lightning", tone: "olive" as const, name: "Flexibility", body: "Solutions developed around different customer requirements, channels and price points." },
+  { icon: "CheckCircle", tone: "gold" as const, name: "Consistency", body: "A focus on dependable product quality and reliable customer relationships." },
+  { icon: "UsersThree", tone: "green" as const, name: "Collaboration", body: "A partnership approach from initial brief through to finished product." },
 ];
 
 // Matches ValuesDarkBand's icon treatment (values-section.tsx) - a ring
@@ -73,10 +61,22 @@ const PILLAR_ICON_TONE = {
   olive: "bg-cream-100/10 text-cream-100 ring-cream-100/15",
 } as const;
 
-export default function PrivateLabelPage() {
+export default async function PrivateLabelPage() {
+  const [content, liveCategories, liveStats] = await Promise.all([
+    getPrivateLabelPageContent(),
+    getProduceCategories(),
+    getScaleStats(),
+  ]);
+  const SCALE_STATS = liveStats.length ? liveStats : FALLBACK_SCALE_STATS;
+  const PRODUCE_CATEGORIES = liveCategories.length ? liveCategories : FALLBACK_PRODUCE_CATEGORIES;
+  const PILLARS = content.pillars?.length ? content.pillars : FALLBACK_PILLARS;
   return (
     <>
-      <PrivateLabelHero />
+      <PrivateLabelHero
+        subheading={content.hero.subtext}
+        image={content.hero.image}
+        ctaLabel={content.hero.ctaLabel}
+      />
 
       {/* Same move as Home/About: the scale stats and the "more than a
           logo" positioning that used to sit inside the boxed hero now get
@@ -108,7 +108,7 @@ export default function PrivateLabelPage() {
             <ImageFrame
               seed="clady-private-label-roastery-row"
               alt="A row of roasters at Clady Group's production facility"
-              src="/photo-roastery-row.jpg"
+              src={content.moreThanALogoSection.image ?? "/photo-roastery-row.jpg"}
               aspect="aspect-[4/3]"
             />
           </Reveal>
@@ -117,23 +117,15 @@ export default function PrivateLabelPage() {
               More than <em className="italic text-gold-700">a logo on a product.</em>
             </h2>
             <div className="mt-5 space-y-4 text-ink-soft">
-              <p>
-                Private label is about creating the right proposition for
-                your customers, your market and your commercial objectives -
-                backed by real manufacturing scale.
-              </p>
-              <p>
-                Through our portfolio of specialist businesses, we bring
-                together expertise across coffee, hot beverages, soluble
-                drinks, functional products and beverage ingredients, giving
-                customers the flexibility to develop propositions across
-                categories, formats, flavours and price points.
-              </p>
+              {content.moreThanALogoSection.paragraphs?.map((p, i) => <p key={i}>{p}</p>)}
             </div>
             <div className="mt-6 grid grid-cols-3 gap-x-6 gap-y-8 border-t border-cream-200 pt-6">
-              {SCALE_STATS.map((s) => (
-                <StatTile key={s.label} value={s.value} label={s.label} icon={s.icon} />
-              ))}
+              {SCALE_STATS.map((s) => {
+                const StatIcon = STAT_ICONS[s.icon ?? ""] ?? Package;
+                return (
+                  <StatTile key={s.label} value={s.value} label={s.label} icon={<StatIcon size={20} weight="bold" />} />
+                );
+              })}
             </div>
           </Reveal>
         </div>
@@ -156,20 +148,23 @@ export default function PrivateLabelPage() {
             now lives in the "More than a logo" band above instead, see
             that section's comment), leaving just the 4 category blocks. */}
         <RevealStagger className="mt-6 grid gap-8 border-t border-cream-200 pt-10 sm:grid-cols-2 lg:grid-cols-4">
-          {PRODUCE_CATEGORIES.map((c) => (
-            <div key={c.name}>
-              <ImageFrame
-                seed={c.seed}
-                alt={c.photo ? `${c.name} produced by Clady Group` : `${c.name} - photography pending`}
-                src={c.photo}
-                aspect="aspect-[4/3]"
-              />
-              <div className="mt-3 flex items-center gap-2">
-                <c.icon size={18} weight="bold" className="text-green-700" />
-                <h3 className="font-semibold text-ink">{c.name}</h3>
+          {PRODUCE_CATEGORIES.map((c) => {
+            const CategoryIcon = PRODUCE_ICONS[c.icon] ?? Coffee;
+            return (
+              <div key={c.name}>
+                <ImageFrame
+                  seed={c.seed ?? `clady-produce-${c.name.toLowerCase()}`}
+                  alt={c.photo ? `${c.name} produced by Clady Group` : `${c.name} - photography pending`}
+                  src={c.photo}
+                  aspect="aspect-[4/3]"
+                />
+                <div className="mt-3 flex items-center gap-2">
+                  <CategoryIcon size={18} weight="bold" className="text-green-700" />
+                  <h3 className="font-semibold text-ink">{c.name}</h3>
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </RevealStagger>
 
         <Reveal className="mt-14 text-center">
@@ -191,16 +186,10 @@ export default function PrivateLabelPage() {
             <h2 className="mx-auto max-w-2xl text-2xl font-semibold text-cream-100 sm:text-3xl">
               A flexible approach
             </h2>
-            <p className="mx-auto mt-4 max-w-xl text-cream-100/80">
-              We work collaboratively with customers to understand the
-              opportunity and develop solutions around their needs. Whether
-              you are looking to launch a new proposition, extend an
-              existing range or source a proven product under your own
-              brand, our capabilities can support you.
-            </p>
+            <p className="mx-auto mt-4 max-w-xl text-cream-100/80">{content.flexibleApproachSection.body}</p>
             <div className="mt-8 flex justify-center">
               <CTAButton href="/contact" tone="inverted">
-                Talk to us about your opportunity
+                {content.flexibleApproachSection.ctaLabel}
               </CTAButton>
             </div>
           </Container>
@@ -228,22 +217,25 @@ export default function PrivateLabelPage() {
             <AccentRule className="mt-6" />
           </Reveal>
           <RevealStagger className="mt-14 divide-y divide-cream-100/10 border-t border-cream-100/10">
-            {PILLARS.map((p) => (
-              <div
-                key={p.name}
-                className="group flex flex-col gap-4 py-8 sm:flex-row sm:items-center sm:gap-10 sm:py-10"
-              >
-                <div className="flex items-center gap-4 sm:w-64 sm:shrink-0">
-                  <span
-                    className={`flex h-14 w-14 shrink-0 items-center justify-center rounded-full ring-1 ring-inset transition duration-300 group-hover:scale-105 ${PILLAR_ICON_TONE[p.tone]}`}
-                  >
-                    <p.icon size={22} weight="bold" />
-                  </span>
-                  <h3 className="text-xl font-semibold text-cream-100 sm:text-2xl">{p.name}</h3>
+            {PILLARS.map((p) => {
+              const PillarIcon = PILLAR_ICONS[p.icon] ?? Package;
+              return (
+                <div
+                  key={p.name}
+                  className="group flex flex-col gap-4 py-8 sm:flex-row sm:items-center sm:gap-10 sm:py-10"
+                >
+                  <div className="flex items-center gap-4 sm:w-64 sm:shrink-0">
+                    <span
+                      className={`flex h-14 w-14 shrink-0 items-center justify-center rounded-full ring-1 ring-inset transition duration-300 group-hover:scale-105 ${PILLAR_ICON_TONE[p.tone]}`}
+                    >
+                      <PillarIcon size={22} weight="bold" />
+                    </span>
+                    <h3 className="text-xl font-semibold text-cream-100 sm:text-2xl">{p.name}</h3>
+                  </div>
+                  <p className="max-w-xl text-cream-100/70 sm:text-lg">{p.body}</p>
                 </div>
-                <p className="max-w-xl text-cream-100/70 sm:text-lg">{p.body}</p>
-              </div>
-            ))}
+              );
+            })}
           </RevealStagger>
         </div>
       </Section>

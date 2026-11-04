@@ -5,15 +5,28 @@ import { ParallaxBand } from "@/components/parallax-band";
 import { BrandCarousel } from "@/components/brand-carousel";
 import { ValuesDarkBand } from "@/components/values-section";
 import { CapabilitiesVideoPanel } from "@/components/capabilities-video-panel";
+import { getHomePageContent, getHomeValuePillars } from "@/lib/home-page-data";
 
-export default function HomePage() {
+// Nov 2026: subtext, CTA labels, body paragraphs, the manufacturing band's
+// copy/photo and the "What drives us" values now come from Sanity
+// (homePage + valuePillar documents), with the file's own previous
+// hardcoded copy kept as the fallback inside home-page-data.ts. Headings
+// that mix plain and emphasised text (the <em> splits below) stay
+// hardcoded JSX rather than Sanity string fields - see the comment on
+// HomeHeroVideo for why.
+export default async function HomePage() {
+  const [content, values] = await Promise.all([getHomePageContent(), getHomeValuePillars()]);
   return (
     <>
       {/* George (Oct 2026): drop the live review toggles for both the hero
           and values sections - video hero and the dark-band values concept
           are the confirmed picks, so the switcher pills (dev/review-only
           UI, never meant to ship) come out and these render directly. */}
-      <HomeHeroVideo />
+      <HomeHeroVideo
+        eyebrow={content.hero.eyebrow}
+        subtext={content.hero.subtext}
+        ctaLabel={content.hero.ctaLabel}
+      />
 
       {/* Light/beige, not dark green - with the hero already dark green,
           opening straight into another dark-green block here read as more
@@ -40,18 +53,7 @@ export default function HomePage() {
               One group. <em className="italic text-gold-700">Multiple capabilities.</em>
             </h2>
             <div className="mt-5 space-y-4 text-ink-soft">
-              <p>
-                With manufacturing operations in Buxton and Belfast,
-                Clady Group brings together a broad portfolio of complementary
-                expertise across branded beverages, wellness, soluble drinks and
-                private label manufacturing.
-              </p>
-              <p>
-                Our scale, capabilities and breadth of experience enable us to
-                support customers at every stage, from established brands and
-                high-volume production to tailored private label solutions and
-                the development of new products from the ground up.
-              </p>
+              {content.capabilityBand.paragraphs?.map((p, i) => <p key={i}>{p}</p>)}
             </div>
           </Reveal>
           <Reveal delay={0.1} className="lg:col-span-7">
@@ -67,11 +69,11 @@ export default function HomePage() {
           brand portfolio, rather than capability/brands/capability
           alternating. */}
       <ParallaxBand
-        image="/photo-production-packing.jpg"
+        image={content.manufacturingBand.image ?? "/photo-production-packing.jpg"}
         alt="The packing and labelling line at Clady Group's Buxton site"
-        eyebrow="Our capability"
-        heading="Real manufacturing scale, behind every brand."
-        body="From roasting and blending to packing and dispatch, our teams manufacture across two sites in England and Northern Ireland - built to support brands and private label customers at volume."
+        eyebrow={content.manufacturingBand.eyebrow ?? "Our capability"}
+        heading={content.manufacturingBand.heading ?? "Real manufacturing scale, behind every brand."}
+        body={content.manufacturingBand.body}
       />
 
       {/* Bigger, more deliberate moment than a quiet grid at the bottom of
@@ -90,7 +92,7 @@ export default function HomePage() {
           left) - see values-section.tsx for the rationale. Replaces the
           original five-equal-card grid, which read as disconnected from
           the bolder full-bleed sections around it. */}
-      <ValuesDarkBand />
+      <ValuesDarkBand values={values} />
 
       {/* Full width rather than a contained rounded card, per client
           feedback - matches the brand carousel band above it as an
@@ -103,18 +105,12 @@ export default function HomePage() {
         <Reveal className="relative">
           <Container>
             <h2 className="mx-auto max-w-2xl text-2xl font-semibold text-cream-100 sm:text-3xl">
-              Built for better partnerships
+              {content.closingBand.heading}
             </h2>
-            <p className="mx-auto mt-4 max-w-xl text-cream-100/80">
-              From established beverage brands to private label manufacturing, our
-              businesses are designed to make working with us straightforward. We
-              combine market knowledge, product expertise and a flexible approach
-              to help customers respond to changing consumer expectations and
-              commercial opportunities.
-            </p>
+            <p className="mx-auto mt-4 max-w-xl text-cream-100/80">{content.closingBand.body}</p>
             <div className="mt-8 flex justify-center">
               <CTAButton href="/contact" tone="inverted">
-                Discover what Clady Group can do for your business
+                {content.closingBand.ctaLabel}
               </CTAButton>
             </div>
           </Container>
