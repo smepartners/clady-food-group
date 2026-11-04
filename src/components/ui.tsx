@@ -428,12 +428,22 @@ export function FacilityStrip({
   );
 }
 
-export function Pill({ children }: { children: ReactNode }) {
-  return (
-    <span className="rounded-full border border-olive-600/30 bg-cream-100 px-4 py-1.5 text-sm text-olive-600 transition hover:border-olive-600 hover:bg-olive-600/10">
-      {children}
-    </span>
-  );
+export function Pill({ children, href }: { children: ReactNode; href?: string }) {
+  const className =
+    "rounded-full border border-olive-600/30 bg-cream-100 px-4 py-1.5 text-sm text-olive-600 transition hover:border-olive-600 hover:bg-olive-600/10";
+  // Optional href (Sonia, Oct 2026 - brand page product-area pills): the
+  // pill already looked clickable (hover state, pointer-shaped border
+  // treatment) without being one, so this lets a call site wire it up as a
+  // real link rather than just decoration - plain <span> when no href is
+  // passed, same as before.
+  if (href) {
+    return (
+      <Link href={href} className={`inline-flex ${className}`}>
+        {children}
+      </Link>
+    );
+  }
+  return <span className={className}>{children}</span>;
 }
 
 export function CTAButton({

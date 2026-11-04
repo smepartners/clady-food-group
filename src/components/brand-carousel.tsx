@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { ArrowLeft, ArrowRight, ArrowUpRight, Package } from "@phosphor-icons/react/dist/ssr";
@@ -33,6 +33,28 @@ const container = {
 export function BrandCarousel() {
   const trackRef = useRef<HTMLUListElement>(null);
   const reduce = useReducedMotion();
+  // Sonia, Oct 2026: the left/right arrows were always shown from `sm:`
+  // up, including on wide desktop where all five cards already fit with
+  // nothing to scroll to - there's no fixed breakpoint for that though,
+  // since it depends on how many brands there are and the viewport width,
+  // so this checks the track's actual scrollable overflow (scrollWidth >
+  // clientWidth) instead of a hardcoded size, and keeps it current on
+  // resize/content changes via ResizeObserver rather than a one-off check.
+  const [canScroll, setCanScroll] = useState(false);
+
+  useEffect(() => {
+    const track = trackRef.current;
+    if (!track) return;
+    const check = () => setCanScroll(track.scrollWidth > track.clientWidth + 1);
+    check();
+    const observer = new ResizeObserver(check);
+    observer.observe(track);
+    window.addEventListener("resize", check);
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("resize", check);
+    };
+  }, []);
 
   const scrollBy = (direction: 1 | -1) => {
     trackRef.current?.scrollBy({ left: direction * 320, behavior: "smooth" });
@@ -49,24 +71,26 @@ export function BrandCarousel() {
             Specialist brands, <em className="italic text-gold-500">one group.</em>
           </h2>
         </div>
-        <div className="hidden shrink-0 gap-2 sm:flex">
-          <button
-            type="button"
-            onClick={() => scrollBy(-1)}
-            aria-label="Scroll brands left"
-            className="flex h-11 w-11 items-center justify-center rounded-full border border-cream-100/25 text-cream-100 transition duration-300 hover:border-cream-100 hover:bg-cream-100/10"
-          >
-            <ArrowLeft size={18} weight="bold" />
-          </button>
-          <button
-            type="button"
-            onClick={() => scrollBy(1)}
-            aria-label="Scroll brands right"
-            className="flex h-11 w-11 items-center justify-center rounded-full border border-cream-100/25 text-cream-100 transition duration-300 hover:border-cream-100 hover:bg-cream-100/10"
-          >
-            <ArrowRight size={18} weight="bold" />
-          </button>
-        </div>
+        {canScroll ? (
+          <div className="hidden shrink-0 gap-2 sm:flex">
+            <button
+              type="button"
+              onClick={() => scrollBy(-1)}
+              aria-label="Scroll brands left"
+              className="flex h-11 w-11 items-center justify-center rounded-full border border-cream-100/25 text-cream-100 transition duration-300 hover:border-cream-100 hover:bg-cream-100/10"
+            >
+              <ArrowLeft size={18} weight="bold" />
+            </button>
+            <button
+              type="button"
+              onClick={() => scrollBy(1)}
+              aria-label="Scroll brands right"
+              className="flex h-11 w-11 items-center justify-center rounded-full border border-cream-100/25 text-cream-100 transition duration-300 hover:border-cream-100 hover:bg-cream-100/10"
+            >
+              <ArrowRight size={18} weight="bold" />
+            </button>
+          </div>
+        ) : null}
       </div>
 
       <motion.ul

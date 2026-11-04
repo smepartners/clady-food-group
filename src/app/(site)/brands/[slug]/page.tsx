@@ -177,13 +177,12 @@ export default async function BrandPage({
                 <p key={i}>{p}</p>
               ))}
             </div>
-            <ul className="mt-8 flex flex-wrap gap-2 border-t border-cream-200 pt-6">
-              {brand.focus.split("·").map((f) => (
-                <li key={f}>
-                  <Pill>{f.trim()}</Pill>
-                </li>
-              ))}
-            </ul>
+            {/* Sonia, Oct 2026: "make the social and website icons more
+                prominent/obvious" - were a faint cream-bordered outline
+                that nearly disappeared against the cream page background;
+                now solid green-700 discs (matching the CTA button's own
+                fill) at a larger size, so they read as their own small
+                row of buttons rather than optional fine print. */}
             {brand.social ? (
               <ul className="mt-6 flex flex-wrap items-center gap-3">
                 {brand.social.website ? (
@@ -193,9 +192,9 @@ export default async function BrandPage({
                       target="_blank"
                       rel="noreferrer"
                       aria-label={`${brand.name} website`}
-                      className="flex h-10 w-10 items-center justify-center rounded-full border border-cream-200 text-green-700 transition duration-300 hover:-translate-y-0.5 hover:border-green-700 hover:bg-green-700 hover:text-cream-100"
+                      className="flex h-12 w-12 items-center justify-center rounded-full bg-green-700 text-cream-100 shadow-md shadow-green-900/20 transition duration-300 hover:-translate-y-0.5 hover:bg-green-900 hover:shadow-lg"
                     >
-                      <Globe size={18} weight="bold" />
+                      <Globe size={20} weight="bold" />
                     </a>
                   </li>
                 ) : null}
@@ -206,9 +205,9 @@ export default async function BrandPage({
                       target="_blank"
                       rel="noreferrer"
                       aria-label={`${brand.name} on Facebook`}
-                      className="flex h-10 w-10 items-center justify-center rounded-full border border-cream-200 text-green-700 transition duration-300 hover:-translate-y-0.5 hover:border-green-700 hover:bg-green-700 hover:text-cream-100"
+                      className="flex h-12 w-12 items-center justify-center rounded-full bg-green-700 text-cream-100 shadow-md shadow-green-900/20 transition duration-300 hover:-translate-y-0.5 hover:bg-green-900 hover:shadow-lg"
                     >
-                      <FacebookLogo size={18} weight="bold" />
+                      <FacebookLogo size={20} weight="bold" />
                     </a>
                   </li>
                 ) : null}
@@ -219,9 +218,9 @@ export default async function BrandPage({
                       target="_blank"
                       rel="noreferrer"
                       aria-label={`${brand.name} on Instagram`}
-                      className="flex h-10 w-10 items-center justify-center rounded-full border border-cream-200 text-green-700 transition duration-300 hover:-translate-y-0.5 hover:border-green-700 hover:bg-green-700 hover:text-cream-100"
+                      className="flex h-12 w-12 items-center justify-center rounded-full bg-green-700 text-cream-100 shadow-md shadow-green-900/20 transition duration-300 hover:-translate-y-0.5 hover:bg-green-900 hover:shadow-lg"
                     >
-                      <InstagramLogo size={18} weight="bold" />
+                      <InstagramLogo size={20} weight="bold" />
                     </a>
                   </li>
                 ) : null}
@@ -232,9 +231,9 @@ export default async function BrandPage({
                       target="_blank"
                       rel="noreferrer"
                       aria-label={`${brand.name} on TikTok`}
-                      className="flex h-10 w-10 items-center justify-center rounded-full border border-cream-200 text-green-700 transition duration-300 hover:-translate-y-0.5 hover:border-green-700 hover:bg-green-700 hover:text-cream-100"
+                      className="flex h-12 w-12 items-center justify-center rounded-full bg-green-700 text-cream-100 shadow-md shadow-green-900/20 transition duration-300 hover:-translate-y-0.5 hover:bg-green-900 hover:shadow-lg"
                     >
-                      <TiktokLogo size={18} weight="bold" />
+                      <TiktokLogo size={20} weight="bold" />
                     </a>
                   </li>
                 ) : null}
@@ -245,9 +244,9 @@ export default async function BrandPage({
                       target="_blank"
                       rel="noreferrer"
                       aria-label={`${brand.name} on LinkedIn`}
-                      className="flex h-10 w-10 items-center justify-center rounded-full border border-cream-200 text-green-700 transition duration-300 hover:-translate-y-0.5 hover:border-green-700 hover:bg-green-700 hover:text-cream-100"
+                      className="flex h-12 w-12 items-center justify-center rounded-full bg-green-700 text-cream-100 shadow-md shadow-green-900/20 transition duration-300 hover:-translate-y-0.5 hover:bg-green-900 hover:shadow-lg"
                     >
-                      <LinkedinLogo size={18} weight="bold" />
+                      <LinkedinLogo size={20} weight="bold" />
                     </a>
                   </li>
                 ) : null}
@@ -275,6 +274,20 @@ export default async function BrandPage({
             <div className="mt-8">
               <CTAButton href="/contact">Get in touch about {brand.name}</CTAButton>
             </div>
+            {/* Round (Sonia, Oct 2026): moved down from above the social
+                icons/CTA to sit under "Get in touch" instead - and now
+                genuinely clickable (each pill already had a hover state
+                suggesting it was interactive, it just didn't go anywhere).
+                Links through to the contact page, same destination as the
+                CTA button just above, since there's no dedicated page per
+                product area to send a visitor to. */}
+            <ul className="mt-8 flex flex-wrap gap-2 border-t border-cream-200 pt-6">
+              {brand.focus.split("·").map((f) => (
+                <li key={f}>
+                  <Pill href="/contact">{f.trim()}</Pill>
+                </li>
+              ))}
+            </ul>
           </Reveal>
           <Reveal delay={0.1} className="lg:col-span-5">
             {brand.productsImage ? (
