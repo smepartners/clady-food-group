@@ -7,137 +7,19 @@ import { Reveal } from "@/components/reveal";
 import { BrandDetailHero } from "@/components/brand-detail-hero";
 import { BrandCarousel } from "@/components/brand-carousel";
 import { BrandInstagramSection } from "@/components/instagram-feed";
+import { getBrand, getBrandSlugs } from "@/lib/brands-data";
 
-type Brand = {
-  name: string;
-  strap: string;
-  focus: string;
-  paragraphs: string[];
-  seed: string;
-  photo: string;
-  logo: string;
-  /** A real product-range photo to sit beside the overview copy. Evolving
-   * State, Dutch Maid and Slumberjack all have one supplied now
-   * (rounds 5-6). */
-  productsImage?: string;
-  productsImageAlt?: string;
-  /** Round 6 (Zoe, via George): real social/website links supplied for
-   * Evolving State and Slumberjack. Dutch Maid's weren't supplied this
-   * round, so it keeps the websiteComingSoon line below rather than
-   * linking to a guessed URL. */
-  social?: {
-    website?: string;
-    facebook?: string;
-    instagram?: string;
-    tiktok?: string;
-    linkedin?: string;
-  };
-  /** True for Dutch Maid only - the other three brands now have a
-   * social/website row (see `social` above). */
-  websiteComingSoon?: boolean;
-  /** A third-party certification tied to this specific site/entity rather
-   * than held group-wide (see ACCREDITATIONS in about/page.tsx for the
-   * group-wide ones). Slumberjack only for now - see the note above its
-   * entry below. */
-  certification?: {
-    logo: string;
-    logoAlt: string;
-    body: string;
-  };
-};
+// Nov 2026: this page now fetches from Sanity (getBrand/getBrandSlugs,
+// src/lib/brands-data.ts - BRAND_BY_SLUG_QUERY under the hood) instead of
+// the static BRANDS map that used to live in this file. The static
+// content is kept as a fallback inside brands-data.ts itself (not here)
+// in case Sanity is briefly unreachable. Galway Roast remains removed
+// from the group portfolio (George, Oct 2026) - it has no brand document
+// in Sanity, so /brands/galway-roast still 404s via notFound() below.
 
-// TODO: once the Sanity project is provisioned, replace this map with a
-// fetch against BRAND_BY_SLUG_QUERY (src/sanity/lib/queries.ts). Kept static
-// for now since there's nothing to gain from wiring a CMS that has no
-// content in it yet. Sub-brand logo marks (Build Plan §06, open question
-// 04) are no longer pending - see `logo` below and public/PHOTO-CREDITS.md.
-//
-// Round 5 feedback (Zoe, via George): B2B/B2C tags removed from every
-// brand's focus line (Slumberjack's "Hot chocolate" tag dropped too, per
-// her note); each page gets a product-range image slot and a "get in
-// touch" button.
-// Round 6 (Zoe, via George): real social/website links and real product
-// range photography supplied for Evolving State and Slumberjack; Dutch
-// Maid got its real product photo but no social links this round, so it
-// keeps the "website coming soon" line.
-// Galway Roast removed from the group portfolio (George, Oct 2026) - its
-// entry here is gone, so /brands/galway-roast now 404s via notFound()
-// below rather than being a reachable page. See lib/brands.ts.
-const BRANDS: Record<string, Brand> = {
-  "evolving-state": {
-    name: "Evolving State",
-    strap: "Everyday wellness made easy.",
-    focus: "Functional drinks · Supplements · Natural wellness · Performance",
-    seed: "clady-evolving-state-wellness",
-    photo: "/photo-brand-evolving-state.jpg",
-    logo: "/logo-evolving-state.png",
-    productsImage: "/photo-evolving-state-products.avif",
-    productsImageAlt: "The Evolving State product range",
-    social: {
-      website: "https://evolvingstate.co",
-      facebook: "https://www.facebook.com/profile.php?id=61590720360603",
-      instagram: "https://www.instagram.com/evolvingstate/",
-      tiktok: "https://www.tiktok.com/@evolving.state",
-    },
-    paragraphs: [
-      "Evolving State is focused on natural and functional products designed to enhance everyday health and wellbeing.",
-      "Its portfolio spans functional drinks, supplements, natural wellness and performance, bringing together products that fit naturally into modern lifestyles.",
-    ],
-  },
-  "dutch-maid": {
-    name: "Dutch Maid",
-    strap: "Convenience made simple.",
-    focus:
-      "Instant coffee · Hot chocolate · Milk & whitener · Cappuccino topping · Soluble ingredients · Private label",
-    seed: "clady-dutch-maid-soluble",
-    photo: "/photo-brand-dutch-maid.jpg",
-    logo: "/logo-dutch-maid.png",
-    productsImage: "/photo-dutch-maid-products.png",
-    productsImageAlt: "The Dutch Maid product range",
-    websiteComingSoon: true,
-    paragraphs: [
-      "Dutch Maid brings ease, convenience and on-trend flavours together in a versatile range of soluble drinks and ingredients.",
-      "As a private label manufacturer, Dutch Maid supplies premium soluble beverage solutions across a wide range of industries and channels, including vending, catering and foodservice, retail, wholesale and food manufacturing.",
-      "The portfolio includes instant coffee, hot chocolate powder, granulated milk, whitener, cappuccino topping and more.",
-    ],
-  },
-  slumberjack: {
-    name: "Slumberjack",
-    strap: "Our signature beverage brand.",
-    focus: "Coffee · Tea · Private label",
-    seed: "clady-slumberjack-coffee",
-    photo: "/photo-brand-slumberjack.jpg",
-    logo: "/logo-slumberjack.svg",
-    productsImage: "/photo-slumberjack-products.webp",
-    productsImageAlt: "The Slumberjack product range",
-    social: {
-      website: "https://www.slumberjackcoffee.com/",
-      linkedin: "https://www.linkedin.com/company/slumberjack-coffee/posts/",
-    },
-    // BRCGS Start (Basic) certification, confirmed by the client (Oct
-    // 2026) - tied to the Slumberjack Coffee site specifically, not the
-    // group as a whole, so it's shown here rather than in the group-wide
-    // ACCREDITATIONS list on /about. Per BRCGS's own usage requirements:
-    // the official, unaltered logo, shown with the company name
-    // ("Slumberjack Coffee", matching the certificate) on this page only,
-    // with the scope stated accurately (roasted/ground coffee and instant
-    // powder drink blends - not the wider Slumberjack product range).
-    certification: {
-      logo: "/logo-brcgs-start.png",
-      logoAlt: "BRCGS Start certification mark",
-      body: "Slumberjack Coffee is BRCGS Start certified (Basic level) for roasted and ground coffee and instant powder drink blends.",
-    },
-    paragraphs: [
-      "Our signature beverage brand. Slumberjack is the brand from which the Clady Group story began.",
-      "Established in 2014, Slumberjack has grown from its family-business roots to offer a broad range of high-quality hot and cold beverage products.",
-      "The range spans coffee, tea and hot chocolate, with products designed to serve the needs of customers across different channels and applications.",
-      "Slumberjack continues to be guided by three simple principles: remain a family business, stay close to the latest taste trends, and offer breadth and variety across formats, flavours and price points.",
-    ],
-  },
-};
-
-export function generateStaticParams() {
-  return Object.keys(BRANDS).map((slug) => ({ slug }));
+export async function generateStaticParams() {
+  const slugs = await getBrandSlugs();
+  return slugs.map((slug) => ({ slug }));
 }
 
 export async function generateMetadata({
@@ -146,7 +28,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const brand = BRANDS[slug];
+  const brand = await getBrand(slug);
   return { title: brand?.name ?? "Brand" };
 }
 
@@ -156,7 +38,7 @@ export default async function BrandPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const brand = BRANDS[slug];
+  const brand = await getBrand(slug);
   if (!brand) notFound();
 
   return (
