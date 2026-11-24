@@ -7,6 +7,7 @@ import { AboutHero } from "@/components/about-hero";
 import { VideoStorySection } from "@/components/video-story-section";
 import { CapabilitiesVideoPanel } from "@/components/capabilities-video-panel";
 import { getAboutPageContent, getAccreditations } from "@/lib/about-page-data";
+import type { AboutSection } from "@/lib/about-page-data";
 
 export const metadata: Metadata = { title: "About Us" };
 
@@ -64,195 +65,220 @@ const STATIC_ACCREDITATIONS: Accreditation[] = [
   },
 ];
 
+// Rebuilt Nov 2026 (George: "make it so we can reorder sections from
+// pages") - every section below the hero, including the ones that used
+// to be hardcoded with no Sanity field at all (the "Hear it from us"
+// video, the sectors grid, accreditations, and the closing CTA), is now
+// driven by content.sections (an ordered array from Sanity - see
+// about-page-data.ts), rendered by renderSection() below.
 export default async function AboutPage() {
   const [content, liveAccreditations] = await Promise.all([
     getAboutPageContent(),
     getAccreditations(),
   ]);
   const accreditations = liveAccreditations.length ? liveAccreditations : STATIC_ACCREDITATIONS;
+
+  function renderSection(section: AboutSection) {
+    if (section.hidden) return null;
+    switch (section._type) {
+      case "portfolioBand":
+        return (
+          // Round 5 feedback: "update this to use graphic from home page /
+          // remove need for separate stats etc" - the stat row and facility
+          // strip that used to sit here are gone, replaced with the same
+          // holding-placeholder graphic treatment as the homepage's "One
+          // group, multiple capabilities" band, ready to take the same
+          // supplied clip (or an About-specific one) once it exists.
+          // Round 7 feedback: "section under header needs to be light
+          // background to add definition between it and the header" - the
+          // header is a dark full-bleed image, so this section flips from
+          // green to light (every colour below follows: dark-on-light
+          // instead of light-on-dark, and the CTA drops `tone="inverted"`
+          // since that variant is for a dark background).
+          <Section key={section._key} className="relative overflow-hidden bg-cream-200/40">
+            <div className="relative grid items-stretch gap-12 lg:grid-cols-2 lg:gap-16">
+              <Reveal className="order-2 flex flex-col justify-center lg:order-1">
+                <h2 className="text-2xl font-semibold text-green-700 sm:text-3xl">
+                  Today, our portfolio spans <em className="italic text-gold-700">coffee to wellness.</em>
+                </h2>
+                <div className="mt-5 space-y-4 text-ink-soft">
+                  {section.paragraphs?.map((p, i) => <p key={i}>{p}</p>)}
+                </div>
+                <div className="mt-8">
+                  <CTAButton href="/contact">Get in touch</CTAButton>
+                </div>
+              </Reveal>
+              {/* Round 8 feedback: "animation needs to be added where
+                  placeholder is" - the holding placeholder here used the same
+                  treatment as the homepage's "One group, multiple
+                  capabilities" panel before that panel had its own clip; now
+                  it plays the same CFG brand animation (CapabilitiesVideoPanel,
+                  see that component's comment) rather than staying a
+                  placeholder. Reusing it here is deliberate, not a stopgap:
+                  it's the group's only dedicated brand animation, and this
+                  block makes the same "our portfolio as a whole" statement as
+                  the capabilities panel does - if a dedicated About-page clip
+                  gets supplied later, swap it in here instead. */}
+              <Reveal delay={0.1} className="order-1 lg:order-2">
+                <CapabilitiesVideoPanel />
+              </Reveal>
+            </div>
+          </Section>
+        );
+      case "heritageBand":
+        return (
+          // Round 5 feedback: "remove image / make this a full width section
+          // and move higher up the page" - was an image + text split further
+          // down the page; now a full-width band right after the portfolio
+          // band, matching the weight of the other full-bleed moments on the
+          // site rather than a smaller contained split.
+          // Round 7 feedback: "from family to group - change this to green" -
+          // flips to the dark green treatment (and, since the section above
+          // just flipped to light, keeps the page's alternating light/dark
+          // rhythm rather than breaking it). Text colours follow the swap:
+          // light-on-dark instead of dark-on-light.
+          <Section key={section._key} className="relative overflow-hidden bg-green-700">
+            <TextureOverlay />
+            <Reveal className="relative mx-auto max-w-2xl text-center">
+              <h2 className="text-2xl font-semibold text-cream-100 sm:text-3xl">
+                From family business <em className="italic text-gold-500">to group</em>
+              </h2>
+              <p className="mt-6 text-xl italic leading-snug text-gold-500 sm:text-2xl">
+                {section.paragraphs?.[0]}
+              </p>
+              <div className="mt-6 space-y-4 text-cream-100/75">
+                {section.paragraphs?.slice(1).map((p, i) => <p key={i}>{p}</p>)}
+              </div>
+            </Reveal>
+          </Section>
+        );
+      case "videoStoryBlock":
+        return (
+          // Round 7 feedback: "hear it from us - move this to be 3rd block on
+          // a white background (no curved border on video)" plus "how we
+          // work under hear it from us" - both satisfied by this one
+          // reorder: VideoStorySection (3rd block, light tone) now renders
+          // before "How we work" (4th), rather than the reverse as before.
+          <VideoStorySection
+            key={section._key}
+            tone="light"
+            heading={
+              <>
+                Hear it <em className="italic text-gold-700">from us.</em>
+              </>
+            }
+            body={
+              <p>
+                A short look at Clady Group, in the words of the people who run
+                it - our roots as a family business, how the group has grown,
+                and what we&apos;re building toward next.
+              </p>
+            }
+          />
+        );
+      case "howWeWorkBand":
+        return (
+          // Round 5 feedback: "higher up the page please". Round 7: now sits
+          // directly under "Hear it from us" per the reorder above.
+          <Section key={section._key} className="relative overflow-hidden bg-green-700">
+            <TextureOverlay />
+            <Reveal className="relative">
+              <h2 className="mx-auto max-w-2xl text-center text-2xl font-semibold text-cream-100 sm:text-3xl">
+                How we work
+              </h2>
+              <div className="mx-auto mt-6 max-w-2xl space-y-4 text-center text-cream-100/75">
+                {section.paragraphs?.slice(0, -1).map((p, i) => <p key={i}>{p}</p>)}
+              </div>
+              <p className="mx-auto mt-10 max-w-xl text-center text-xl italic leading-snug text-gold-500 sm:text-2xl">
+                {section.paragraphs?.at(-1)}
+              </p>
+            </Reveal>
+          </Section>
+        );
+      case "sectorsBlock":
+        return (
+          // Round 5 feedback: "can this be more visual? so each has a graphic
+          // icon?" - sectors now render as icon cards instead of text pills.
+          // Round 7 feedback: "at a glance - can these icons be made
+          // bigger?" - h-14/size 24 → h-20/size 32. Accreditations has been
+          // split out into its own Section below (see next block) so its
+          // background can differ from this one, per the other Round 7
+          // note on that block.
+          <Section key={section._key} className="bg-cream-200/40" pad="py-10 sm:py-14">
+            <Reveal>
+              <h2 className="text-2xl font-semibold text-green-700 sm:text-3xl">At a glance</h2>
+            </Reveal>
+            {/* Round 8 feedback: "can the gap between At a glance and sectors
+                we serve be reduced" - mt-8/pt-8 (64px plus the divider line)
+                tightened to mt-5/pt-5. */}
+            <Reveal delay={0.08}>
+              <div className="mt-5 border-t border-cream-200 pt-5">
+                <p className="text-sm font-semibold uppercase tracking-wide text-olive-600">
+                  Sectors we serve
+                </p>
+                <ul className="mt-6 grid grid-cols-2 gap-6 sm:grid-cols-4">
+                  {SECTORS.map((s) => (
+                    <li key={s.name} className="flex flex-col items-center gap-3 text-center">
+                      <span className="flex h-20 w-20 items-center justify-center rounded-full bg-green-700/10 text-green-700">
+                        <s.icon size={32} weight="bold" />
+                      </span>
+                      <span className="text-sm font-semibold text-ink">{s.name}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </Reveal>
+          </Section>
+        );
+      case "accreditationsBlock":
+        return (
+          // Round 7 feedback: "accreditations - ensure this is alternate
+          // colour to panel above it" - used to share the cream Section
+          // above with Sectors; now its own Section in green-700, so it
+          // reads as a distinct band rather than a continuation of "At a
+          // glance". The AccreditationGrid card itself stays bg-green-900
+          // (darker) so it still pops as a card against this section's
+          // green-700, the same way it previously popped against cream.
+          <Section key={section._key} className="relative overflow-hidden bg-green-700" pad="py-10 sm:py-14">
+            <TextureOverlay />
+            <Reveal className="relative">
+              <AccreditationGrid items={accreditations} label="Accreditations across our portfolio" />
+            </Reveal>
+          </Section>
+        );
+      case "closingCtaBlock":
+        return (
+          // Round 5 feedback: "Who we work with" (client logo bar) and "Part
+          // of the Clady Food Group" (brand grid) sections removed for now -
+          // to go back in once client names are approved to show and once
+          // this page needs another brand-portfolio mention. Closes on a
+          // get-in-touch CTA instead.
+          <section key={section._key} className="relative overflow-hidden bg-green-700 py-14 text-center sm:py-20">
+            <TextureOverlay />
+            <Reveal className="relative">
+              <Container>
+                <AccentRule className="mx-auto" />
+                <h2 className="mx-auto mt-6 max-w-2xl text-2xl font-semibold text-cream-100 sm:text-3xl">
+                  Want to know more about Clady Group?
+                </h2>
+                <div className="mt-8 flex justify-center">
+                  <CTAButton href="/contact" tone="inverted">
+                    Get in touch
+                  </CTAButton>
+                </div>
+              </Container>
+            </Reveal>
+          </section>
+        );
+      default:
+        return null;
+    }
+  }
+
   return (
     <>
       <AboutHero subheading={content.hero.subtext} image={content.hero.image} ctaLabel={content.hero.ctaLabel} />
-
-      {/* Round 5 feedback: "update this to use graphic from home page /
-          remove need for separate stats etc" - the stat row and facility
-          strip that used to sit here are gone, replaced with the same
-          holding-placeholder graphic treatment as the homepage's "One
-          group, multiple capabilities" band, ready to take the same
-          supplied clip (or an About-specific one) once it exists.
-          Round 7 feedback: "section under header needs to be light
-          background to add definition between it and the header" - the
-          header is a dark full-bleed image, so this section flips from
-          green to light (every colour below follows: dark-on-light
-          instead of light-on-dark, and the CTA drops `tone="inverted"`
-          since that variant is for a dark background). */}
-{!content.portfolioSection.hidden && (
-      <Section className="relative overflow-hidden bg-cream-200/40">
-        <div className="relative grid items-stretch gap-12 lg:grid-cols-2 lg:gap-16">
-          <Reveal className="order-2 flex flex-col justify-center lg:order-1">
-            <h2 className="text-2xl font-semibold text-green-700 sm:text-3xl">
-              Today, our portfolio spans <em className="italic text-gold-700">coffee to wellness.</em>
-            </h2>
-            <div className="mt-5 space-y-4 text-ink-soft">
-              {content.portfolioSection.paragraphs?.map((p, i) => <p key={i}>{p}</p>)}
-            </div>
-            <div className="mt-8">
-              <CTAButton href="/contact">Get in touch</CTAButton>
-            </div>
-          </Reveal>
-          {/* Round 8 feedback: "animation needs to be added where
-              placeholder is" - the holding placeholder here used the same
-              treatment as the homepage's "One group, multiple
-              capabilities" panel before that panel had its own clip; now
-              it plays the same CFG brand animation (CapabilitiesVideoPanel,
-              see that component's comment) rather than staying a
-              placeholder. Reusing it here is deliberate, not a stopgap:
-              it's the group's only dedicated brand animation, and this
-              block makes the same "our portfolio as a whole" statement as
-              the capabilities panel does - if a dedicated About-page clip
-              gets supplied later, swap it in here instead. */}
-          <Reveal delay={0.1} className="order-1 lg:order-2">
-            <CapabilitiesVideoPanel />
-          </Reveal>
-        </div>
-      </Section>
-      )}
-
-      {/* Round 5 feedback: "remove image / make this a full width section
-          and move higher up the page" - was an image + text split further
-          down the page; now a full-width band right after the portfolio
-          band, matching the weight of the other full-bleed moments on the
-          site rather than a smaller contained split.
-          Round 7 feedback: "from family to group - change this to green" -
-          flips to the dark green treatment (and, since the section above
-          just flipped to light, keeps the page's alternating light/dark
-          rhythm rather than breaking it). Text colours follow the swap:
-          light-on-dark instead of dark-on-light. */}
-{!content.heritageSection.hidden && (
-      <Section className="relative overflow-hidden bg-green-700">
-        <TextureOverlay />
-        <Reveal className="relative mx-auto max-w-2xl text-center">
-          <h2 className="text-2xl font-semibold text-cream-100 sm:text-3xl">
-            From family business <em className="italic text-gold-500">to group</em>
-          </h2>
-          <p className="mt-6 text-xl italic leading-snug text-gold-500 sm:text-2xl">
-            {content.heritageSection.paragraphs?.[0]}
-          </p>
-          <div className="mt-6 space-y-4 text-cream-100/75">
-            {content.heritageSection.paragraphs?.slice(1).map((p, i) => <p key={i}>{p}</p>)}
-          </div>
-        </Reveal>
-      </Section>
-      )}
-
-      {/* Round 7 feedback: "hear it from us - move this to be 3rd block on
-          a white background (no curved border on video)" plus "how we
-          work under hear it from us" - both satisfied by this one
-          reorder: VideoStorySection (3rd block, light tone) now renders
-          before "How we work" (4th), rather than the reverse as before. */}
-      <VideoStorySection
-        tone="light"
-        heading={
-          <>
-            Hear it <em className="italic text-gold-700">from us.</em>
-          </>
-        }
-        body={
-          <p>
-            A short look at Clady Group, in the words of the people who run
-            it - our roots as a family business, how the group has grown,
-            and what we&apos;re building toward next.
-          </p>
-        }
-      />
-
-      {/* Round 5 feedback: "higher up the page please". Round 7: now sits
-          directly under "Hear it from us" per the reorder above. */}
-{!content.howWeWorkSection.hidden && (
-      <Section className="relative overflow-hidden bg-green-700">
-        <TextureOverlay />
-        <Reveal className="relative">
-          <h2 className="mx-auto max-w-2xl text-center text-2xl font-semibold text-cream-100 sm:text-3xl">
-            How we work
-          </h2>
-          <div className="mx-auto mt-6 max-w-2xl space-y-4 text-center text-cream-100/75">
-            {content.howWeWorkSection.paragraphs?.slice(0, -1).map((p, i) => <p key={i}>{p}</p>)}
-          </div>
-          <p className="mx-auto mt-10 max-w-xl text-center text-xl italic leading-snug text-gold-500 sm:text-2xl">
-            {content.howWeWorkSection.paragraphs?.at(-1)}
-          </p>
-        </Reveal>
-      </Section>
-      )}
-
-      {/* Round 5 feedback: "can this be more visual? so each has a graphic
-          icon?" - sectors now render as icon cards instead of text pills.
-          Round 7 feedback: "at a glance - can these icons be made
-          bigger?" - h-14/size 24 → h-20/size 32. Accreditations has been
-          split out into its own Section below (see next block) so its
-          background can differ from this one, per the other Round 7
-          note on that block. */}
-      <Section className="bg-cream-200/40" pad="py-10 sm:py-14">
-        <Reveal>
-          <h2 className="text-2xl font-semibold text-green-700 sm:text-3xl">At a glance</h2>
-        </Reveal>
-        {/* Round 8 feedback: "can the gap between At a glance and sectors
-            we serve be reduced" - mt-8/pt-8 (64px plus the divider line)
-            tightened to mt-5/pt-5. */}
-        <Reveal delay={0.08}>
-          <div className="mt-5 border-t border-cream-200 pt-5">
-            <p className="text-sm font-semibold uppercase tracking-wide text-olive-600">
-              Sectors we serve
-            </p>
-            <ul className="mt-6 grid grid-cols-2 gap-6 sm:grid-cols-4">
-              {SECTORS.map((s) => (
-                <li key={s.name} className="flex flex-col items-center gap-3 text-center">
-                  <span className="flex h-20 w-20 items-center justify-center rounded-full bg-green-700/10 text-green-700">
-                    <s.icon size={32} weight="bold" />
-                  </span>
-                  <span className="text-sm font-semibold text-ink">{s.name}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </Reveal>
-      </Section>
-
-      {/* Round 7 feedback: "accreditations - ensure this is alternate
-          colour to panel above it" - used to share the cream Section
-          above with Sectors; now its own Section in green-700, so it
-          reads as a distinct band rather than a continuation of "At a
-          glance". The AccreditationGrid card itself stays bg-green-900
-          (darker) so it still pops as a card against this section's
-          green-700, the same way it previously popped against cream. */}
-      <Section className="relative overflow-hidden bg-green-700" pad="py-10 sm:py-14">
-        <TextureOverlay />
-        <Reveal className="relative">
-          <AccreditationGrid items={accreditations} label="Accreditations across our portfolio" />
-        </Reveal>
-      </Section>
-
-      {/* Round 5 feedback: "Who we work with" (client logo bar) and "Part
-          of the Clady Food Group" (brand grid) sections removed for now -
-          to go back in once client names are approved to show and once
-          this page needs another brand-portfolio mention. Closes on a
-          get-in-touch CTA instead. */}
-      <section className="relative overflow-hidden bg-green-700 py-14 text-center sm:py-20">
-        <TextureOverlay />
-        <Reveal className="relative">
-          <Container>
-            <AccentRule className="mx-auto" />
-            <h2 className="mx-auto mt-6 max-w-2xl text-2xl font-semibold text-cream-100 sm:text-3xl">
-              Want to know more about Clady Group?
-            </h2>
-            <div className="mt-8 flex justify-center">
-              <CTAButton href="/contact" tone="inverted">
-                Get in touch
-              </CTAButton>
-            </div>
-          </Container>
-        </Reveal>
-      </section>
+      {content.sections.map(renderSection)}
     </>
   );
 }
