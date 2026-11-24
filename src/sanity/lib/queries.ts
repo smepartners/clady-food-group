@@ -48,28 +48,23 @@ export const SITE_SETTINGS_QUERY = defineQuery(`
 `);
 
 export const HOME_PAGE_QUERY = defineQuery(`
-  *[_type == "homePage"][0] { hero, capabilityBand, manufacturingBand, closingBand }
+  *[_type == "homePage"][0] { hero, sections }
 `);
 
 export const ABOUT_PAGE_QUERY = defineQuery(`
-  *[_type == "aboutPage"][0] {
-    hero, portfolioSection, heritageSection, manufacturingSection, howWeWorkSection
-  }
+  *[_type == "aboutPage"][0] { hero, sections }
 `);
 
 export const PRIVATE_LABEL_PAGE_QUERY = defineQuery(`
-  *[_type == "privateLabelPage"][0] { hero, moreThanALogoSection, flexibleApproachSection, pillars }
+  *[_type == "privateLabelPage"][0] { hero, sections }
 `);
 
 export const WHITE_LABEL_COFFEE_PAGE_QUERY = defineQuery(`
-  *[_type == "whiteLabelCoffeePage"][0] {
-    hero, introSection, sectorsSection, offerSection, howItWorksSection,
-    innovationSection, formatsSection, crossSellSection, closingCta
-  }
+  *[_type == "whiteLabelCoffeePage"][0] { hero, sections }
 `);
 
 export const CSR_PAGE_QUERY = defineQuery(`
-  *[_type == "csrPage"][0] { hero, intro, pillars, responsibilitySection, impactSection }
+  *[_type == "csrPage"][0] { hero, sections }
 `);
 
 export const FLEXIBLE_PAGE_SLUGS_QUERY = defineQuery(`
