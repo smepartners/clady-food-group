@@ -1,6 +1,6 @@
 "use client";
 
-import { HelpCircleIcon } from "@sanity/icons";
+import { Icon } from "@sanity/icons";
 import type { Tool } from "sanity";
 
 const card: React.CSSProperties = {
@@ -186,6 +186,6 @@ function StudioGuideTool() {
 export const studioGuideTool: Tool = {
   name: "guide",
   title: "Guide",
-  icon: HelpCircleIcon,
+  icon: () => <Icon symbol="help-circle" />,
   component: StudioGuideTool,
 };
