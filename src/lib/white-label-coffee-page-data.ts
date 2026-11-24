@@ -8,14 +8,14 @@ export type InnovationCardData = { title: string; body: string };
 
 export type WhiteLabelCoffeePageContent = {
   hero: { subtext?: string; image?: string; ctaLabel?: string };
-  introSection: { paragraphs?: string[]; image?: string };
-  sectorsSection: { heading?: string; sectors?: SectorData[] };
-  offerSection: { heading?: string; bullets?: string[]; image?: string };
-  howItWorksSection: { heading?: string; intro?: string; steps?: StepData[] };
-  innovationSection: { heading?: string; cards?: InnovationCardData[] };
-  formatsSection: { heading?: string; formats?: string[]; note?: string };
-  crossSellSection: { heading?: string; body?: string; linkLabel?: string; href?: string };
-  closingCta: { heading?: string; body?: string; ctaLabel?: string };
+  introSection: { paragraphs?: string[]; image?: string; hidden?: boolean };
+  sectorsSection: { heading?: string; sectors?: SectorData[]; hidden?: boolean };
+  offerSection: { heading?: string; bullets?: string[]; image?: string; hidden?: boolean };
+  howItWorksSection: { heading?: string; intro?: string; steps?: StepData[]; hidden?: boolean };
+  innovationSection: { heading?: string; cards?: InnovationCardData[]; hidden?: boolean };
+  formatsSection: { heading?: string; formats?: string[]; note?: string; hidden?: boolean };
+  crossSellSection: { heading?: string; body?: string; linkLabel?: string; href?: string; hidden?: boolean };
+  closingCta: { heading?: string; body?: string; ctaLabel?: string; hidden?: boolean };
 };
 
 // Fallback copy drawn from the client's "White label copy" brief

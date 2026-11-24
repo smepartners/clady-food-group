@@ -34,6 +34,13 @@ export default defineType({
       title: "\"One group. Multiple capabilities.\" band",
       type: "object",
       fields: [
+        defineField({
+          name: "hidden",
+          title: "Hide this section",
+          description: "Temporarily hide this section from the live site without deleting its content.",
+          type: "boolean",
+          initialValue: false,
+        }),
         defineField({ name: "heading", title: "Heading", type: "string" }),
         defineField({
           name: "paragraphs",
@@ -48,6 +55,13 @@ export default defineType({
       title: "Manufacturing scale band",
       type: "object",
       fields: [
+        defineField({
+          name: "hidden",
+          title: "Hide this section",
+          description: "Temporarily hide this section from the live site without deleting its content.",
+          type: "boolean",
+          initialValue: false,
+        }),
         defineField({ name: "eyebrow", title: "Eyebrow", type: "string" }),
         defineField({ name: "heading", title: "Heading", type: "string" }),
         defineField({ name: "body", title: "Body", type: "text", rows: 3 }),
@@ -59,6 +73,13 @@ export default defineType({
       title: "\"Built for better partnerships\" closing band",
       type: "object",
       fields: [
+        defineField({
+          name: "hidden",
+          title: "Hide this section",
+          description: "Temporarily hide this section from the live site without deleting its content.",
+          type: "boolean",
+          initialValue: false,
+        }),
         defineField({ name: "heading", title: "Heading", type: "string" }),
         defineField({ name: "body", title: "Body", type: "text", rows: 3 }),
         defineField({ name: "ctaLabel", title: "CTA button label", type: "string" }),

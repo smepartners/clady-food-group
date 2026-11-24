@@ -6,8 +6,8 @@ export type PillarData = { name: string; body: string; icon: string; tone: "gold
 
 export type PrivateLabelPageContent = {
   hero: { subtext?: string; image?: string; ctaLabel?: string };
-  moreThanALogoSection: { paragraphs?: string[]; image?: string };
-  flexibleApproachSection: { body?: string; ctaLabel?: string };
+  moreThanALogoSection: { paragraphs?: string[]; image?: string; hidden?: boolean };
+  flexibleApproachSection: { body?: string; ctaLabel?: string; hidden?: boolean };
   pillars?: PillarData[];
 };
 

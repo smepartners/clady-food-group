@@ -5,9 +5,9 @@ import type { Accreditation } from "@/components/accreditation";
 
 export type AboutPageContent = {
   hero: { subtext?: string; image?: string; ctaLabel?: string };
-  portfolioSection: { paragraphs?: string[] };
-  heritageSection: { paragraphs?: string[] };
-  howWeWorkSection: { paragraphs?: string[] };
+  portfolioSection: { paragraphs?: string[]; hidden?: boolean };
+  heritageSection: { paragraphs?: string[]; hidden?: boolean };
+  howWeWorkSection: { paragraphs?: string[]; hidden?: boolean };
 };
 
 const FALLBACK: AboutPageContent = {

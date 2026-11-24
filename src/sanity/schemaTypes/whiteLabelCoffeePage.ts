@@ -29,6 +29,13 @@ export default defineType({
       title: "Intro ('We source, roast, blend and pack...')",
       type: "object",
       fields: [
+        defineField({
+          name: "hidden",
+          title: "Hide this section",
+          description: "Temporarily hide this section from the live site without deleting its content.",
+          type: "boolean",
+          initialValue: false,
+        }),
         defineField({ name: "paragraphs", title: "Body paragraphs", type: "array", of: [{ type: "text", rows: 3 }] }),
         defineField({ name: "image", title: "Photo", type: "image", options: { hotspot: true } }),
       ],
@@ -38,6 +45,13 @@ export default defineType({
       title: "'Who we supply' sectors",
       type: "object",
       fields: [
+        defineField({
+          name: "hidden",
+          title: "Hide this section",
+          description: "Temporarily hide this section from the live site without deleting its content.",
+          type: "boolean",
+          initialValue: false,
+        }),
         defineField({ name: "heading", title: "Heading", type: "string" }),
         defineField({
           name: "sectors",
@@ -68,6 +82,13 @@ export default defineType({
       title: "'What we can offer'",
       type: "object",
       fields: [
+        defineField({
+          name: "hidden",
+          title: "Hide this section",
+          description: "Temporarily hide this section from the live site without deleting its content.",
+          type: "boolean",
+          initialValue: false,
+        }),
         defineField({ name: "heading", title: "Heading", type: "string" }),
         defineField({ name: "bullets", title: "Bullets", type: "array", of: [{ type: "string" }] }),
         defineField({ name: "image", title: "Photo", type: "image", options: { hotspot: true } }),
@@ -78,6 +99,13 @@ export default defineType({
       title: "'How it works' steps",
       type: "object",
       fields: [
+        defineField({
+          name: "hidden",
+          title: "Hide this section",
+          description: "Temporarily hide this section from the live site without deleting its content.",
+          type: "boolean",
+          initialValue: false,
+        }),
         defineField({ name: "heading", title: "Heading", type: "string" }),
         defineField({ name: "intro", title: "Intro line", type: "string" }),
         defineField({
@@ -102,6 +130,13 @@ export default defineType({
       title: "Innovation & blend development (folded in)",
       type: "object",
       fields: [
+        defineField({
+          name: "hidden",
+          title: "Hide this section",
+          description: "Temporarily hide this section from the live site without deleting its content.",
+          type: "boolean",
+          initialValue: false,
+        }),
         defineField({ name: "heading", title: "Heading", type: "string" }),
         defineField({
           name: "cards",
@@ -125,6 +160,13 @@ export default defineType({
       title: "Formats we pack into (folded in)",
       type: "object",
       fields: [
+        defineField({
+          name: "hidden",
+          title: "Hide this section",
+          description: "Temporarily hide this section from the live site without deleting its content.",
+          type: "boolean",
+          initialValue: false,
+        }),
         defineField({ name: "heading", title: "Heading", type: "string" }),
         defineField({ name: "formats", title: "Formats", type: "array", of: [{ type: "string" }] }),
         defineField({ name: "note", title: "Note", type: "string" }),
@@ -135,6 +177,13 @@ export default defineType({
       title: "Cross-sell to powdered drinks (folded in)",
       type: "object",
       fields: [
+        defineField({
+          name: "hidden",
+          title: "Hide this section",
+          description: "Temporarily hide this section from the live site without deleting its content.",
+          type: "boolean",
+          initialValue: false,
+        }),
         defineField({ name: "heading", title: "Heading", type: "string" }),
         defineField({ name: "body", title: "Body", type: "text", rows: 3 }),
         defineField({ name: "linkLabel", title: "Link label", type: "string" }),
@@ -146,6 +195,13 @@ export default defineType({
       title: "Closing CTA band",
       type: "object",
       fields: [
+        defineField({
+          name: "hidden",
+          title: "Hide this section",
+          description: "Temporarily hide this section from the live site without deleting its content.",
+          type: "boolean",
+          initialValue: false,
+        }),
         defineField({ name: "heading", title: "Heading", type: "string" }),
         defineField({ name: "body", title: "Body", type: "text", rows: 2 }),
         defineField({ name: "ctaLabel", title: "CTA button label", type: "string" }),

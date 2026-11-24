@@ -91,6 +91,7 @@ export default async function PrivateLabelPage() {
           light (same move About's portfolio section made for the same
           reason - see that page's comment), so the dark hero gets actual
           contrast beneath it instead of more green. */}
+{!content.moreThanALogoSection.hidden && (
       <Section className="relative overflow-hidden bg-cream-200/40">
         <div className="relative grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
           <Reveal className="order-2 lg:order-1">
@@ -130,6 +131,7 @@ export default async function PrivateLabelPage() {
           </Reveal>
         </div>
       </Section>
+      )}
 
       <Section pad="py-10 sm:py-14">
         <Reveal>
@@ -177,6 +179,7 @@ export default async function PrivateLabelPage() {
           with no texture or CTA; now matches the homepage's closing
           "Built for better partnerships" band (home/page.tsx) exactly:
           texture overlay, soft corner glows, inverted CTA button. */}
+{!content.flexibleApproachSection.hidden && (
       <section className="relative overflow-hidden bg-green-700 py-14 text-center sm:py-20">
         <TextureOverlay />
         <div className="absolute -left-16 -top-16 h-56 w-56 rounded-full bg-gold-500/15 blur-3xl" />
@@ -195,6 +198,7 @@ export default async function PrivateLabelPage() {
           </Container>
         </Reveal>
       </section>
+      )}
 
       {/* Round 5 feedback: "idea to opportunity can show the same as on
           the homepage" - was a 5-up IconFeature card grid with numbered

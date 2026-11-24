@@ -9,8 +9,8 @@ export type CsrPageContent = {
   hero: { subtext?: string; image?: string };
   intro?: string;
   pillars?: PillarData[];
-  responsibilitySection: { body?: string; quote?: string };
-  impactSection: { body?: string };
+  responsibilitySection: { body?: string; quote?: string; hidden?: boolean };
+  impactSection: { body?: string; hidden?: boolean };
 };
 
 const FALLBACK: CsrPageContent = {

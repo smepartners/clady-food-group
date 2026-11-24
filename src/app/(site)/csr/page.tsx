@@ -124,6 +124,7 @@ export default async function CsrPage() {
           (matching the two Sections above it on this page), which is a
           real contrast rather than a different green - "Our impact" below
           stays the one dark, textured band on the page. */}
+{!content.responsibilitySection.hidden && (
       <Section className="bg-cream-200/40">
         <Reveal>
           <div className="mx-auto max-w-2xl text-center">
@@ -137,6 +138,7 @@ export default async function CsrPage() {
           </div>
         </Reveal>
       </Section>
+      )}
 
       {/* Round 5 feedback: "update Clady Group to Clady Food Group" and
           "style this section so there is more definition to the one above
@@ -145,6 +147,7 @@ export default async function CsrPage() {
           band with the gold leather texture and watermark, matching the
           weight of "Our responsibility" above it instead of reading as a
           flat gap between two more deliberate moments. */}
+{!content.impactSection.hidden && (
       <Section className="relative overflow-hidden bg-green-900">
         <TextureOverlay texture="/texture-leather-gold.jpg" watermark="/logo-icon-watermark-gold.png" />
         <Reveal className="relative">
@@ -168,6 +171,7 @@ export default async function CsrPage() {
           </RevealStagger>
         </Reveal>
       </Section>
+      )}
     </>
   );
 }

@@ -61,6 +61,7 @@ export default async function WhiteLabelCoffeePage() {
       {/* Intro - matches the two-column text/photo layout used for
           "More than a logo" on Private Label (page.tsx), reused here for
           the opening capability statement. */}
+{!content.introSection.hidden && (
       <Section>
         <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
           <Reveal>
@@ -80,9 +81,11 @@ export default async function WhiteLabelCoffeePage() {
           </Reveal>
         </div>
       </Section>
+      )}
 
       {/* Who we supply - five sectors, same IconFeature card used for
           "What drives us"/pillar-style grids elsewhere on the site. */}
+{!content.sectorsSection.hidden && (
       <Section className="bg-cream-200/40">
         <Reveal>
           <h2 className="text-center text-2xl font-semibold text-green-700 sm:text-3xl">
@@ -104,9 +107,11 @@ export default async function WhiteLabelCoffeePage() {
           })}
         </RevealStagger>
       </Section>
+      )}
 
       {/* What we can offer - photo + bullet list, mirrors the intro's
           two-column layout with the image on the opposite side. */}
+{!content.offerSection.hidden && (
       <Section>
         <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
           <Reveal className="order-2 lg:order-1">
@@ -127,6 +132,7 @@ export default async function WhiteLabelCoffeePage() {
           </Reveal>
         </div>
       </Section>
+      )}
 
       {/* How it works - dark, textured band matching CSR's "Our impact"
           treatment (gold leather texture + gold watermark on bg-green-900),
@@ -135,6 +141,7 @@ export default async function WhiteLabelCoffeePage() {
           digits in a ring badge (not icons, not leading-zero step
           numbers) since these are sequential steps, not categorised
           features. */}
+{!content.howItWorksSection.hidden && (
       <Section className="relative overflow-hidden bg-green-900">
         <TextureOverlay texture="/texture-leather-gold.jpg" watermark="/logo-icon-watermark-gold.png" />
         <Reveal className="relative">
@@ -157,6 +164,7 @@ export default async function WhiteLabelCoffeePage() {
           </RevealStagger>
         </Reveal>
       </Section>
+      )}
 
       {/* Group scale, reusing the same shared stat documents as Home/
           About/Private Label (see stat.ts) rather than new page-specific
@@ -175,6 +183,7 @@ export default async function WhiteLabelCoffeePage() {
       {/* Innovation & blend development - folded into this page rather
           than built as its own (no independent search volume for
           "blend development" style terms - see the keyword research). */}
+{!content.innovationSection.hidden && (
       <Section className="bg-cream-200/40">
         <Reveal>
           <h2 className="text-center text-2xl font-semibold text-green-700 sm:text-3xl">
@@ -190,9 +199,11 @@ export default async function WhiteLabelCoffeePage() {
           ))}
         </RevealStagger>
       </Section>
+      )}
 
       {/* Formats we pack into - also folded in (no independent search
           volume of its own either). */}
+{!content.formatsSection.hidden && (
       <Section>
         <Reveal>
           <h2 className="text-center text-2xl font-semibold text-green-700 sm:text-3xl">
@@ -208,9 +219,11 @@ export default async function WhiteLabelCoffeePage() {
           </p>
         </Reveal>
       </Section>
+      )}
 
       {/* Cross-sell to powdered drinks - a different product line, so
           linked out to rather than written in full here. */}
+{!content.crossSellSection.hidden && (
       <Section pad="pb-14 sm:pb-20">
         <Reveal className="flex flex-col items-center justify-between gap-6 rounded-xl border border-cream-200 bg-cream-200/40 p-8 text-center sm:flex-row sm:text-left">
           <div>
@@ -222,10 +235,12 @@ export default async function WhiteLabelCoffeePage() {
           </Pill>
         </Reveal>
       </Section>
+      )}
 
       {/* Closing CTA - same textured green band as the homepage's
           closing "Built for better partnerships" section and Private
           Label's "A flexible approach". */}
+{!content.closingCta.hidden && (
       <section className="relative overflow-hidden bg-green-700 py-14 text-center sm:py-20">
         <TextureOverlay />
         <div className="absolute -left-16 -top-16 h-56 w-56 rounded-full bg-gold-500/15 blur-3xl" />
@@ -244,6 +259,7 @@ export default async function WhiteLabelCoffeePage() {
           </Container>
         </Reveal>
       </section>
+      )}
     </>
   );
 }

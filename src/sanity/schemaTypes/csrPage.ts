@@ -53,6 +53,13 @@ export default defineType({
       title: "\"Our responsibility\" section",
       type: "object",
       fields: [
+        defineField({
+          name: "hidden",
+          title: "Hide this section",
+          description: "Temporarily hide this section from the live site without deleting its content.",
+          type: "boolean",
+          initialValue: false,
+        }),
         defineField({ name: "heading", title: "Heading", type: "string" }),
         defineField({ name: "body", title: "Body", type: "text", rows: 3 }),
         defineField({ name: "quote", title: "Pull quote", type: "string" }),
@@ -63,6 +70,13 @@ export default defineType({
       title: "\"Our impact\" section",
       type: "object",
       fields: [
+        defineField({
+          name: "hidden",
+          title: "Hide this section",
+          description: "Temporarily hide this section from the live site without deleting its content.",
+          type: "boolean",
+          initialValue: false,
+        }),
         defineField({ name: "heading", title: "Heading", type: "string" }),
         defineField({ name: "body", title: "Body", type: "text", rows: 3 }),
       ],

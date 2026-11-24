@@ -86,6 +86,7 @@ export default async function AboutPage() {
           green to light (every colour below follows: dark-on-light
           instead of light-on-dark, and the CTA drops `tone="inverted"`
           since that variant is for a dark background). */}
+{!content.portfolioSection.hidden && (
       <Section className="relative overflow-hidden bg-cream-200/40">
         <div className="relative grid items-stretch gap-12 lg:grid-cols-2 lg:gap-16">
           <Reveal className="order-2 flex flex-col justify-center lg:order-1">
@@ -115,6 +116,7 @@ export default async function AboutPage() {
           </Reveal>
         </div>
       </Section>
+      )}
 
       {/* Round 5 feedback: "remove image / make this a full width section
           and move higher up the page" - was an image + text split further
@@ -126,6 +128,7 @@ export default async function AboutPage() {
           just flipped to light, keeps the page's alternating light/dark
           rhythm rather than breaking it). Text colours follow the swap:
           light-on-dark instead of dark-on-light. */}
+{!content.heritageSection.hidden && (
       <Section className="relative overflow-hidden bg-green-700">
         <TextureOverlay />
         <Reveal className="relative mx-auto max-w-2xl text-center">
@@ -140,6 +143,7 @@ export default async function AboutPage() {
           </div>
         </Reveal>
       </Section>
+      )}
 
       {/* Round 7 feedback: "hear it from us - move this to be 3rd block on
           a white background (no curved border on video)" plus "how we
@@ -164,6 +168,7 @@ export default async function AboutPage() {
 
       {/* Round 5 feedback: "higher up the page please". Round 7: now sits
           directly under "Hear it from us" per the reorder above. */}
+{!content.howWeWorkSection.hidden && (
       <Section className="relative overflow-hidden bg-green-700">
         <TextureOverlay />
         <Reveal className="relative">
@@ -178,6 +183,7 @@ export default async function AboutPage() {
           </p>
         </Reveal>
       </Section>
+      )}
 
       {/* Round 5 feedback: "can this be more visual? so each has a graphic
           icon?" - sectors now render as icon cards instead of text pills.

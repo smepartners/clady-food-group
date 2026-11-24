@@ -5,9 +5,9 @@ import type { ValuePillarData } from "@/components/values-section";
 
 export type HomePageContent = {
   hero: { eyebrow?: string; heading?: string; subtext?: string; ctaLabel?: string };
-  capabilityBand: { heading?: string; paragraphs?: string[] };
-  manufacturingBand: { eyebrow?: string; heading?: string; body?: string; image?: string };
-  closingBand: { heading?: string; body?: string; ctaLabel?: string };
+  capabilityBand: { heading?: string; paragraphs?: string[]; hidden?: boolean };
+  manufacturingBand: { eyebrow?: string; heading?: string; body?: string; image?: string; hidden?: boolean };
+  closingBand: { heading?: string; body?: string; ctaLabel?: string; hidden?: boolean };
 };
 
 const FALLBACK: HomePageContent = {

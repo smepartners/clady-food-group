@@ -46,6 +46,7 @@ export default async function HomePage() {
           background below it. `items-stretch` + `h-full` on the box makes
           it match the text column's own height instead, so the two
           columns line up top and bottom with no leftover gap. */}
+{!content.capabilityBand.hidden && (
       <Section className="bg-cream-200/40">
         <div className="relative grid gap-12 lg:grid-cols-12 lg:items-stretch lg:gap-10">
           <Reveal className="lg:col-span-5 lg:pt-4">
@@ -61,6 +62,7 @@ export default async function HomePage() {
           </Reveal>
         </div>
       </Section>
+      )}
 
       {/* Moved above the brand carousel - this is the group's second
           "capability" moment (its own eyebrow says as much), and grouping
@@ -68,6 +70,7 @@ export default async function HomePage() {
           visitor reads the whole capability story before moving on to the
           brand portfolio, rather than capability/brands/capability
           alternating. */}
+{!content.manufacturingBand.hidden && (
       <ParallaxBand
         image={content.manufacturingBand.image ?? "/photo-production-packing.jpg"}
         alt="The packing and labelling line at Clady Group's Buxton site"
@@ -75,6 +78,7 @@ export default async function HomePage() {
         heading={content.manufacturingBand.heading ?? "Real manufacturing scale, behind every brand."}
         body={content.manufacturingBand.body}
       />
+      )}
 
       {/* Bigger, more deliberate moment than a quiet grid at the bottom of
           a photo section: its own full band, horizontally scrollable with
@@ -98,6 +102,7 @@ export default async function HomePage() {
           feedback - matches the brand carousel band above it as an
           edge-to-edge dark green moment instead of a card floating with
           cream margins either side. */}
+{!content.closingBand.hidden && (
       <section className="relative overflow-hidden bg-green-700 py-14 text-center sm:py-20">
         <TextureOverlay />
         <div className="absolute -left-16 -top-16 h-56 w-56 rounded-full bg-gold-500/15 blur-3xl" />
@@ -116,6 +121,7 @@ export default async function HomePage() {
           </Container>
         </Reveal>
       </section>
+      )}
     </>
   );
 }

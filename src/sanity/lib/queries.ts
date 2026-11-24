@@ -72,6 +72,16 @@ export const CSR_PAGE_QUERY = defineQuery(`
   *[_type == "csrPage"][0] { hero, intro, pillars, responsibilitySection, impactSection }
 `);
 
+export const FLEXIBLE_PAGE_SLUGS_QUERY = defineQuery(`
+  *[_type == "flexiblePage" && defined(slug.current)].slug.current
+`);
+
+export const FLEXIBLE_PAGE_BY_SLUG_QUERY = defineQuery(`
+  *[_type == "flexiblePage" && slug.current == $slug][0] {
+    title, seoDescription, hero, sections
+  }
+`);
+
 export const CONTACT_PAGE_QUERY = defineQuery(`
   *[_type == "contactPage"][0] { hero, emailPrompt }
 `);

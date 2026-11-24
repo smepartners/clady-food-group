@@ -27,6 +27,13 @@ export default defineType({
       title: "Portfolio statement",
       type: "object",
       fields: [
+        defineField({
+          name: "hidden",
+          title: "Hide this section",
+          description: "Temporarily hide this section from the live site without deleting its content.",
+          type: "boolean",
+          initialValue: false,
+        }),
         defineField({ name: "heading", title: "Heading", type: "string" }),
         defineField({ name: "paragraphs", title: "Body paragraphs", type: "array", of: [{ type: "text", rows: 3 }] }),
       ],
@@ -36,6 +43,13 @@ export default defineType({
       title: "\"From family business to group\" band",
       type: "object",
       fields: [
+        defineField({
+          name: "hidden",
+          title: "Hide this section",
+          description: "Temporarily hide this section from the live site without deleting its content.",
+          type: "boolean",
+          initialValue: false,
+        }),
         defineField({ name: "heading", title: "Heading", type: "string" }),
         defineField({ name: "paragraphs", title: "Body paragraphs", type: "array", of: [{ type: "text", rows: 3 }] }),
         defineField({ name: "image", title: "Photo", type: "image", options: { hotspot: true } }),
@@ -46,6 +60,13 @@ export default defineType({
       title: "Manufacturing band",
       type: "object",
       fields: [
+        defineField({
+          name: "hidden",
+          title: "Hide this section",
+          description: "Temporarily hide this section from the live site without deleting its content.",
+          type: "boolean",
+          initialValue: false,
+        }),
         defineField({ name: "heading", title: "Heading", type: "string" }),
         defineField({ name: "body", title: "Body", type: "text", rows: 3 }),
         defineField({ name: "image", title: "Photo", type: "image", options: { hotspot: true } }),
@@ -56,6 +77,13 @@ export default defineType({
       title: "\"How we work\" section",
       type: "object",
       fields: [
+        defineField({
+          name: "hidden",
+          title: "Hide this section",
+          description: "Temporarily hide this section from the live site without deleting its content.",
+          type: "boolean",
+          initialValue: false,
+        }),
         defineField({ name: "heading", title: "Heading", type: "string" }),
         defineField({ name: "paragraphs", title: "Body paragraphs", type: "array", of: [{ type: "text", rows: 3 }] }),
       ],
