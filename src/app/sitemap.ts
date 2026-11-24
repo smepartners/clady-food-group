@@ -11,7 +11,7 @@ import { BRANDS } from "@/lib/brands";
 // edit. /studio (Sanity admin) and /api (contact-form endpoint) are
 // excluded - see the matching note in robots.ts.
 export default function sitemap(): MetadataRoute.Sitemap {
-  const staticRoutes = ["", "/about", "/private-label", "/csr", "/brands", "/contact"];
+  const staticRoutes = ["", "/about", "/private-label", "/private-label/coffee", "/csr", "/brands", "/contact"];
 
   return [
     ...staticRoutes.map((route) => ({

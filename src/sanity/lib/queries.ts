@@ -61,6 +61,13 @@ export const PRIVATE_LABEL_PAGE_QUERY = defineQuery(`
   *[_type == "privateLabelPage"][0] { hero, moreThanALogoSection, flexibleApproachSection, pillars }
 `);
 
+export const WHITE_LABEL_COFFEE_PAGE_QUERY = defineQuery(`
+  *[_type == "whiteLabelCoffeePage"][0] {
+    hero, introSection, sectorsSection, offerSection, howItWorksSection,
+    innovationSection, formatsSection, crossSellSection, closingCta
+  }
+`);
+
 export const CSR_PAGE_QUERY = defineQuery(`
   *[_type == "csrPage"][0] { hero, intro, pillars, responsibilitySection, impactSection }
 `);

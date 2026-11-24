@@ -10,6 +10,7 @@ const SINGLETONS = [
   { type: "homePage", title: "Home page" },
   { type: "aboutPage", title: "About page" },
   { type: "privateLabelPage", title: "Private Label page" },
+  { type: "whiteLabelCoffeePage", title: "White Label Coffee page" },
   { type: "csrPage", title: "CSR page" },
   { type: "contactPage", title: "Contact page" },
 ] as const;

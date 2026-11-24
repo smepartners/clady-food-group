@@ -11,6 +11,7 @@ import siteSettings from "./siteSettings";
 import homePage from "./homePage";
 import aboutPage from "./aboutPage";
 import privateLabelPage from "./privateLabelPage";
+import whiteLabelCoffeePage from "./whiteLabelCoffeePage";
 import csrPage from "./csrPage";
 import contactPage from "./contactPage";
 
@@ -32,6 +33,7 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     homePage,
     aboutPage,
     privateLabelPage,
+    whiteLabelCoffeePage,
     csrPage,
     contactPage,
   ],
