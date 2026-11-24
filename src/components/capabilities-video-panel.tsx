@@ -46,13 +46,32 @@ import { TextureOverlay } from "@/components/ui";
  * Deliberately always the static poster (not a second video), even while
  * the foreground video plays: it's blurred enough that the two beats never
  * being in sync is not noticeable, and it avoids running the clip twice.
+ *
+ * Nov 2026 (George & Zoe Regroup call - "there's the gap right and left...
+ * we change our container size... the div needs to be contained"): at
+ * desktop this box was letting `lg:aspect-auto lg:h-full` stretch it to
+ * match the text column's own height with no ceiling, so on wider/shorter
+ * viewports it could end up far taller and squarer than the clip's actual
+ * 1400x1080 (~4:3) shape - object-contain then pillarboxed hard left/
+ * right, and even with the blurred fill behind it, the seam between the
+ * sharp foreground and the soft background read as a visible gap/frame
+ * rather than a deliberate crop.
+ *
+ * Fixed by giving the box a fixed aspect ratio at desktop too
+ * (`lg:aspect-[4/3]`, close to the clip's own ~1.3:1) instead of
+ * stretch-to-row-height, and capping how wide it can get
+ * (`lg:max-w-[46rem]`) so that ratio can't be pushed back out by a very
+ * wide column. The parent grid now centers the row instead of stretching
+ * it (see page.tsx's capabilityBand - `lg:items-center`), so any leftover
+ * vertical space next to a shorter panel shows as the section's own
+ * cream background rather than inside this green box.
  */
 const SHOW_VIDEO = true;
 
 export function CapabilitiesVideoPanel() {
   const reduce = useReducedMotion();
   return (
-    <div className="relative flex aspect-[4/5] min-h-[22rem] items-center justify-center overflow-hidden bg-green-900 lg:aspect-auto lg:h-full">
+    <div className="relative mx-auto flex w-full aspect-[4/5] min-h-[22rem] items-center justify-center overflow-hidden bg-green-900 lg:aspect-[4/3] lg:h-auto lg:min-h-0 lg:max-w-[46rem]">
       <TextureOverlay texture="/texture-leather-green.jpg" />
 
       {/* Blurred fill - see the object-contain note above. Decorative only. */}

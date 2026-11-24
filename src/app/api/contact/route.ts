@@ -47,6 +47,10 @@ export async function POST(request: Request) {
   const phone = typeof body.phone === "string" ? body.phone.trim() : "";
   const email = typeof body.email === "string" ? body.email.trim() : "";
   const message = typeof body.message === "string" ? body.message.trim() : "";
+  // Set only when the enquiry came from a brand page's contact modal
+  // (brand-contact-modal.tsx via contact-form.tsx's `brand` prop) - blank
+  // for the main Contact page's own form.
+  const brand = typeof body.brand === "string" ? body.brand.trim() : "";
 
   // Matches the required fields already enforced client-side in
   // contact-form.tsx (name, email, message) - re-checked here since a
@@ -72,7 +76,7 @@ export async function POST(request: Request) {
   const fromEmail = process.env.CONTACT_FROM_EMAIL || "onboarding@resend.dev";
   const resend = new Resend(apiKey);
 
-  const { html, text } = contactEnquiryEmail({ name, company, phone, email, message });
+  const { html, text } = contactEnquiryEmail({ name, company, phone, email, message, brand });
 
   try {
     const { error } = await resend.emails.send({
@@ -80,7 +84,7 @@ export async function POST(request: Request) {
       to: [TO_EMAIL],
       cc: [CC_EMAIL],
       replyTo: email,
-      subject: `New enquiry from ${name}${company ? ` (${company})` : ""}`,
+      subject: `New enquiry from ${name}${company ? ` (${company})` : ""}${brand ? ` - ${brand}` : ""}`,
       text,
       html,
     });

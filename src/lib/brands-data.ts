@@ -51,6 +51,12 @@ const STATIC_BRANDS: Record<string, Brand> = {
       instagram: "https://www.instagram.com/evolvingstate/",
       tiktok: "https://www.tiktok.com/@evolving.state",
     },
+    // Zoe, Nov 2026 (George & Zoe Regroup call): Evolving State and
+    // Slumberjack both follow <brand>@cladyfoodgroup.com, one word, no
+    // hyphens - only Dutch Maid gets its own phone number (Buxton); these
+    // two use the group default from Site settings, so no contactPhone
+    // override here.
+    contactEmail: "evolvingstate@cladyfoodgroup.com",
     paragraphs: [
       "Evolving State is focused on natural and functional products designed to enhance everyday health and wellbeing.",
       "Its portfolio spans functional drinks, supplements, natural wellness and performance, bringing together products that fit naturally into modern lifestyles.",
@@ -96,6 +102,9 @@ const STATIC_BRANDS: Record<string, Brand> = {
       logoAlt: "BRCGS Start certification mark",
       body: "Slumberjack Coffee is BRCGS Start certified (Basic level) for roasted and ground coffee and instant powder drink blends.",
     },
+    // Zoe, Nov 2026 (George & Zoe Regroup call) - see the Evolving State
+    // comment above.
+    contactEmail: "slumberjack@cladyfoodgroup.com",
     paragraphs: [
       "Our signature beverage brand. Slumberjack is the brand from which the Clady Group story began.",
       "Established in 2014, Slumberjack has grown from its family-business roots to offer a broad range of high-quality hot and cold beverage products.",

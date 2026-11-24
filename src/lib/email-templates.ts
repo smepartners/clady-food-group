@@ -105,6 +105,9 @@ export type ContactEnquiryFields = {
   phone: string;
   email: string;
   message: string;
+  // Nov 2026: set when the enquiry came from a brand page's contact
+  // modal rather than the main Contact page - see route.ts.
+  brand?: string;
 };
 
 /** The contact-form notification email (sent to sales@cladyfoodgroup.com,
@@ -113,13 +116,14 @@ export type ContactEnquiryFields = {
  * - the text version is what renders in a client that strips HTML or in a
  * screen reader's plain-text view. */
 export function contactEnquiryEmail(fields: ContactEnquiryFields) {
-  const { name, company, phone, email, message } = fields;
+  const { name, company, phone, email, message, brand } = fields;
 
   const fieldRows: [string, string][] = [
     ["Name", name],
     ["Company", company || "-"],
     ["Phone", phone || "-"],
     ["Email", email],
+    ...(brand ? ([["Brand", brand]] as [string, string][]) : []),
   ];
 
   const fieldsHtml = fieldRows
@@ -134,10 +138,10 @@ export function contactEnquiryEmail(fields: ContactEnquiryFields) {
 
   const bodyHtml = `
     <h1 style="margin: 0 0 4px; font-family: ${FONT_STACK}; font-size: 20px; font-weight: 700; color: ${COLORS.green700};">
-      New website enquiry
+      New website enquiry${brand ? ` - ${escapeHtml(brand)}` : ""}
     </h1>
     <p style="margin: 0 0 24px; font-family: ${FONT_STACK}; font-size: 14px; color: ${COLORS.inkSoft};">
-      Submitted via the contact form at cladyfoodgroup.com
+      Submitted via ${brand ? `the ${escapeHtml(brand)} contact popup` : "the contact form"} at cladyfoodgroup.com
     </p>
     <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom: 24px;">
       ${fieldsHtml}
@@ -155,12 +159,12 @@ export function contactEnquiryEmail(fields: ContactEnquiryFields) {
   `;
 
   const html = emailShell({
-    preheader: `New enquiry from ${name}${company ? ` (${company})` : ""}`,
+    preheader: `New enquiry from ${name}${company ? ` (${company})` : ""}${brand ? ` - ${brand}` : ""}`,
     bodyHtml,
   });
 
   const text = [
-    "New website enquiry - submitted via the contact form at cladyfoodgroup.com",
+    `New website enquiry${brand ? ` - ${brand}` : ""} - submitted via ${brand ? `the ${brand} contact popup` : "the contact form"} at cladyfoodgroup.com`,
     "",
     ...fieldRows.map(([label, value]) => `${label}: ${value}`),
     "",

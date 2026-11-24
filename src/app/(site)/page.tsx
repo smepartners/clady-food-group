@@ -50,11 +50,23 @@ export default async function HomePage() {
           // Round 5 feedback: the box was locked to its own aspect ratio
           // (aspect-[4/5] / aspect-[16/11]), independent of how tall the text
           // column happened to be, which is what was leaving a band of cream
-          // background below it. `items-stretch` + `h-full` on the box makes
-          // it match the text column's own height instead, so the two
-          // columns line up top and bottom with no leftover gap.
+          // background below it. `h-full` on the box (still set inside
+          // CapabilitiesVideoPanel) lets it reach the text column's own
+          // height, so the two columns can line up top and bottom with no
+          // leftover gap below.
+          //
+          // Nov 2026 (George & Zoe Regroup call - video panel pillarboxing
+          // left/right): switched this row from `lg:items-stretch` to
+          // `lg:items-center`. Stretch forced the panel to always equal the
+          // text column's full height regardless of how wide that made it
+          // relative to the clip's own ~4:3 shape, which is what produced
+          // the gap. The panel itself now caps its own width
+          // (`lg:max-w-[46rem]`, see capabilities-video-panel.tsx), and
+          // centering the row lets any leftover vertical space show as this
+          // section's own cream background instead of stretching the green
+          // panel past its clip's shape.
           <Section key={section._key} className="bg-cream-200/40">
-            <div className="relative grid gap-12 lg:grid-cols-12 lg:items-stretch lg:gap-10">
+            <div className="relative grid gap-12 lg:grid-cols-12 lg:items-center lg:gap-10">
               <Reveal className="lg:col-span-5 lg:pt-4">
                 <h2 className="text-2xl font-semibold text-green-700 sm:text-3xl">
                   One group. <em className="italic text-gold-700">Multiple capabilities.</em>

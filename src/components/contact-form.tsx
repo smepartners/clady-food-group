@@ -33,13 +33,19 @@ const FIELDS = [
 
 type Status = "idle" | "submitting" | "success" | "error";
 
-export function ContactForm() {
+// Nov 2026 (George & Zoe Regroup call): the brand contact modal
+// (brand-contact-modal.tsx) reuses this same form rather than a second
+// copy, so an enquiry opened from a brand page tells Resend/the sales
+// inbox which brand it came from. Optional and invisible on the main
+// Contact page, which renders <ContactForm /> with no brand.
+export function ContactForm({ brand }: { brand?: string } = {}) {
   const [status, setStatus] = useState<Status>("idle");
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const form = event.currentTarget;
     const data = Object.fromEntries(new FormData(form).entries());
+    if (brand) data.brand = brand;
     setStatus("submitting");
 
     try {

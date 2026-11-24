@@ -2,12 +2,14 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import { Camera, FacebookLogo, InstagramLogo, TiktokLogo, LinkedinLogo, Globe } from "@phosphor-icons/react/dist/ssr";
-import { Section, Pill, CTAButton, TextureOverlay } from "@/components/ui";
+import { Section, TextureOverlay } from "@/components/ui";
 import { Reveal } from "@/components/reveal";
 import { BrandDetailHero } from "@/components/brand-detail-hero";
 import { BrandCarousel } from "@/components/brand-carousel";
 import { BrandInstagramSection } from "@/components/instagram-feed";
+import { BrandContactSection } from "@/components/brand-contact-modal";
 import { getBrand, getBrandSlugs } from "@/lib/brands-data";
+import { getContactDetails } from "@/lib/site-settings-data";
 
 // Nov 2026: this page now fetches from Sanity (getBrand/getBrandSlugs,
 // src/lib/brands-data.ts - BRAND_BY_SLUG_QUERY under the hood) instead of
@@ -38,8 +40,19 @@ export default async function BrandPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const brand = await getBrand(slug);
+  const [brand, contact] = await Promise.all([getBrand(slug), getContactDetails()]);
   if (!brand) notFound();
+
+  // Nov 2026 (George & Zoe Regroup call - "keep the website and social
+  // links as they are, but change the contact button to a standalone
+  // popup"): the brand's own contact override (Dutch Maid's distinct
+  // Buxton number; Evolving State/Slumberjack's own <brand>@
+  // cladyfoodgroup.com inboxes) still falls back to the group default
+  // from Site settings - same precedence the old /contact?brand=<slug>
+  // redirect used, just resolved here now that it's a popup rather than
+  // a navigation.
+  const contactEmail = brand.contactEmail || contact.email;
+  const contactPhone = brand.contactPhone || contact.phone;
 
   return (
     <>
@@ -153,28 +166,19 @@ export default async function BrandPage({
                 <p className="text-sm leading-relaxed text-ink-soft">{brand.certification.body}</p>
               </div>
             ) : null}
-            <div className="mt-8">
-              {/* George, Nov 2026 (WhatsApp): this was routing to the
-                  group-wide contact details even on a brand's own page -
-                  linking with ?brand=<slug> lets the contact page show
-                  that brand's own email/phone (brand.contactEmail/
-                  contactPhone) instead of falling back to Site settings. */}
-              <CTAButton href={`/contact?brand=${slug}`}>Get in touch about {brand.name}</CTAButton>
-            </div>
-            {/* Round (Sonia, Oct 2026): moved down from above the social
-                icons/CTA to sit under "Get in touch" instead - and now
-                genuinely clickable (each pill already had a hover state
-                suggesting it was interactive, it just didn't go anywhere).
-                Links through to the contact page, same destination as the
-                CTA button just above, since there's no dedicated page per
-                product area to send a visitor to. */}
-            <ul className="mt-8 flex flex-wrap gap-2 border-t border-cream-200 pt-6">
-              {brand.focus.split("·").map((f) => (
-                <li key={f}>
-                  <Pill href={`/contact?brand=${slug}`}>{f.trim()}</Pill>
-                </li>
-              ))}
-            </ul>
+            {/* Nov 2026 (George & Zoe Regroup call - "Adoption of Pop-up
+                Form for Brand Contact"): the CTA and the focus-area pills
+                below both now open the same standalone popup
+                (brand-contact-modal.tsx) instead of linking out to
+                /contact?brand=<slug> - everything else on the page (the
+                social icons, the brand carousel) is unchanged, per the
+                call's "keep the website and social links as they are". */}
+            <BrandContactSection
+              brandName={brand.name}
+              email={contactEmail}
+              phone={contactPhone}
+              focusItems={brand.focus.split("·").map((f) => f.trim())}
+            />
           </Reveal>
           <Reveal delay={0.1} className="lg:col-span-5">
             {brand.productsImage ? (
