@@ -4,6 +4,7 @@ import { Section, TextureOverlay } from "@/components/ui";
 import { Reveal, RevealStagger } from "@/components/reveal";
 import { CsrHero } from "@/components/csr-hero";
 import { getCsrPageContent, getCsrInitiatives } from "@/lib/csr-page-data";
+import type { CsrSection } from "@/lib/csr-page-data";
 
 export const metadata: Metadata = { title: "CSR" };
 
@@ -12,35 +13,14 @@ export const metadata: Metadata = { title: "CSR" };
 const PILLAR_ICONS: Record<string, typeof UsersThree> = { UsersThree, Handshake, Leaf };
 const INITIATIVE_ICONS: Record<string, typeof CloudCheck> = { CloudCheck, SunHorizon };
 
-// Fallbacks, used only if Sanity is unreachable/empty - see
-// src/lib/csr-page-data.ts.
-const FALLBACK_PILLARS = [
-  {
-    icon: "UsersThree",
-    tone: "gold" as const,
-    name: "Our people",
-    body: "Our business is built by people. We want to create an environment where our teams can contribute, develop and take pride in what they do. We value collaboration, respect and accountability, and recognise the importance of strong relationships across our business.",
-  },
-  {
-    icon: "Handshake",
-    tone: "green" as const,
-    name: "Our customers and partners",
-    body: "Responsible business starts with doing what we say we will do. We aim to build long-term relationships based on trust, transparency and consistent delivery. We work collaboratively with customers and partners to understand expectations and continually improve the way we operate.",
-  },
-  {
-    icon: "Leaf",
-    tone: "olive" as const,
-    name: "Our products",
-    body: "Consumer expectations are changing, and we believe businesses have a responsibility to respond. Across our portfolio, we are exploring opportunities to develop products that reflect changing preferences, including growing interest in wellness, functionality, convenience and evolving taste profiles. We also recognise the importance of responsible sourcing, with a particular focus on ethical and responsible supply chains across key commodities such as coffee.",
-  },
-];
-
 const TONE_ICON_BG = {
   gold: "bg-gold-500/15 text-gold-700",
   green: "bg-green-700/10 text-green-700",
   olive: "bg-olive-600/10 text-olive-600",
 } as const;
 
+// Fallbacks, used only if Sanity is unreachable/empty - see
+// src/lib/csr-page-data.ts.
 const FALLBACK_GREEN_CREDENTIALS = [
   {
     icon: "CloudCheck",
@@ -54,124 +34,150 @@ const FALLBACK_GREEN_CREDENTIALS = [
   },
 ];
 
+// Rebuilt Nov 2026 (George: "make it so we can reorder sections from
+// pages") - every section below the hero, including the intro statement
+// and the pillars row (both previously fixed top-level fields with no
+// hide toggle), is now driven by content.sections (an ordered array
+// from Sanity - see csr-page-data.ts), rendered by renderSection() below.
 export default async function CsrPage() {
   const [content, liveInitiatives] = await Promise.all([getCsrPageContent(), getCsrInitiatives()]);
-  const PILLARS = content.pillars?.length ? content.pillars : FALLBACK_PILLARS;
   const GREEN_CREDENTIALS = liveInitiatives.length ? liveInitiatives : FALLBACK_GREEN_CREDENTIALS;
+
+  function renderSection(section: CsrSection) {
+    if (section.hidden) return null;
+    switch (section._type) {
+      case "introBlock":
+        return (
+          <Section key={section._key} className="bg-cream-200/40" pad="pt-10 pb-0 sm:pt-14 sm:pb-0">
+            <Reveal>
+              <p className="max-w-2xl text-lg font-medium leading-relaxed text-ink sm:text-xl">{section.intro}</p>
+            </Reveal>
+          </Section>
+        );
+      case "pillarsBlock": {
+        const PILLARS = section.pillars?.length
+          ? section.pillars
+          : [
+              { icon: "UsersThree", tone: "gold" as const, name: "Our people", body: "Our business is built by people. We want to create an environment where our teams can contribute, develop and take pride in what they do. We value collaboration, respect and accountability, and recognise the importance of strong relationships across our business." },
+              { icon: "Handshake", tone: "green" as const, name: "Our customers and partners", body: "Responsible business starts with doing what we say we will do. We aim to build long-term relationships based on trust, transparency and consistent delivery. We work collaboratively with customers and partners to understand expectations and continually improve the way we operate." },
+              { icon: "Leaf", tone: "olive" as const, name: "Our products", body: "Consumer expectations are changing, and we believe businesses have a responsibility to respond. Across our portfolio, we are exploring opportunities to develop products that reflect changing preferences, including growing interest in wellness, functionality, convenience and evolving taste profiles. We also recognise the importance of responsible sourcing, with a particular focus on ethical and responsible supply chains across key commodities such as coffee." },
+            ];
+        return (
+          // Round 5 feedback: "add some spacing between each of the sections
+          // re: our people, our customers etc as they're all a bit squished
+          // together" - py-10/gap-4 increased to py-14/gap-6.
+          // Round 7 feedback: "spacing not added between right hand text for
+          // Our people, Our customers and partners and Our products" - the
+          // Round 5 fix never actually rendered: `first:pt-0 last:pb-0`
+          // match `:first-child`/`:last-child` against each row's own DOM
+          // parent, but RevealStagger wraps every row in its own individual
+          // motion.div, so each row is the *only* child of its wrapper and
+          // matches both `first:` and `last:` at once - stripping py-14
+          // from every row, not just the actual first/last. The icon+
+          // heading column only looked spaced apart because it's
+          // vertically centered within a row whose height is still set by
+          // the (unpadded) paragraph column; the paragraphs themselves,
+          // left-aligned to the top of that same row, ended up touching
+          // with ~1px between them. Fixed by computing top/bottom padding
+          // from the array index instead of relying on CSS first/last.
+          <Section key={section._key} className="bg-cream-200/40">
+            <RevealStagger className="divide-y divide-cream-200">
+              {PILLARS.map((p, i) => {
+                const isFirst = i === 0;
+                const isLast = i === PILLARS.length - 1;
+                const PillarIcon = PILLAR_ICONS[p.icon] ?? UsersThree;
+                return (
+                  <div
+                    key={p.name}
+                    className={`grid gap-6 sm:grid-cols-[minmax(0,1fr)_2fr] sm:gap-10 ${
+                      isFirst ? "pb-14" : isLast ? "pt-14" : "py-14"
+                    }`}
+                  >
+                    <div className="flex items-center gap-3">
+                      <div className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-full ${TONE_ICON_BG[p.tone]}`}>
+                        <PillarIcon size={22} weight="bold" />
+                      </div>
+                      <h3 className="font-semibold text-ink">{p.name}</h3>
+                    </div>
+                    <p className="text-ink-soft">{p.body}</p>
+                  </div>
+                );
+              })}
+            </RevealStagger>
+          </Section>
+        );
+      }
+      case "responsibilityBand":
+        return (
+          // Round 5 feedback: "should this be higher up?" - moved ahead of
+          // "Our impact" so the philosophy statement leads into the concrete
+          // proof points below it, rather than following them.
+          // Round 7 feedback: "Our responsibility section and Our impact are
+          // both green, please update one" - first attempt moved this one
+          // from green-700 to olive-600, on the basis it's a different
+          // Tailwind token. Round 8 feedback: still reading as "both green" -
+          // fair, since every dark tone in this palette (green-900, green-700,
+          // olive-600) is some shade of green, there wasn't actually a
+          // distinct third colour to reach for. Flipped to light instead
+          // (matching the two Sections above it on this page), which is a
+          // real contrast rather than a different green - "Our impact" below
+          // stays the one dark, textured band on the page.
+          <Section key={section._key} className="bg-cream-200/40">
+            <Reveal>
+              <div className="mx-auto max-w-2xl text-center">
+                <h2 className="text-2xl font-semibold text-green-700 sm:text-3xl">
+                  Our responsibility
+                </h2>
+                <p className="mt-4 text-ink-soft">{section.body}</p>
+                <p className="mt-8 text-xl italic leading-snug text-gold-700 sm:text-2xl">
+                  {section.quote}
+                </p>
+              </div>
+            </Reveal>
+          </Section>
+        );
+      case "impactBand":
+        return (
+          // Round 5 feedback: "update Clady Group to Clady Food Group" and
+          // "style this section so there is more definition to the one above
+          // / either background image / CFG watermark / leather texture" -
+          // was a plain light section between two dark ones; now its own dark
+          // band with the gold leather texture and watermark, matching the
+          // weight of "Our responsibility" above it instead of reading as a
+          // flat gap between two more deliberate moments.
+          <Section key={section._key} className="relative overflow-hidden bg-green-900">
+            <TextureOverlay texture="/texture-leather-gold.jpg" watermark="/logo-icon-watermark-gold.png" />
+            <Reveal className="relative">
+              <h2 className="mx-auto max-w-2xl text-center text-2xl font-semibold text-cream-100 sm:text-3xl">
+                Our impact
+              </h2>
+              <p className="mx-auto mt-4 max-w-2xl text-center text-cream-100/75">{section.body}</p>
+              <RevealStagger className="mx-auto mt-10 grid max-w-2xl gap-8 sm:grid-cols-2">
+                {GREEN_CREDENTIALS.map((c) => {
+                  const InitiativeIcon = INITIATIVE_ICONS[c.icon] ?? CloudCheck;
+                  return (
+                    <div key={c.name} className="flex flex-col items-center gap-3 text-center">
+                      <div className="flex h-11 w-11 items-center justify-center rounded-full bg-gold-500/15 text-gold-500">
+                        <InitiativeIcon size={22} weight="bold" />
+                      </div>
+                      <h3 className="font-semibold text-cream-100">{c.name}</h3>
+                      <p className="text-sm leading-relaxed text-cream-100/75">{c.body}</p>
+                    </div>
+                  );
+                })}
+              </RevealStagger>
+            </Reveal>
+          </Section>
+        );
+      default:
+        return null;
+    }
+  }
+
   return (
     <>
       <CsrHero subheading={content.hero.subtext} image={content.hero.image} />
-
-      <Section className="bg-cream-200/40" pad="pt-10 pb-0 sm:pt-14 sm:pb-0">
-        <Reveal>
-          <p className="max-w-2xl text-lg font-medium leading-relaxed text-ink sm:text-xl">{content.intro}</p>
-        </Reveal>
-      </Section>
-
-      {/* Round 5 feedback: "add some spacing between each of the sections
-          re: our people, our customers etc as they're all a bit squished
-          together" - py-10/gap-4 increased to py-14/gap-6.
-          Round 7 feedback: "spacing not added between right hand text for
-          Our people, Our customers and partners and Our products" - the
-          Round 5 fix never actually rendered: `first:pt-0 last:pb-0`
-          match `:first-child`/`:last-child` against each row's own DOM
-          parent, but RevealStagger wraps every row in its own individual
-          motion.div, so each row is the *only* child of its wrapper and
-          matches both `first:` and `last:` at once - stripping py-14
-          from every row, not just the actual first/last. The icon+
-          heading column only looked spaced apart because it's
-          vertically centered within a row whose height is still set by
-          the (unpadded) paragraph column; the paragraphs themselves,
-          left-aligned to the top of that same row, ended up touching
-          with ~1px between them. Fixed by computing top/bottom padding
-          from the array index instead of relying on CSS first/last. */}
-      <Section className="bg-cream-200/40">
-        <RevealStagger className="divide-y divide-cream-200">
-          {PILLARS.map((p, i) => {
-            const isFirst = i === 0;
-            const isLast = i === PILLARS.length - 1;
-            const PillarIcon = PILLAR_ICONS[p.icon] ?? UsersThree;
-            return (
-              <div
-                key={p.name}
-                className={`grid gap-6 sm:grid-cols-[minmax(0,1fr)_2fr] sm:gap-10 ${
-                  isFirst ? "pb-14" : isLast ? "pt-14" : "py-14"
-                }`}
-              >
-                <div className="flex items-center gap-3">
-                  <div className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-full ${TONE_ICON_BG[p.tone]}`}>
-                    <PillarIcon size={22} weight="bold" />
-                  </div>
-                  <h3 className="font-semibold text-ink">{p.name}</h3>
-                </div>
-                <p className="text-ink-soft">{p.body}</p>
-              </div>
-            );
-          })}
-        </RevealStagger>
-      </Section>
-
-      {/* Round 5 feedback: "should this be higher up?" - moved ahead of
-          "Our impact" so the philosophy statement leads into the concrete
-          proof points below it, rather than following them.
-          Round 7 feedback: "Our responsibility section and Our impact are
-          both green, please update one" - first attempt moved this one
-          from green-700 to olive-600, on the basis it's a different
-          Tailwind token. Round 8 feedback: still reading as "both green" -
-          fair, since every dark tone in this palette (green-900, green-700,
-          olive-600) is some shade of green, there wasn't actually a
-          distinct third colour to reach for. Flipped to light instead
-          (matching the two Sections above it on this page), which is a
-          real contrast rather than a different green - "Our impact" below
-          stays the one dark, textured band on the page. */}
-{!content.responsibilitySection.hidden && (
-      <Section className="bg-cream-200/40">
-        <Reveal>
-          <div className="mx-auto max-w-2xl text-center">
-            <h2 className="text-2xl font-semibold text-green-700 sm:text-3xl">
-              Our responsibility
-            </h2>
-            <p className="mt-4 text-ink-soft">{content.responsibilitySection.body}</p>
-            <p className="mt-8 text-xl italic leading-snug text-gold-700 sm:text-2xl">
-              {content.responsibilitySection.quote}
-            </p>
-          </div>
-        </Reveal>
-      </Section>
-      )}
-
-      {/* Round 5 feedback: "update Clady Group to Clady Food Group" and
-          "style this section so there is more definition to the one above
-          / either background image / CFG watermark / leather texture" -
-          was a plain light section between two dark ones; now its own dark
-          band with the gold leather texture and watermark, matching the
-          weight of "Our responsibility" above it instead of reading as a
-          flat gap between two more deliberate moments. */}
-{!content.impactSection.hidden && (
-      <Section className="relative overflow-hidden bg-green-900">
-        <TextureOverlay texture="/texture-leather-gold.jpg" watermark="/logo-icon-watermark-gold.png" />
-        <Reveal className="relative">
-          <h2 className="mx-auto max-w-2xl text-center text-2xl font-semibold text-cream-100 sm:text-3xl">
-            Our impact
-          </h2>
-          <p className="mx-auto mt-4 max-w-2xl text-center text-cream-100/75">{content.impactSection.body}</p>
-          <RevealStagger className="mx-auto mt-10 grid max-w-2xl gap-8 sm:grid-cols-2">
-            {GREEN_CREDENTIALS.map((c) => {
-              const InitiativeIcon = INITIATIVE_ICONS[c.icon] ?? CloudCheck;
-              return (
-                <div key={c.name} className="flex flex-col items-center gap-3 text-center">
-                  <div className="flex h-11 w-11 items-center justify-center rounded-full bg-gold-500/15 text-gold-500">
-                    <InitiativeIcon size={22} weight="bold" />
-                  </div>
-                  <h3 className="font-semibold text-cream-100">{c.name}</h3>
-                  <p className="text-sm leading-relaxed text-cream-100/75">{c.body}</p>
-                </div>
-              );
-            })}
-          </RevealStagger>
-        </Reveal>
-      </Section>
-      )}
+      {content.sections.map(renderSection)}
     </>
   );
 }
