@@ -13,7 +13,8 @@ export const BRANDS_QUERY = defineQuery(`
 export const BRAND_BY_SLUG_QUERY = defineQuery(`
   *[_type == "brand" && slug.current == $slug][0] {
     _id, name, "slug": slug.current, strap, focus, paragraphs, photo, logo,
-    productsImage, productsImageAlt, social, websiteComingSoon, certification, seed
+    productsImage, productsImageAlt, social, websiteComingSoon, certification, seed,
+    contactEmail, contactPhone
   }
 `);
 

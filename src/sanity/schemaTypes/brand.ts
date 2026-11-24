@@ -102,6 +102,20 @@ export default defineType({
       ],
     }),
     defineField({
+      name: "contactEmail",
+      title: "Contact email (this brand)",
+      type: "string",
+      description:
+        "Overrides the group-wide contact email when a visitor clicks \"Get in touch about\" this brand - e.g. dutchmaid@cladyfoodgroup.com. Leave blank to use the group default from Site settings.",
+    }),
+    defineField({
+      name: "contactPhone",
+      title: "Contact phone (this brand)",
+      type: "string",
+      description:
+        "Overrides the group-wide contact phone number when a visitor clicks \"Get in touch about\" this brand. Leave blank to use the group default from Site settings.",
+    }),
+    defineField({
       name: "seed",
       title: "Placeholder image seed",
       type: "string",

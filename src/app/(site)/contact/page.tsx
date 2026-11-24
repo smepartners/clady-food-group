@@ -7,6 +7,7 @@ import { ContactForm } from "@/components/contact-form";
 import { client } from "@/sanity/lib/client";
 import { CONTACT_PAGE_QUERY } from "@/sanity/lib/queries";
 import { getContactDetails } from "@/lib/site-settings-data";
+import { getBrand } from "@/lib/brands-data";
 
 export const metadata: Metadata = { title: "Contact" };
 
@@ -68,8 +69,27 @@ async function getContactPageContent() {
 // never on dark green), so unlike the old hero-embedded form it doesn't
 // need Simple/Bold-aware styling at all.
 
-export default async function ContactPage() {
-  const [content, contact] = await Promise.all([getContactPageContent(), getContactDetails()]);
+export default async function ContactPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ brand?: string }>;
+}) {
+  const { brand: brandSlug } = await searchParams;
+  const [content, contact, brand] = await Promise.all([
+    getContactPageContent(),
+    getContactDetails(),
+    brandSlug ? getBrand(brandSlug) : Promise.resolve(undefined),
+  ]);
+  // George, Nov 2026 (WhatsApp): arriving via a brand's own "Get in touch"
+  // CTA (brands/[slug]/page.tsx passes ?brand=<slug>) should show that
+  // brand's own contact details, not the group-wide Site settings ones -
+  // e.g. Dutch Maid has its own inbox/number rather than the Clady one.
+  // Falls back to the group default whenever the brand has no override set.
+  const email = brand?.contactEmail || contact.email;
+  const phone = brand?.contactPhone || contact.phone;
+  const emailPrompt = brand
+    ? `Prefer email? Reach ${brand.name} directly at`
+    : content.emailPrompt;
   return (
     <>
       <ContactHero subheading={content.subtext} />
@@ -77,14 +97,14 @@ export default async function ContactPage() {
       <Section>
         <div className="grid gap-12 lg:grid-cols-2 lg:gap-16">
           <Reveal>
-            {contact.email ? (
+            {email ? (
               <p className="max-w-md text-sm text-ink-soft">
-                {content.emailPrompt}{" "}
+                {emailPrompt}{" "}
                 <a
-                  href={`mailto:${contact.email}`}
+                  href={`mailto:${email}`}
                   className="font-medium text-green-700 underline underline-offset-2 hover:text-green-900"
                 >
-                  {contact.email}
+                  {email}
                 </a>
                 .
               </p>
@@ -94,13 +114,13 @@ export default async function ContactPage() {
                 the footer). No head office street address has been
                 supplied yet - see the comment block above this
                 component. */}
-            {contact.phone ? (
+            {phone ? (
               <a
-                href={`tel:${contact.phone.replace(/[^\d+]/g, "")}`}
+                href={`tel:${phone.replace(/[^\d+]/g, "")}`}
                 className="mt-3 flex w-fit items-center gap-2 text-sm font-medium text-green-700 hover:text-green-900"
               >
                 <Phone size={16} weight="bold" />
-                {contact.phone}
+                {phone}
               </a>
             ) : null}
           </Reveal>

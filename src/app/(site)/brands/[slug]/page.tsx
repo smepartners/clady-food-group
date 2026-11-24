@@ -154,7 +154,12 @@ export default async function BrandPage({
               </div>
             ) : null}
             <div className="mt-8">
-              <CTAButton href="/contact">Get in touch about {brand.name}</CTAButton>
+              {/* George, Nov 2026 (WhatsApp): this was routing to the
+                  group-wide contact details even on a brand's own page -
+                  linking with ?brand=<slug> lets the contact page show
+                  that brand's own email/phone (brand.contactEmail/
+                  contactPhone) instead of falling back to Site settings. */}
+              <CTAButton href={`/contact?brand=${slug}`}>Get in touch about {brand.name}</CTAButton>
             </div>
             {/* Round (Sonia, Oct 2026): moved down from above the social
                 icons/CTA to sit under "Get in touch" instead - and now
@@ -166,7 +171,7 @@ export default async function BrandPage({
             <ul className="mt-8 flex flex-wrap gap-2 border-t border-cream-200 pt-6">
               {brand.focus.split("·").map((f) => (
                 <li key={f}>
-                  <Pill href="/contact">{f.trim()}</Pill>
+                  <Pill href={`/contact?brand=${slug}`}>{f.trim()}</Pill>
                 </li>
               ))}
             </ul>

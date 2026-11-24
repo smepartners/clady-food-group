@@ -25,6 +25,8 @@ export type Brand = {
     logoAlt: string;
     body: string;
   };
+  contactEmail?: string;
+  contactPhone?: string;
 };
 
 // Static fallback content - the site's original hardcoded copy, kept so
@@ -65,6 +67,11 @@ const STATIC_BRANDS: Record<string, Brand> = {
     productsImage: "/photo-dutch-maid-products.png",
     productsImageAlt: "The Dutch Maid product range",
     websiteComingSoon: true,
+    // George, Nov 2026 (WhatsApp): the group inbox/number was showing on
+    // the Dutch Maid journey instead of Dutch Maid's own - these are the
+    // real values to show instead.
+    contactEmail: "dutchmaid@cladyfoodgroup.com",
+    contactPhone: "01298 777617",
     paragraphs: [
       "Dutch Maid brings ease, convenience and on-trend flavours together in a versatile range of soluble drinks and ingredients.",
       "As a private label manufacturer, Dutch Maid supplies premium soluble beverage solutions across a wide range of industries and channels, including vending, catering and foodservice, retail, wholesale and food manufacturing.",
@@ -114,6 +121,8 @@ type SanityBrand = {
   websiteComingSoon?: boolean;
   certification?: { logo?: unknown; logoAlt?: string; body?: string };
   seed?: string;
+  contactEmail?: string;
+  contactPhone?: string;
 };
 
 function toBrand(doc: SanityBrand): Brand {
@@ -136,6 +145,8 @@ function toBrand(doc: SanityBrand): Brand {
           body: doc.certification.body ?? "",
         }
       : undefined,
+    contactEmail: doc.contactEmail,
+    contactPhone: doc.contactPhone,
   };
 }
 
