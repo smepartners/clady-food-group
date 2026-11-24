@@ -19,6 +19,7 @@ import {
   getProduceCategories,
   getScaleStats,
 } from "@/lib/private-label-page-data";
+import type { PrivateLabelSection, PillarData } from "@/lib/private-label-page-data";
 
 export const metadata: Metadata = { title: "Private Label" };
 
@@ -44,14 +45,6 @@ const FALLBACK_PRODUCE_CATEGORIES = [
   { name: "Tea", icon: "TeaBag", seed: "clady-produce-tea", photo: "/photo-produce-tea.jpg" },
 ];
 
-const FALLBACK_PILLARS = [
-  { icon: "Package", tone: "gold" as const, name: "Product expertise", body: "Knowledge across a broad range of beverage categories and formats." },
-  { icon: "ChartLineUp", tone: "green" as const, name: "Market awareness", body: "An understanding of changing consumer tastes and emerging beverage trends." },
-  { icon: "Lightning", tone: "olive" as const, name: "Flexibility", body: "Solutions developed around different customer requirements, channels and price points." },
-  { icon: "CheckCircle", tone: "gold" as const, name: "Consistency", body: "A focus on dependable product quality and reliable customer relationships." },
-  { icon: "UsersThree", tone: "green" as const, name: "Collaboration", body: "A partnership approach from initial brief through to finished product." },
-];
-
 // Matches ValuesDarkBand's icon treatment (values-section.tsx) - a ring
 // rather than a filled disc, cream text for green/olive since both read
 // the same against a dark background there too.
@@ -61,6 +54,13 @@ const PILLAR_ICON_TONE = {
   olive: "bg-cream-100/10 text-cream-100 ring-cream-100/15",
 } as const;
 
+// Rebuilt Nov 2026 (George: "make it so we can reorder sections from
+// pages") - every section below the hero, including "What we produce"
+// (previously fixed, pulls from produceCategory documents) and the
+// "From idea to opportunity" pillars band (previously a fixed top-level
+// field), is now driven by content.sections (an ordered array from
+// Sanity - see private-label-page-data.ts), rendered by renderSection()
+// below.
 export default async function PrivateLabelPage() {
   const [content, liveCategories, liveStats] = await Promise.all([
     getPrivateLabelPageContent(),
@@ -69,7 +69,195 @@ export default async function PrivateLabelPage() {
   ]);
   const SCALE_STATS = liveStats.length ? liveStats : FALLBACK_SCALE_STATS;
   const PRODUCE_CATEGORIES = liveCategories.length ? liveCategories : FALLBACK_PRODUCE_CATEGORIES;
-  const PILLARS = content.pillars?.length ? content.pillars : FALLBACK_PILLARS;
+
+  function renderSection(section: PrivateLabelSection) {
+    if (section.hidden) return null;
+    switch (section._type) {
+      case "moreThanALogoBand":
+        return (
+          // Same move as Home/About: the scale stats and the "more than a
+          // logo" positioning that used to sit inside the boxed hero now get
+          // their own full-width band with supporting photography, matching
+          // how ABF/P&G/Unilever pair a scale statement with its own section
+          // rather than crowding the hero.
+          // Round 8 feedback: "can the section colours be checked here
+          // there's lots of green by each other" - the hero immediately
+          // above this is a full-bleed photo under a heavy green-900
+          // gradient wash (page-hero.tsx), so a green-700 band straight
+          // after it read as two green sections back to back. Flipped to
+          // light (same move About's portfolio section made for the same
+          // reason - see that page's comment), so the dark hero gets actual
+          // contrast beneath it instead of more green.
+          <Section key={section._key} className="relative overflow-hidden bg-cream-200/40">
+            <div className="relative grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
+              <Reveal className="order-2 lg:order-1">
+                {/* Round 7 feedback: "update more than a logo photo to the
+                    large one below this section" - swapped for the
+                    production-packing-line photo that used to sit in the
+                    "What we produce" band below, rather than the roastery
+                    detail shot.
+                    Round 8 feedback: "photo in the more than a logo section
+                    still not updated - can be this one" plus a specific
+                    Google Drive photo - George wanted a different shot than
+                    the packing line: a closer, higher-resolution view of the
+                    roasters themselves. Downloaded from the supplied Drive
+                    link and added as photo-roastery-row.jpg. */}
+                <ImageFrame
+                  seed="clady-private-label-roastery-row"
+                  alt="A row of roasters at Clady Group's production facility"
+                  src={section.image ?? "/photo-roastery-row.jpg"}
+                  aspect="aspect-[4/3]"
+                />
+              </Reveal>
+              <Reveal delay={0.1} className="order-1 lg:order-2">
+                <h2 className="text-2xl font-semibold text-green-700 sm:text-3xl">
+                  More than <em className="italic text-gold-700">a logo on a product.</em>
+                </h2>
+                <div className="mt-5 space-y-4 text-ink-soft">
+                  {section.paragraphs?.map((p, i) => <p key={i}>{p}</p>)}
+                </div>
+                <div className="mt-6 grid grid-cols-3 gap-x-6 gap-y-8 border-t border-cream-200 pt-6">
+                  {SCALE_STATS.map((s) => {
+                    const StatIcon = STAT_ICONS[s.icon ?? ""] ?? Package;
+                    return (
+                      <StatTile key={s.label} value={s.value} label={s.label} icon={<StatIcon size={20} weight="bold" />} />
+                    );
+                  })}
+                </div>
+              </Reveal>
+            </div>
+          </Section>
+        );
+      case "produceBlock":
+        return (
+          <Section key={section._key} pad="py-10 sm:py-14">
+            <Reveal>
+              <p className="text-sm font-semibold uppercase tracking-wide text-olive-600">
+                What we produce
+              </p>
+            </Reveal>
+
+            {/* Round 5 feedback: a list of what's actually produced, each with
+                its own small photo - "The brands we produce for" grid that
+                used to sit here has been removed, and a "get in touch" CTA
+                takes its place.
+                Round 7 feedback: "remove the large picture in what we produce
+                and just have the 4 blocks" - the production-packing-line
+                photo that used to sit above this grid has been removed (it
+                now lives in the "More than a logo" band above instead, see
+                that section's comment), leaving just the 4 category blocks. */}
+            <RevealStagger className="mt-6 grid gap-8 border-t border-cream-200 pt-10 sm:grid-cols-2 lg:grid-cols-4">
+              {PRODUCE_CATEGORIES.map((c) => {
+                const CategoryIcon = PRODUCE_ICONS[c.icon] ?? Coffee;
+                return (
+                  <div key={c.name}>
+                    <ImageFrame
+                      seed={c.seed ?? `clady-produce-${c.name.toLowerCase()}`}
+                      alt={c.photo ? `${c.name} produced by Clady Group` : `${c.name} - photography pending`}
+                      src={c.photo}
+                      aspect="aspect-[4/3]"
+                    />
+                    <div className="mt-3 flex items-center gap-2">
+                      <CategoryIcon size={18} weight="bold" className="text-green-700" />
+                      <h3 className="font-semibold text-ink">{c.name}</h3>
+                    </div>
+                  </div>
+                );
+              })}
+            </RevealStagger>
+
+            <Reveal className="mt-14 text-center">
+              <CTAButton href="/contact">Get in touch about private label</CTAButton>
+            </Reveal>
+          </Section>
+        );
+      case "flexibleApproachBand":
+        return (
+          // Round 5 feedback: "A flexible approach and onwards not matching
+          // the style of the homepage" - this was a flat bg-green-700 block
+          // with no texture or CTA; now matches the homepage's closing
+          // "Built for better partnerships" band (home/page.tsx) exactly:
+          // texture overlay, soft corner glows, inverted CTA button.
+          <section key={section._key} className="relative overflow-hidden bg-green-700 py-14 text-center sm:py-20">
+            <TextureOverlay />
+            <div className="absolute -left-16 -top-16 h-56 w-56 rounded-full bg-gold-500/15 blur-3xl" />
+            <div className="absolute -bottom-20 -right-10 h-56 w-56 rounded-full bg-olive-400/15 blur-3xl" />
+            <Reveal className="relative">
+              <Container>
+                <h2 className="mx-auto max-w-2xl text-2xl font-semibold text-cream-100 sm:text-3xl">
+                  A flexible approach
+                </h2>
+                <p className="mx-auto mt-4 max-w-xl text-cream-100/80">{section.body}</p>
+                <div className="mt-8 flex justify-center">
+                  <CTAButton href="/contact" tone="inverted">
+                    {section.ctaLabel}
+                  </CTAButton>
+                </div>
+              </Container>
+            </Reveal>
+          </section>
+        );
+      case "pillarsBlock": {
+        const PILLARS: PillarData[] = section.pillars?.length
+          ? section.pillars
+          : [
+              { icon: "Package", tone: "gold", name: "Product expertise", body: "Knowledge across a broad range of beverage categories and formats." },
+              { icon: "ChartLineUp", tone: "green", name: "Market awareness", body: "An understanding of changing consumer tastes and emerging beverage trends." },
+              { icon: "Lightning", tone: "olive", name: "Flexibility", body: "Solutions developed around different customer requirements, channels and price points." },
+              { icon: "CheckCircle", tone: "gold", name: "Consistency", body: "A focus on dependable product quality and reliable customer relationships." },
+              { icon: "UsersThree", tone: "green", name: "Collaboration", body: "A partnership approach from initial brief through to finished product." },
+            ];
+        return (
+          // Round 5 feedback: "idea to opportunity can show the same as on
+          // the homepage" - was a 5-up IconFeature card grid with numbered
+          // badges (the pre-round-4 pattern already dropped everywhere
+          // else); now the same dark, full-bleed divide-y band as the
+          // homepage's "What drives us" (values-section.tsx ValuesDarkBand),
+          // down to the corner glows and ring icon treatment.
+          <Section key={section._key} className="relative overflow-hidden bg-green-900">
+            <TextureOverlay />
+            <div className="absolute -left-24 top-0 h-72 w-72 rounded-full bg-gold-500/10 blur-3xl" aria-hidden="true" />
+            <div className="absolute -right-16 bottom-0 h-80 w-80 rounded-full bg-olive-400/10 blur-3xl" aria-hidden="true" />
+            <div className="relative">
+              <Reveal className="max-w-xl">
+                <p className="text-sm font-semibold uppercase tracking-[0.16em] text-gold-500/90">
+                  Our approach
+                </p>
+                <h2 className="mt-3 text-3xl font-semibold text-cream-100 sm:text-4xl">
+                  From idea to opportunity
+                </h2>
+                <AccentRule className="mt-6" />
+              </Reveal>
+              <RevealStagger className="mt-14 divide-y divide-cream-100/10 border-t border-cream-100/10">
+                {PILLARS.map((p) => {
+                  const PillarIcon = PILLAR_ICONS[p.icon] ?? Package;
+                  return (
+                    <div
+                      key={p.name}
+                      className="group flex flex-col gap-4 py-8 sm:flex-row sm:items-center sm:gap-10 sm:py-10"
+                    >
+                      <div className="flex items-center gap-4 sm:w-64 sm:shrink-0">
+                        <span
+                          className={`flex h-14 w-14 shrink-0 items-center justify-center rounded-full ring-1 ring-inset transition duration-300 group-hover:scale-105 ${PILLAR_ICON_TONE[p.tone]}`}
+                        >
+                          <PillarIcon size={22} weight="bold" />
+                        </span>
+                        <h3 className="text-xl font-semibold text-cream-100 sm:text-2xl">{p.name}</h3>
+                      </div>
+                      <p className="max-w-xl text-cream-100/70 sm:text-lg">{p.body}</p>
+                    </div>
+                  );
+                })}
+              </RevealStagger>
+            </div>
+          </Section>
+        );
+      }
+      default:
+        return null;
+    }
+  }
+
   return (
     <>
       <PrivateLabelHero
@@ -77,172 +265,7 @@ export default async function PrivateLabelPage() {
         image={content.hero.image}
         ctaLabel={content.hero.ctaLabel}
       />
-
-      {/* Same move as Home/About: the scale stats and the "more than a
-          logo" positioning that used to sit inside the boxed hero now get
-          their own full-width band with supporting photography, matching
-          how ABF/P&G/Unilever pair a scale statement with its own section
-          rather than crowding the hero. */}
-      {/* Round 8 feedback: "can the section colours be checked here
-          there's lots of green by each other" - the hero immediately
-          above this is a full-bleed photo under a heavy green-900
-          gradient wash (page-hero.tsx), so a green-700 band straight
-          after it read as two green sections back to back. Flipped to
-          light (same move About's portfolio section made for the same
-          reason - see that page's comment), so the dark hero gets actual
-          contrast beneath it instead of more green. */}
-{!content.moreThanALogoSection.hidden && (
-      <Section className="relative overflow-hidden bg-cream-200/40">
-        <div className="relative grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
-          <Reveal className="order-2 lg:order-1">
-            {/* Round 7 feedback: "update more than a logo photo to the
-                large one below this section" - swapped for the
-                production-packing-line photo that used to sit in the
-                "What we produce" band below, rather than the roastery
-                detail shot.
-                Round 8 feedback: "photo in the more than a logo section
-                still not updated - can be this one" plus a specific
-                Google Drive photo - George wanted a different shot than
-                the packing line: a closer, higher-resolution view of the
-                roasters themselves. Downloaded from the supplied Drive
-                link and added as photo-roastery-row.jpg. */}
-            <ImageFrame
-              seed="clady-private-label-roastery-row"
-              alt="A row of roasters at Clady Group's production facility"
-              src={content.moreThanALogoSection.image ?? "/photo-roastery-row.jpg"}
-              aspect="aspect-[4/3]"
-            />
-          </Reveal>
-          <Reveal delay={0.1} className="order-1 lg:order-2">
-            <h2 className="text-2xl font-semibold text-green-700 sm:text-3xl">
-              More than <em className="italic text-gold-700">a logo on a product.</em>
-            </h2>
-            <div className="mt-5 space-y-4 text-ink-soft">
-              {content.moreThanALogoSection.paragraphs?.map((p, i) => <p key={i}>{p}</p>)}
-            </div>
-            <div className="mt-6 grid grid-cols-3 gap-x-6 gap-y-8 border-t border-cream-200 pt-6">
-              {SCALE_STATS.map((s) => {
-                const StatIcon = STAT_ICONS[s.icon ?? ""] ?? Package;
-                return (
-                  <StatTile key={s.label} value={s.value} label={s.label} icon={<StatIcon size={20} weight="bold" />} />
-                );
-              })}
-            </div>
-          </Reveal>
-        </div>
-      </Section>
-      )}
-
-      <Section pad="py-10 sm:py-14">
-        <Reveal>
-          <p className="text-sm font-semibold uppercase tracking-wide text-olive-600">
-            What we produce
-          </p>
-        </Reveal>
-
-        {/* Round 5 feedback: a list of what's actually produced, each with
-            its own small photo - "The brands we produce for" grid that
-            used to sit here has been removed, and a "get in touch" CTA
-            takes its place.
-            Round 7 feedback: "remove the large picture in what we produce
-            and just have the 4 blocks" - the production-packing-line
-            photo that used to sit above this grid has been removed (it
-            now lives in the "More than a logo" band above instead, see
-            that section's comment), leaving just the 4 category blocks. */}
-        <RevealStagger className="mt-6 grid gap-8 border-t border-cream-200 pt-10 sm:grid-cols-2 lg:grid-cols-4">
-          {PRODUCE_CATEGORIES.map((c) => {
-            const CategoryIcon = PRODUCE_ICONS[c.icon] ?? Coffee;
-            return (
-              <div key={c.name}>
-                <ImageFrame
-                  seed={c.seed ?? `clady-produce-${c.name.toLowerCase()}`}
-                  alt={c.photo ? `${c.name} produced by Clady Group` : `${c.name} - photography pending`}
-                  src={c.photo}
-                  aspect="aspect-[4/3]"
-                />
-                <div className="mt-3 flex items-center gap-2">
-                  <CategoryIcon size={18} weight="bold" className="text-green-700" />
-                  <h3 className="font-semibold text-ink">{c.name}</h3>
-                </div>
-              </div>
-            );
-          })}
-        </RevealStagger>
-
-        <Reveal className="mt-14 text-center">
-          <CTAButton href="/contact">Get in touch about private label</CTAButton>
-        </Reveal>
-      </Section>
-
-      {/* Round 5 feedback: "A flexible approach and onwards not matching
-          the style of the homepage" - this was a flat bg-green-700 block
-          with no texture or CTA; now matches the homepage's closing
-          "Built for better partnerships" band (home/page.tsx) exactly:
-          texture overlay, soft corner glows, inverted CTA button. */}
-{!content.flexibleApproachSection.hidden && (
-      <section className="relative overflow-hidden bg-green-700 py-14 text-center sm:py-20">
-        <TextureOverlay />
-        <div className="absolute -left-16 -top-16 h-56 w-56 rounded-full bg-gold-500/15 blur-3xl" />
-        <div className="absolute -bottom-20 -right-10 h-56 w-56 rounded-full bg-olive-400/15 blur-3xl" />
-        <Reveal className="relative">
-          <Container>
-            <h2 className="mx-auto max-w-2xl text-2xl font-semibold text-cream-100 sm:text-3xl">
-              A flexible approach
-            </h2>
-            <p className="mx-auto mt-4 max-w-xl text-cream-100/80">{content.flexibleApproachSection.body}</p>
-            <div className="mt-8 flex justify-center">
-              <CTAButton href="/contact" tone="inverted">
-                {content.flexibleApproachSection.ctaLabel}
-              </CTAButton>
-            </div>
-          </Container>
-        </Reveal>
-      </section>
-      )}
-
-      {/* Round 5 feedback: "idea to opportunity can show the same as on
-          the homepage" - was a 5-up IconFeature card grid with numbered
-          badges (the pre-round-4 pattern already dropped everywhere
-          else); now the same dark, full-bleed divide-y band as the
-          homepage's "What drives us" (values-section.tsx ValuesDarkBand),
-          down to the corner glows and ring icon treatment. */}
-      <Section className="relative overflow-hidden bg-green-900">
-        <TextureOverlay />
-        <div className="absolute -left-24 top-0 h-72 w-72 rounded-full bg-gold-500/10 blur-3xl" aria-hidden="true" />
-        <div className="absolute -right-16 bottom-0 h-80 w-80 rounded-full bg-olive-400/10 blur-3xl" aria-hidden="true" />
-        <div className="relative">
-          <Reveal className="max-w-xl">
-            <p className="text-sm font-semibold uppercase tracking-[0.16em] text-gold-500/90">
-              Our approach
-            </p>
-            <h2 className="mt-3 text-3xl font-semibold text-cream-100 sm:text-4xl">
-              From idea to opportunity
-            </h2>
-            <AccentRule className="mt-6" />
-          </Reveal>
-          <RevealStagger className="mt-14 divide-y divide-cream-100/10 border-t border-cream-100/10">
-            {PILLARS.map((p) => {
-              const PillarIcon = PILLAR_ICONS[p.icon] ?? Package;
-              return (
-                <div
-                  key={p.name}
-                  className="group flex flex-col gap-4 py-8 sm:flex-row sm:items-center sm:gap-10 sm:py-10"
-                >
-                  <div className="flex items-center gap-4 sm:w-64 sm:shrink-0">
-                    <span
-                      className={`flex h-14 w-14 shrink-0 items-center justify-center rounded-full ring-1 ring-inset transition duration-300 group-hover:scale-105 ${PILLAR_ICON_TONE[p.tone]}`}
-                    >
-                      <PillarIcon size={22} weight="bold" />
-                    </span>
-                    <h3 className="text-xl font-semibold text-cream-100 sm:text-2xl">{p.name}</h3>
-                  </div>
-                  <p className="max-w-xl text-cream-100/70 sm:text-lg">{p.body}</p>
-                </div>
-              );
-            })}
-          </RevealStagger>
-        </div>
-      </Section>
+      {content.sections.map(renderSection)}
 
       {/* Round 6 feedback: "Across multiple markets", "Who we work with"
           and "What customers say" all removed - the client-logo and
