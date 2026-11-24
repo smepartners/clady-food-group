@@ -1,4 +1,4 @@
-import { client } from "@/sanity/lib/client";
+import { sanityFetch } from "@/sanity/lib/client";
 import { urlForImage } from "@/sanity/lib/image";
 import { FLEXIBLE_PAGE_BY_SLUG_QUERY, FLEXIBLE_PAGE_SLUGS_QUERY } from "@/sanity/lib/queries";
 
@@ -32,7 +32,7 @@ type SanityFlexibleDoc = {
 
 export async function getFlexiblePageSlugs(): Promise<string[]> {
   try {
-    const slugs = await client.fetch<string[]>(FLEXIBLE_PAGE_SLUGS_QUERY);
+    const slugs = await sanityFetch<string[]>(FLEXIBLE_PAGE_SLUGS_QUERY);
     return slugs ?? [];
   } catch {
     return [];
@@ -41,7 +41,7 @@ export async function getFlexiblePageSlugs(): Promise<string[]> {
 
 export async function getFlexiblePageBySlug(slug: string): Promise<FlexiblePageContent | null> {
   try {
-    const doc = await client.fetch<SanityFlexibleDoc | null>(FLEXIBLE_PAGE_BY_SLUG_QUERY, { slug });
+    const doc = await sanityFetch<SanityFlexibleDoc | null>(FLEXIBLE_PAGE_BY_SLUG_QUERY, { slug });
     if (!doc) return null;
     return {
       title: doc.title,

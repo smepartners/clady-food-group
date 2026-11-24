@@ -1,4 +1,4 @@
-import { client } from "@/sanity/lib/client";
+import { sanityFetch } from "@/sanity/lib/client";
 import { urlForImage } from "@/sanity/lib/image";
 import { WHITE_LABEL_COFFEE_PAGE_QUERY } from "@/sanity/lib/queries";
 
@@ -166,7 +166,7 @@ function resolveSection(raw: RawSection): WhiteLabelCoffeeSection {
 
 export async function getWhiteLabelCoffeePageContent(): Promise<WhiteLabelCoffeePageContent> {
   try {
-    const doc = await client.fetch<SanityDoc | null>(WHITE_LABEL_COFFEE_PAGE_QUERY);
+    const doc = await sanityFetch<SanityDoc | null>(WHITE_LABEL_COFFEE_PAGE_QUERY);
     if (doc?.sections?.length) {
       return {
         hero: {

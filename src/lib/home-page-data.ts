@@ -1,4 +1,4 @@
-import { client } from "@/sanity/lib/client";
+import { sanityFetch } from "@/sanity/lib/client";
 import { urlForImage } from "@/sanity/lib/image";
 import { HOME_PAGE_QUERY, VALUE_PILLARS_QUERY } from "@/sanity/lib/queries";
 import type { ValuePillarData } from "@/components/values-section";
@@ -89,7 +89,7 @@ type SanityHomePageDoc = {
 
 export async function getHomePageContent(): Promise<HomePageContent> {
   try {
-    const doc = await client.fetch<SanityHomePageDoc | null>(HOME_PAGE_QUERY);
+    const doc = await sanityFetch<SanityHomePageDoc | null>(HOME_PAGE_QUERY);
     if (doc?.sections?.length) {
       return {
         hero: { ...FALLBACK.hero, ...doc.hero },
@@ -104,7 +104,7 @@ export async function getHomePageContent(): Promise<HomePageContent> {
 
 export async function getHomeValuePillars(): Promise<ValuePillarData[]> {
   try {
-    const docs = await client.fetch<ValuePillarData[]>(VALUE_PILLARS_QUERY);
+    const docs = await sanityFetch<ValuePillarData[]>(VALUE_PILLARS_QUERY);
     if (docs?.length) return docs;
   } catch {
     // fall through

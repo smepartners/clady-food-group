@@ -1,4 +1,4 @@
-import { client } from "@/sanity/lib/client";
+import { sanityFetch } from "@/sanity/lib/client";
 import { urlForImage } from "@/sanity/lib/image";
 import { CSR_PAGE_QUERY, CSR_INITIATIVES_QUERY } from "@/sanity/lib/queries";
 
@@ -81,7 +81,7 @@ type SanityCsrPageDoc = {
 
 export async function getCsrPageContent(): Promise<CsrPageContent> {
   try {
-    const doc = await client.fetch<SanityCsrPageDoc | null>(CSR_PAGE_QUERY);
+    const doc = await sanityFetch<SanityCsrPageDoc | null>(CSR_PAGE_QUERY);
     if (doc?.sections?.length) {
       return {
         hero: {
@@ -100,7 +100,7 @@ export async function getCsrPageContent(): Promise<CsrPageContent> {
 
 export async function getCsrInitiatives(): Promise<InitiativeData[]> {
   try {
-    const docs = await client.fetch<InitiativeData[]>(CSR_INITIATIVES_QUERY);
+    const docs = await sanityFetch<InitiativeData[]>(CSR_INITIATIVES_QUERY);
     if (docs?.length) return docs;
   } catch {
     // fall through

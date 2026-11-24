@@ -1,4 +1,4 @@
-import { client } from "@/sanity/lib/client";
+import { sanityFetch } from "@/sanity/lib/client";
 import { urlForImage } from "@/sanity/lib/image";
 import { ABOUT_PAGE_QUERY, ACCREDITATIONS_QUERY } from "@/sanity/lib/queries";
 import type { Accreditation } from "@/components/accreditation";
@@ -78,7 +78,7 @@ type SanityAboutPageDoc = {
 
 export async function getAboutPageContent(): Promise<AboutPageContent> {
   try {
-    const doc = await client.fetch<SanityAboutPageDoc | null>(ABOUT_PAGE_QUERY);
+    const doc = await sanityFetch<SanityAboutPageDoc | null>(ABOUT_PAGE_QUERY);
     if (doc?.sections?.length) {
       return {
         hero: {
@@ -97,7 +97,7 @@ export async function getAboutPageContent(): Promise<AboutPageContent> {
 
 export async function getAccreditations(): Promise<Accreditation[]> {
   try {
-    const docs = await client.fetch<{ name: string; note?: string; logo?: unknown }[]>(
+    const docs = await sanityFetch<{ name: string; note?: string; logo?: unknown }[]>(
       ACCREDITATIONS_QUERY
     );
     if (docs?.length) {

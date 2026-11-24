@@ -1,4 +1,4 @@
-import { client } from "@/sanity/lib/client";
+import { sanityFetch } from "@/sanity/lib/client";
 import { SITE_SETTINGS_QUERY, FACILITIES_QUERY } from "@/sanity/lib/queries";
 import { FACILITIES as STATIC_FACILITIES } from "@/lib/facilities";
 
@@ -11,7 +11,7 @@ export type SiteContactDetails = { email?: string; phone?: string; address?: str
 
 export async function getContactDetails(): Promise<SiteContactDetails> {
   try {
-    const settings = await client.fetch<{ contactDetails?: SiteContactDetails } | null>(
+    const settings = await sanityFetch<{ contactDetails?: SiteContactDetails } | null>(
       SITE_SETTINGS_QUERY
     );
     if (settings?.contactDetails) return settings.contactDetails;
@@ -23,7 +23,7 @@ export async function getContactDetails(): Promise<SiteContactDetails> {
 
 export async function getFacilities(): Promise<{ name: string; region: string }[]> {
   try {
-    const facilities = await client.fetch<{ name: string; region: string }[]>(FACILITIES_QUERY);
+    const facilities = await sanityFetch<{ name: string; region: string }[]>(FACILITIES_QUERY);
     if (facilities?.length) return facilities;
   } catch {
     // fall through

@@ -1,4 +1,4 @@
-import { client } from "@/sanity/lib/client";
+import { sanityFetch } from "@/sanity/lib/client";
 import { urlForImage } from "@/sanity/lib/image";
 import { BRANDS_QUERY, BRAND_BY_SLUG_QUERY } from "@/sanity/lib/queries";
 
@@ -155,7 +155,7 @@ function toBrand(doc: SanityBrand): Brand {
  * env vars configured). */
 export async function getBrandSlugs(): Promise<string[]> {
   try {
-    const docs = await client.fetch<{ slug: string }[]>(BRANDS_QUERY);
+    const docs = await sanityFetch<{ slug: string }[]>(BRANDS_QUERY);
     if (docs?.length) return docs.map((d) => d.slug);
   } catch {
     // Sanity unreachable/misconfigured - fall through to static list.
@@ -167,7 +167,7 @@ export async function getBrandSlugs(): Promise<string[]> {
  * fallback - see the comment on STATIC_BRANDS above for why. */
 export async function getBrand(slug: string): Promise<Brand | undefined> {
   try {
-    const doc = await client.fetch<SanityBrand | null>(BRAND_BY_SLUG_QUERY, { slug });
+    const doc = await sanityFetch<SanityBrand | null>(BRAND_BY_SLUG_QUERY, { slug });
     if (doc) return toBrand({ ...doc, slug });
   } catch {
     // fall through

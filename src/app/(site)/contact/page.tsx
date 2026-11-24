@@ -4,7 +4,7 @@ import { Section } from "@/components/ui";
 import { Reveal } from "@/components/reveal";
 import { ContactHero } from "@/components/contact-hero";
 import { ContactForm } from "@/components/contact-form";
-import { client } from "@/sanity/lib/client";
+import { sanityFetch } from "@/sanity/lib/client";
 import { CONTACT_PAGE_QUERY } from "@/sanity/lib/queries";
 import { getContactDetails } from "@/lib/site-settings-data";
 import { getBrand } from "@/lib/brands-data";
@@ -20,7 +20,7 @@ async function getContactPageContent() {
     emailPrompt: "Prefer email? Reach us directly at",
   };
   try {
-    const doc = await client.fetch<ContactPageDoc | null>(CONTACT_PAGE_QUERY);
+    const doc = await sanityFetch<ContactPageDoc | null>(CONTACT_PAGE_QUERY);
     if (doc) {
       return {
         subtext: doc.hero?.subtext ?? fallback.subtext,

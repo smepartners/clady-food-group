@@ -1,4 +1,4 @@
-import { client } from "@/sanity/lib/client";
+import { sanityFetch } from "@/sanity/lib/client";
 import { urlForImage } from "@/sanity/lib/image";
 import { PRIVATE_LABEL_PAGE_QUERY, PRODUCE_CATEGORIES_QUERY, STATS_QUERY } from "@/sanity/lib/queries";
 
@@ -85,7 +85,7 @@ function resolveSection(raw: RawSection): PrivateLabelSection {
 
 export async function getPrivateLabelPageContent(): Promise<PrivateLabelPageContent> {
   try {
-    const doc = await client.fetch<SanityPrivateLabelDoc | null>(PRIVATE_LABEL_PAGE_QUERY);
+    const doc = await sanityFetch<SanityPrivateLabelDoc | null>(PRIVATE_LABEL_PAGE_QUERY);
     if (doc?.sections?.length) {
       return {
         hero: {
@@ -104,7 +104,7 @@ export async function getPrivateLabelPageContent(): Promise<PrivateLabelPageCont
 
 export async function getProduceCategories(): Promise<ProduceCategoryData[]> {
   try {
-    const docs = await client.fetch<
+    const docs = await sanityFetch<
       { name: string; icon: string; photo?: unknown; seed?: string }[]
     >(PRODUCE_CATEGORIES_QUERY);
     if (docs?.length) {
@@ -123,7 +123,7 @@ export async function getProduceCategories(): Promise<ProduceCategoryData[]> {
 
 export async function getScaleStats(): Promise<StatData[]> {
   try {
-    const docs = await client.fetch<StatData[]>(STATS_QUERY);
+    const docs = await sanityFetch<StatData[]>(STATS_QUERY);
     if (docs?.length) return docs;
   } catch {
     // fall through
