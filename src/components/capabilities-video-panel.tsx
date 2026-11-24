@@ -28,60 +28,41 @@ import { TextureOverlay } from "@/components/ui";
  *
  * object-contain, not object-cover (George, Oct 2026): the clip is
  * type-led - title cards, map labels, the logo lockup - rather than an
- * ambient background shot, and its 1400x1080 frame doesn't match this
- * panel's own aspect ratio at most breakpoints (aspect-[4/5] on mobile
- * in particular). object-cover was cropping text off both edges (e.g.
- * "Clady Food Group" clipped to "lady Food Grou").
- *
- * object-contain avoids that, but on its own just trades cropped text for
- * flat letterbox bars either side whenever the panel's shape and the
- * clip's shape disagree - and on desktop they usually do, since this panel
- * deliberately stretches to match the text column's own height (see the
- * items-stretch/h-full note above) rather than keeping a fixed aspect
- * ratio, so its rendered shape varies. George flagged those bars (Oct
- * 2026) as looking broken. Fixed with a second copy of the poster behind
- * the contained foreground - scaled up, blurred and dimmed with
- * object-cover so it fills the panel completely - so any letterbox space
- * reads as a soft continuation of the same image rather than a flat bar.
- * Deliberately always the static poster (not a second video), even while
- * the foreground video plays: it's blurred enough that the two beats never
- * being in sync is not noticeable, and it avoids running the clip twice.
+ * ambient background shot, and object-cover was cropping text off both
+ * edges (e.g. "Clady Food Group" clipped to "lady Food Grou").
  *
  * Nov 2026 (George & Zoe Regroup call - "there's the gap right and left...
- * we change our container size... the div needs to be contained"): at
- * desktop this box was letting `lg:aspect-auto lg:h-full` stretch it to
- * match the text column's own height with no ceiling, so on wider/shorter
- * viewports it could end up far taller and squarer than the clip's actual
- * 1400x1080 (~4:3) shape - object-contain then pillarboxed hard left/
- * right, and even with the blurred fill behind it, the seam between the
- * sharp foreground and the soft background read as a visible gap/frame
- * rather than a deliberate crop.
+ * we change our container size... the div needs to be contained... the
+ * div needs to be the same"): this box used to stretch to match the text
+ * column's own height (`lg:aspect-auto lg:h-full`) or sit at a generic
+ * aspect-[4/5] card shape on mobile, neither matching the clip's actual
+ * 1400x1080 frame - object-contain then pillarboxed left/right (or
+ * letterboxed top/bottom), and even with an earlier attempt at a blurred
+ * fill behind the contained foreground to disguise it, the seam between
+ * the sharp video and the soft background still read as a visible gap/
+ * frame around it rather than a deliberate crop - exactly what George and
+ * Zoe flagged on the call.
  *
- * Fixed by giving the box a fixed aspect ratio at desktop too
- * (`lg:aspect-[4/3]`, close to the clip's own ~1.3:1) instead of
- * stretch-to-row-height, and capping how wide it can get
- * (`lg:max-w-[46rem]`) so that ratio can't be pushed back out by a very
- * wide column. The parent grid now centers the row instead of stretching
- * it (see page.tsx's capabilityBand - `lg:items-center`), so any leftover
- * vertical space next to a shorter panel shows as the section's own
- * cream background rather than inside this green box.
+ * Fixed properly this time: the box's own aspect-ratio is now set to the
+ * clip's exact frame (`aspect-[1400/1080]`), at every breakpoint, not an
+ * approximation or a height-driven stretch. With the container's shape
+ * identical to the video's own, object-contain has nothing left to pad -
+ * the video fills the box edge to edge with no letterbox/pillarbox at
+ * all, so the blurred-fill trick from the previous round is no longer
+ * needed and has been removed. `lg:max-w-[46rem]` just keeps the panel
+ * from growing oversized on very wide columns; the parent grid centers
+ * the row (page.tsx's capabilityBand - `lg:items-center`) so any
+ * difference between this panel's height and the text column's shows as
+ * the section's own cream background, never as empty space inside this
+ * green box.
  */
 const SHOW_VIDEO = true;
 
 export function CapabilitiesVideoPanel() {
   const reduce = useReducedMotion();
   return (
-    <div className="relative mx-auto flex w-full aspect-[4/5] min-h-[22rem] items-center justify-center overflow-hidden bg-green-900 lg:aspect-[4/3] lg:h-auto lg:min-h-0 lg:max-w-[46rem]">
+    <div className="relative mx-auto flex w-full aspect-[1400/1080] items-center justify-center overflow-hidden bg-green-900 lg:max-w-[46rem]">
       <TextureOverlay texture="/texture-leather-green.jpg" />
-
-      {/* Blurred fill - see the object-contain note above. Decorative only. */}
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        src="/photo-video-capabilities-poster.jpg"
-        alt=""
-        aria-hidden="true"
-        className="absolute inset-0 h-full w-full scale-125 object-cover opacity-70 blur-2xl"
-      />
 
       {!SHOW_VIDEO || reduce ? (
         // eslint-disable-next-line @next/next/no-img-element
