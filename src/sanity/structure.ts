@@ -1,18 +1,29 @@
 import type { StructureResolver } from "sanity/structure";
 
 // Restructured Nov 2026 (George: "sanity should probably have pages under
-// a pages section etc. as very confusing currently"). Previously every
-// singleton page sat in one flat list above a divider, with the
-// repeatable content types below it - editors had to already know which
-// of the ~13 items in that list were pages vs. reusable content. Now
-// grouped into three clearly-labelled sections:
+// a pages section etc. as very confusing currently"; then again, 25th:
+// "brands should be broken out separately"). Previously every singleton
+// page sat in one flat list above a divider, with the repeatable content
+// types below it - editors had to already know which of the ~13 items in
+// that list were pages vs. reusable content. Grouped into five clearly-
+// labelled top-level sections:
 //  - Site settings, pinned alone at the top (nav/footer/contact details -
 //    not a page itself).
 //  - "Pages" - everything a visitor can land on: the five bespoke
 //    singleton pages, Contact, and the repeatable "Page (build your own)"
 //    type together in one place.
-//  - "Content library" - the repeatable content types pages pull from
-//    (brands, facilities, stats, etc.), not pages themselves.
+//  - "Brands" - its own top-level section rather than buried alongside
+//    facilities/stats/etc. in the library below, since it's the content
+//    type editors (and Zoe/the client) open far more often than any
+//    other.
+//  - "Content library" - the remaining repeatable content types pages
+//    pull from (facilities, stats, accreditations, etc.), not pages
+//    themselves and not brands.
+//  - "Enquiries" - read-only-in-spirit log of contact-form submissions
+//    (src/app/api/contact/route.ts writes these; see schemaTypes/
+//    enquiry.ts), newest first, each tagged with the brand it came from
+//    if it came from a brand page's popup rather than the main Contact
+//    page.
 const PAGE_SINGLETONS = [
   { type: "homePage", title: "Home page" },
   { type: "aboutPage", title: "About page" },
@@ -23,7 +34,6 @@ const PAGE_SINGLETONS = [
 ] as const;
 
 const LIBRARY_TYPES = [
-  "brand",
   "facility",
   "produceCategory",
   "accreditation",
@@ -55,6 +65,7 @@ export const structure: StructureResolver = (S) =>
               S.documentTypeListItem("flexiblePage").title("Pages (build your own)"),
             ])
         ),
+      S.documentTypeListItem("brand").title("Brands"),
       S.listItem()
         .title("Content library")
         .child(
@@ -65,5 +76,13 @@ export const structure: StructureResolver = (S) =>
                 (LIBRARY_TYPES as readonly string[]).includes(item.getId() ?? "")
               )
             )
+        ),
+      S.divider(),
+      S.listItem()
+        .title("Enquiries")
+        .child(
+          S.documentTypeList("enquiry")
+            .title("Enquiries")
+            .defaultOrdering([{ field: "submittedAt", direction: "desc" }])
         ),
     ]);

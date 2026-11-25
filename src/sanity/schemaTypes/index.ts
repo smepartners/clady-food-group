@@ -15,6 +15,7 @@ import whiteLabelCoffeePage from "./whiteLabelCoffeePage";
 import csrPage from "./csrPage";
 import contactPage from "./contactPage";
 import flexiblePage from "./flexiblePage";
+import enquiry from "./enquiry";
 
 // Rebuilt Nov 2026 to match the real, current site (see DECISIONS.md and
 // ARCHITECTURE.md) - the original generic `page` type (title/slug/
@@ -43,5 +44,6 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     csrPage,
     contactPage,
     flexiblePage,
+    enquiry,
   ],
 };

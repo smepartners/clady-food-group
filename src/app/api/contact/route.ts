@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { Resend } from "resend";
 import { contactEnquiryEmail } from "@/lib/email-templates";
+import { client } from "@/sanity/lib/client";
 
 /**
  * Handles the Contact page form (src/components/contact-form.tsx). Replaces
@@ -96,6 +97,35 @@ export async function POST(request: Request) {
   } catch (err) {
     console.error("Unexpected error sending contact form email:", err);
     return NextResponse.json({ error: "Failed to send message." }, { status: 500 });
+  }
+
+  // Nov 2026 (George: "make sure we store which brand is being enquired
+  // about"): the email above is the primary notification, but it isn't
+  // something anyone can search or filter later - this also writes the
+  // same submission as an `enquiry` document (schemaTypes/enquiry.ts), so
+  // it shows up in the Studio with the brand it came from. Best-effort:
+  // a failure here never fails the request back to the visitor, since
+  // the email already went out - it's logged and swallowed.
+  const writeToken = process.env.SANITY_API_WRITE_TOKEN;
+  if (writeToken) {
+    try {
+      await client.withConfig({ token: writeToken }).create({
+        _type: "enquiry",
+        name,
+        company: company || undefined,
+        email,
+        phone: phone || undefined,
+        message,
+        brand: brand || undefined,
+        submittedAt: new Date().toISOString(),
+      });
+    } catch (err) {
+      console.error("Failed to store enquiry document in Sanity:", err);
+    }
+  } else {
+    console.error(
+      "SANITY_API_WRITE_TOKEN is not set - enquiry was emailed but not stored in Sanity."
+    );
   }
 
   return NextResponse.json({ ok: true });
