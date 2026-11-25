@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
-import { Phone } from "@phosphor-icons/react/dist/ssr";
+import { Phone, EnvelopeSimple } from "@phosphor-icons/react/dist/ssr";
 import { Section } from "@/components/ui";
-import { Reveal } from "@/components/reveal";
+import { Reveal, RevealStagger } from "@/components/reveal";
 import { ContactHero } from "@/components/contact-hero";
 import { ContactForm } from "@/components/contact-form";
 import { sanityFetch } from "@/sanity/lib/client";
@@ -87,47 +87,63 @@ export default async function ContactPage({
   // Falls back to the group default whenever the brand has no override set.
   const email = brand?.contactEmail || contact.email;
   const phone = brand?.contactPhone || contact.phone;
-  const emailPrompt = brand
-    ? `Prefer email? Reach ${brand.name} directly at`
-    : content.emailPrompt;
   return (
     <>
       <ContactHero subheading={content.subtext} />
 
+      {/* Rebuilt Nov 2026 (Zoe): "make the form 3/4 width and centralise"
+          plus "create 2 blocks under the form - Call us with a phone icon
+          and the number, and Email us with envelope icon and the email
+          address, maybe the paler green for the blocks" - replaces the
+          previous side-by-side layout (email/phone column next to the
+          form) with the form centred at 3/4 width on larger screens, and
+          the call/email details moved into their own pair of cards below
+          it rather than a plain paragraph + link. "Paler green" isn't a
+          colour in the site's palette (just green-900/700/500), so these
+          use the same low-opacity green wash already used for icon badges
+          elsewhere on the site (e.g. IconFeature's bg-green-700/10). */}
       <Section>
-        <div className="grid gap-12 lg:grid-cols-2 lg:gap-16">
+        <div className="mx-auto w-full lg:w-3/4">
           <Reveal>
-            {email ? (
-              <p className="max-w-md text-sm text-ink-soft">
-                {emailPrompt}{" "}
-                <a
-                  href={`mailto:${email}`}
-                  className="font-medium text-green-700 underline underline-offset-2 hover:text-green-900"
-                >
-                  {email}
-                </a>
-                .
-              </p>
-            ) : null}
-            {/* Round 7 feedback: "contact number / head office address
-                not added" - phone number added (same confirmed number as
-                the footer). No head office street address has been
-                supplied yet - see the comment block above this
-                component. */}
-            {phone ? (
-              <a
-                href={`tel:${phone.replace(/[^\d+]/g, "")}`}
-                className="mt-3 flex w-fit items-center gap-2 text-sm font-medium text-green-700 hover:text-green-900"
-              >
-                <Phone size={16} weight="bold" />
-                {phone}
-              </a>
-            ) : null}
-          </Reveal>
-
-          <Reveal delay={0.1}>
             <ContactForm />
           </Reveal>
+
+          {(email || phone) ? (
+            <RevealStagger className="mt-6 grid gap-4 sm:grid-cols-2">
+              {phone ? (
+                <a
+                  href={`tel:${phone.replace(/[^\d+]/g, "")}`}
+                  className="flex items-center gap-4 rounded-xl bg-green-700/10 p-5 transition hover:bg-green-700/15"
+                >
+                  <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-green-700/15 text-green-700">
+                    <Phone size={20} weight="bold" />
+                  </span>
+                  <span>
+                    <span className="block text-xs font-semibold uppercase tracking-wide text-green-700">
+                      Call us
+                    </span>
+                    <span className="block font-medium text-ink">{phone}</span>
+                  </span>
+                </a>
+              ) : null}
+              {email ? (
+                <a
+                  href={`mailto:${email}`}
+                  className="flex items-center gap-4 rounded-xl bg-green-700/10 p-5 transition hover:bg-green-700/15"
+                >
+                  <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-green-700/15 text-green-700">
+                    <EnvelopeSimple size={20} weight="bold" />
+                  </span>
+                  <span>
+                    <span className="block text-xs font-semibold uppercase tracking-wide text-green-700">
+                      Email us
+                    </span>
+                    <span className="block font-medium text-ink">{email}</span>
+                  </span>
+                </a>
+              ) : null}
+            </RevealStagger>
+          ) : null}
         </div>
       </Section>
     </>
