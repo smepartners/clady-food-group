@@ -29,6 +29,7 @@ import {
 } from "@/components/ui";
 import { Reveal, RevealStagger } from "@/components/reveal";
 import { WhiteLabelCoffeeHero } from "@/components/white-label-coffee-hero";
+import { IntroRoastingBeansMedia } from "@/components/white-label-coffee-intro-media";
 import { getWhiteLabelCoffeePageContent } from "@/lib/white-label-coffee-page-data";
 import type { WhiteLabelCoffeeSection } from "@/lib/white-label-coffee-page-data";
 import { getScaleStats } from "@/lib/private-label-page-data";
@@ -93,12 +94,17 @@ export default async function WhiteLabelCoffeePage() {
                 ))}
               </Reveal>
               <Reveal delay={0.1}>
-                <ImageFrame
-                  seed="clady-white-label-coffee-intro"
-                  alt="Bagged and packed white label coffee product"
-                  src={section.image}
-                  aspect="aspect-[4/3]"
-                />
+                {/* Nov 2026 (Zoe): "shall we change the image to a hopper
+                    of moving coffee beans to add some movement to the
+                    page?" - swapped the static photo for
+                    clip-roasting-beans.mp4/.webm, real client-supplied
+                    roasting-beans footage already sitting unused in
+                    public/ (cut for an earlier hero concept that's no
+                    longer in the codebase - see IntroRoastingBeansMedia's
+                    own comment). section.image/ImageFrame is no longer
+                    used here, kept on the type for Studio compatibility
+                    in case an editor still wants a static photo instead. */}
+                <IntroRoastingBeansMedia aspect="aspect-[4/3]" />
               </Reveal>
             </div>
           </Section>

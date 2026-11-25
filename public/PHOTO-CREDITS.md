@@ -18,13 +18,13 @@ pulled from `video-company-story.mp4` are noted as such.
 | photo-video-poster.jpg | Video story section poster; also the Home hero video concept's poster | Frame grab, `video-company-story.mp4` |
 | photo-video-still-roastery-floor.jpg | Poster frame for `clip-roastery-floor.mp4` | Frame grab, `video-company-story.mp4` (00:28.1) |
 | photo-site-aerial.jpg | Poster frame for `clip-site-aerial.mp4` | Frame grab, `video-company-story.mp4` (00:10.1) |
-| photo-video-still-roasting-beans.jpg | Poster frame for `clip-roasting-beans.mp4` | Frame grab, `video-company-story.mp4` (00:56.0) |
+| photo-video-still-roasting-beans.jpg | Poster frame for `clip-roasting-beans.mp4`; video poster, White Label Coffee intro (`IntroRoastingBeansMedia`) | Frame grab, `video-company-story.mp4` (00:56.0) |
 | photo-video-still-robotic-arm.jpg | Poster frame for `clip-robotic-arm.mp4` | Frame grab, `video-company-story.mp4` (01:36.7) |
 | photo-video-still-roaster-tanks.jpg | Poster frame for `clip-roaster-tanks.mp4` | Frame grab, `video-company-story.mp4` (01:12) |
 | photo-video-still-casepacking.jpg | Poster frame for `clip-casepacking.mp4` | Frame grab, `video-company-story.mp4` (01:41.1) |
 | clip-roastery-floor.mp4 / .webm | Home hero grid concept (`HomeHero`, via the hero toggle) | Clip, `video-company-story.mp4` (00:28.1-00:29.6), slowed ~1.9x, forward/reverse loop, silent, h264 + vp9, 5.4s |
 | clip-site-aerial.mp4 / .webm | Home hero grid concept (`HomeHero`, via the hero toggle) | Clip, `video-company-story.mp4` (00:10.1-00:11.9), slowed ~1.9x, forward/reverse loop, silent, h264 + vp9, 6.5s |
-| clip-roasting-beans.mp4 / .webm | Home hero grid concept (`HomeHero`, via the hero toggle) | Clip, `video-company-story.mp4` (00:56.0-00:57.5), slowed ~1.9x, forward/reverse loop, silent, h264 + vp9, 5.4s |
+| clip-roasting-beans.mp4 / .webm | White Label Coffee intro (`IntroRoastingBeansMedia`, Nov 2026 - previously an unused leftover from the home hero grid concept, which is no longer in the codebase) | Clip, `video-company-story.mp4` (00:56.0-00:57.5), slowed ~1.9x, forward/reverse loop, silent, h264 + vp9, 5.4s |
 | clip-robotic-arm.mp4 / .webm | Home hero grid concept (`HomeHero`, via the hero toggle) | Clip, `video-company-story.mp4` (01:36.7-01:39.7), slowed 1.5x, forward/reverse loop, silent, h264 + vp9, 8.8s |
 | clip-roaster-tanks.mp4 / .webm | Home hero grid concept (`HomeHero`, via the hero toggle) | Clip, `video-company-story.mp4` (01:12-01:17), forward/reverse loop (not slowed - already the longest source window), silent, h264 + vp9, 10s |
 | clip-casepacking.mp4 / .webm | Home hero grid concept (`HomeHero`, via the hero toggle) | Clip, `video-company-story.mp4` (01:41.1-01:43.4), slowed 1.8x, forward/reverse loop, silent, h264 + vp9, 8s, overhead case-packing line |
