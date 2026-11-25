@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import type { ComponentType } from "react";
+import type { IconWeight } from "@phosphor-icons/react";
 import {
   Storefront,
   Coffee,
@@ -9,13 +11,18 @@ import {
   CalendarBlank,
   Buildings,
   Package,
-  BagSimple,
   Cylinder,
-  Jar,
-  StackSimple,
   Basket,
   Tray,
+  Sparkle,
+  Cookie,
+  Heart,
+  FlowerLotus,
+  Snowflake,
+  Leaf,
+  SealCheck,
 } from "@phosphor-icons/react/dist/ssr";
+import { PouchIcon, TubeIcon, SachetIcon } from "@/components/pack-icons";
 import {
   Section,
   Container,
@@ -48,15 +55,40 @@ const STAT_ICONS: Record<string, typeof CalendarBlank> = { CalendarBlank, Buildi
 // icon-set icons, not bespoke pack-shape illustrations - swap for real
 // product/pack photography or custom icons if the client wants a more
 // literal look per format.
-const FORMAT_ICONS: Record<string, typeof Package> = {
-  Pouches: BagSimple,
+type PackFormatIcon = ComponentType<{ size?: number | string; weight?: IconWeight; className?: string }>;
+
+const FORMAT_ICONS: Record<string, PackFormatIcon> = {
+  // Bespoke in-house glyphs (pack-icons.tsx) for the three shapes Phosphor
+  // has no literal match for; Phosphor's own Cylinder/Package already
+  // read correctly as a can/box, and the two size-tier entries (consumer/
+  // catering) are a scale distinction rather than a pack shape, so those
+  // keep generic icons rather than forcing a literal "graphic" that
+  // wouldn't mean anything.
+  Pouches: PouchIcon,
   "Cans & tins": Cylinder,
-  Tubes: Jar,
+  Tubes: TubeIcon,
   "Boxes & cartons": Package,
-  "Single-portion sticks & sachets": StackSimple,
+  "Single-portion sticks & sachets": SachetIcon,
   "Consumer sizes": Basket,
   "Catering sizes": Tray,
 };
+
+// Icon per on-trend flavour tag on the innovation band's first card (Zoe,
+// Nov 2026 flagged the innovation section as needing "some photography" -
+// no real photography exists for flavour/ingredient concepts like these,
+// so this gives each trend its own icon as a lighter-weight stand-in
+// rather than leaving the card as a flat wall of text).
+const TREND_ICONS: [RegExp, typeof Sparkle][] = [
+  [/seasonal|limited/i, Sparkle],
+  [/dessert/i, Cookie],
+  [/better-for-you/i, Heart],
+  [/functional|wellness/i, FlowerLotus],
+  [/iced|cold serve/i, Snowflake],
+  [/matcha/i, Leaf],
+];
+function trendIcon(tag: string) {
+  return TREND_ICONS.find(([pattern]) => pattern.test(tag))?.[1] ?? Sparkle;
+}
 
 const FALLBACK_SCALE_STATS = [
   { value: "12+", label: "Years established, since 2014", icon: "CalendarBlank" },
@@ -275,6 +307,14 @@ export default async function WhiteLabelCoffeePage() {
           // Innovation & blend development - folded into this page rather
           // than built as its own (no independent search volume for
           // "blend development" style terms - see the keyword research).
+          //
+          // Nov 2026 (Zoe): "this feels like it needs some photography" -
+          // there's no real flavour/ingredient photography to put here, so
+          // each card now gets icon treatment instead: the first card's
+          // trends are broken out into individual tagged chips (one icon
+          // per trend) rather than a single wall-of-text sentence, and the
+          // second gets a leading icon. A lighter-weight stand-in for
+          // photography, not a replacement for it.
           <Section key={section._key} className="bg-cream-200/40">
             <Reveal>
               <h2 className="text-center text-2xl font-semibold text-green-700 sm:text-3xl">
@@ -284,8 +324,29 @@ export default async function WhiteLabelCoffeePage() {
             <RevealStagger className="mt-10 grid gap-8 sm:grid-cols-2">
               {cards.map((c) => (
                 <div key={c.title} className="rounded-xl border border-cream-200 bg-cream-100 p-6">
+                  {!c.tags?.length ? (
+                    <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-full bg-green-700/10 text-green-700">
+                      <SealCheck size={20} weight="bold" />
+                    </div>
+                  ) : null}
                   <h3 className="font-semibold text-ink">{c.title}</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-ink-soft">{c.body}</p>
+                  {c.tags?.length ? (
+                    <ul className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2">
+                      {c.tags.map((tag) => {
+                        const TagIcon = trendIcon(tag);
+                        return (
+                          <li key={tag} className="flex items-center gap-2.5">
+                            <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-green-700/10 text-green-700">
+                              <TagIcon size={16} weight="bold" />
+                            </span>
+                            <span className="text-sm text-ink-soft">{tag}</span>
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  ) : (
+                    <p className="mt-2 text-sm leading-relaxed text-ink-soft">{c.body}</p>
+                  )}
                 </div>
               ))}
             </RevealStagger>

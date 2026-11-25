@@ -4,7 +4,7 @@ import { WHITE_LABEL_COFFEE_PAGE_QUERY } from "@/sanity/lib/queries";
 
 export type SectorData = { name: string; body: string; icon: string; tone: "gold" | "green" | "olive" };
 export type StepData = { title: string; body: string };
-export type InnovationCardData = { title: string; body: string };
+export type InnovationCardData = { title: string; body: string; tags?: string[] };
 
 // Rebuilt Nov 2026 alongside the schema change that moved every page
 // section (including the group-scale stats band, previously fixed) into
@@ -110,6 +110,14 @@ const FALLBACK: WhiteLabelCoffeePageContent = {
         {
           title: "Creating new & on-trend flavours",
           body: "Seasonal & limited editions, dessert flavours, better-for-you options, functional & wellness drinks, iced & cold serve, flavoured matcha.",
+          tags: [
+            "Seasonal & limited editions",
+            "Dessert flavours",
+            "Better-for-you options",
+            "Functional & wellness drinks",
+            "Iced & cold serve",
+            "Flavoured matcha",
+          ],
         },
         {
           title: "Matching your existing flavour profile",
