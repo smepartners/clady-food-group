@@ -2,12 +2,19 @@ import type { Metadata } from "next";
 import {
   Storefront,
   Coffee,
+  CoffeeBean,
   ForkKnife,
   Rocket,
   Gift,
   CalendarBlank,
   Buildings,
   Package,
+  BagSimple,
+  Cylinder,
+  Jar,
+  StackSimple,
+  Basket,
+  Tray,
 } from "@phosphor-icons/react/dist/ssr";
 import {
   Section,
@@ -18,6 +25,7 @@ import {
   StatTile,
   IconFeature,
   Pill,
+  AccentRule,
 } from "@/components/ui";
 import { Reveal, RevealStagger } from "@/components/reveal";
 import { WhiteLabelCoffeeHero } from "@/components/white-label-coffee-hero";
@@ -33,6 +41,21 @@ export const metadata: Metadata = {
 
 const SECTOR_ICONS: Record<string, typeof Storefront> = { Storefront, Coffee, ForkKnife, Rocket, Gift };
 const STAT_ICONS: Record<string, typeof CalendarBlank> = { CalendarBlank, Buildings, Package };
+
+// Generic Phosphor stand-ins for each pack format (Zoe, Nov 2026: "we can do
+// a graphic for each pack type to add a visual aspect here"). These are
+// icon-set icons, not bespoke pack-shape illustrations - swap for real
+// product/pack photography or custom icons if the client wants a more
+// literal look per format.
+const FORMAT_ICONS: Record<string, typeof Package> = {
+  Pouches: BagSimple,
+  "Cans & tins": Cylinder,
+  Tubes: Jar,
+  "Boxes & cartons": Package,
+  "Single-portion sticks & sachets": StackSimple,
+  "Consumer sizes": Basket,
+  "Catering sizes": Tray,
+};
 
 const FALLBACK_SCALE_STATS = [
   { value: "12+", label: "Years established, since 2014", icon: "CalendarBlank" },
@@ -83,35 +106,58 @@ export default async function WhiteLabelCoffeePage() {
       case "sectorsBlock": {
         const sectors = section.sectors ?? [];
         return (
-          // Who we supply - five sectors, same IconFeature card used for
-          // "What drives us"/pillar-style grids elsewhere on the site.
-          <Section key={section._key} className="bg-cream-200/40">
-            <Reveal>
-              <h2 className="text-center text-2xl font-semibold text-green-700 sm:text-3xl">
-                {section.heading}
-              </h2>
-            </Reveal>
-            <RevealStagger className="mt-12 grid gap-10 sm:grid-cols-2 lg:grid-cols-5">
-              {sectors.map((s) => {
-                const SectorIcon = SECTOR_ICONS[s.icon] ?? Coffee;
-                return (
-                  <IconFeature
-                    key={s.name}
-                    icon={<SectorIcon size={20} weight="bold" />}
-                    name={s.name}
-                    body={s.body}
-                    tone={s.tone}
-                  />
-                );
-              })}
-            </RevealStagger>
+          // Who we supply - five sectors. Rebuilt Nov 2026 per Zoe's
+          // feedback: "can the graphics be made larger and then titles and
+          // text underneath centralised to them" plus "the background
+          // colour on this is too similar to the one above so doesn't
+          // provide distinction - maybe a darker colour and/or the
+          // monogram". Rather than tint the plain page background, this now
+          // gets its own self-contained dark panel - the same "texture
+          // background" treatment as AccreditationGrid (deep green, gold
+          // leather texture + monogram watermark, content floating on top)
+          // - with each sector's icon enlarged into its own cream disc and
+          // its title/body centred beneath it.
+          <Section key={section._key}>
+            <div className="relative overflow-hidden rounded-3xl bg-green-900 px-6 py-12 sm:px-10 sm:py-16">
+              <TextureOverlay texture="/texture-leather-gold.jpg" watermark="/logo-icon-watermark-gold.png" blend="mix-blend-soft-light" opacity="opacity-60" />
+              <Reveal className="relative">
+                <h2 className="text-center text-2xl font-semibold text-cream-100 sm:text-3xl">
+                  {section.heading}
+                </h2>
+              </Reveal>
+              <RevealStagger className="relative mt-12 grid gap-10 sm:grid-cols-2 lg:grid-cols-5">
+                {sectors.map((s) => {
+                  const SectorIcon = SECTOR_ICONS[s.icon] ?? Coffee;
+                  return (
+                    <div key={s.name} className="group flex flex-col items-center text-center">
+                      <div className="flex h-16 w-16 items-center justify-center rounded-full bg-cream-100 text-green-700 shadow-lg transition duration-300 group-hover:-translate-y-0.5 group-hover:scale-105">
+                        <SectorIcon size={28} weight="bold" />
+                      </div>
+                      <h3 className="mt-4 font-semibold text-cream-100">{s.name}</h3>
+                      <p className="mt-2 text-sm leading-relaxed text-cream-100/70">{s.body}</p>
+                    </div>
+                  );
+                })}
+              </RevealStagger>
+            </div>
           </Section>
         );
       }
-      case "offerBlock":
+      case "offerBlock": {
+        const bullets = section.bullets ?? [];
+        // Split into two even columns of up to 3 (Zoe, Nov 2026: "try 2
+        // column section with 3 items each side using a coffee bean as the
+        // visual icon for each") rather than interleaving row-by-row.
+        const half = Math.ceil(bullets.length / 2);
+        const columns = [bullets.slice(0, half), bullets.slice(half)];
         return (
           // What we can offer - photo + bullet list, mirrors the intro's
           // two-column layout with the image on the opposite side.
+          //
+          // Nov 2026 (Zoe): "the way this is formatted does not make it
+          // clear that it's a list" - the bare paragraphs are now a proper
+          // two-column list, each item marked with a coffee bean icon
+          // rather than relying on layout alone to read as a list.
           <Section key={section._key}>
             <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
               <Reveal className="order-2 lg:order-1">
@@ -124,15 +170,23 @@ export default async function WhiteLabelCoffeePage() {
               </Reveal>
               <Reveal delay={0.1} className="order-1 lg:order-2">
                 <h2 className="text-2xl font-semibold text-green-700 sm:text-3xl">{section.heading}</h2>
-                <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-3 sm:grid-cols-2">
-                  {section.bullets?.map((b, i) => (
-                    <p key={i} className="text-sm text-ink-soft">{b}</p>
+                <div className="mt-6 grid grid-cols-1 gap-x-8 gap-y-5 sm:grid-cols-2">
+                  {columns.map((col, colIndex) => (
+                    <ul key={colIndex} className="space-y-4">
+                      {col.map((b, i) => (
+                        <li key={i} className="flex items-start gap-3">
+                          <CoffeeBean size={18} weight="bold" className="mt-0.5 shrink-0 text-gold-700" />
+                          <span className="text-sm text-ink-soft">{b}</span>
+                        </li>
+                      ))}
+                    </ul>
                   ))}
                 </div>
               </Reveal>
             </div>
           </Section>
         );
+      }
       case "howItWorksBlock": {
         const steps = section.steps ?? [];
         return (
@@ -178,15 +232,35 @@ export default async function WhiteLabelCoffeePage() {
           // Group scale, reusing the same shared stat documents as Home/
           // About/Private Label (see stat.ts) rather than new page-specific
           // numbers.
+          //
+          // Nov 2026 (Zoe): "this feels a bit lost as it currently sits/is
+          // implemented" - previously a bare row of stats with just a thin
+          // top border. Given its own heading, a short supporting line and
+          // a tinted, bordered panel so it reads as a deliberate section
+          // rather than a leftover strip between how-it-works and
+          // innovation.
           <Section key={section._key} pad="py-12 sm:py-16">
-            <RevealStagger className="grid gap-8 border-t border-cream-200 pt-10 sm:grid-cols-3">
-              {SCALE_STATS.map((s) => {
-                const StatIcon = STAT_ICONS[s.icon ?? ""] ?? Package;
-                return (
-                  <StatTile key={s.label} value={s.value} label={s.label} icon={<StatIcon size={20} weight="bold" />} />
-                );
-              })}
-            </RevealStagger>
+            <div className="rounded-3xl border border-cream-200 bg-cream-200/40 px-6 py-10 sm:px-10 sm:py-12">
+              <Reveal className="max-w-xl">
+                {section.heading ? (
+                  <>
+                    <AccentRule />
+                    <h2 className="mt-4 text-2xl font-semibold text-green-700 sm:text-3xl">
+                      {section.heading}
+                    </h2>
+                  </>
+                ) : null}
+                {section.intro ? <p className="mt-3 text-ink-soft">{section.intro}</p> : null}
+              </Reveal>
+              <RevealStagger className="mt-10 grid gap-8 border-t border-cream-200 pt-8 sm:grid-cols-3">
+                {SCALE_STATS.map((s) => {
+                  const StatIcon = STAT_ICONS[s.icon ?? ""] ?? Package;
+                  return (
+                    <StatTile key={s.label} value={s.value} label={s.label} icon={<StatIcon size={20} weight="bold" />} />
+                  );
+                })}
+              </RevealStagger>
+            </div>
           </Section>
         );
       case "innovationBlock": {
@@ -217,20 +291,41 @@ export default async function WhiteLabelCoffeePage() {
         return (
           // Formats we pack into - also folded in (no independent search
           // volume of its own either).
+          //
+          // Nov 2026 (Zoe): "these lozenges don't work, they feel like they
+          // should be clickable/buttons" - the Pill row (which elsewhere on
+          // the site IS a real link/button, see ui.tsx's Pill component) was
+          // reading as interactive controls, not a plain list of formats.
+          // Rebuilt as a grid of static icon tiles instead, so nothing here
+          // looks clickable. Icons are generic Phosphor stand-ins per
+          // format (see FORMAT_ICONS above) rather than bespoke pack-shape
+          // graphics - flagged to the client as a follow-up if they'd
+          // rather have real illustrations/photography per format.
           <Section key={section._key}>
             <Reveal>
               <h2 className="text-center text-2xl font-semibold text-green-700 sm:text-3xl">
                 {section.heading}
               </h2>
-              <div className="mt-8 flex flex-wrap justify-center gap-3">
-                {formats.map((f) => (
-                  <Pill key={f}>{f}</Pill>
-                ))}
-              </div>
-              <p className="mx-auto mt-6 max-w-xl text-center text-sm text-ink-soft">
-                {section.note}
-              </p>
             </Reveal>
+            <RevealStagger className="mx-auto mt-10 grid max-w-3xl grid-cols-2 gap-6 sm:grid-cols-3 lg:grid-cols-4">
+              {formats.map((f) => {
+                const FormatIcon = FORMAT_ICONS[f] ?? Package;
+                return (
+                  <div
+                    key={f}
+                    className="flex flex-col items-center gap-3 rounded-xl border border-cream-200 bg-cream-100 px-4 py-6 text-center"
+                  >
+                    <div className="flex h-11 w-11 items-center justify-center rounded-full bg-green-700/10 text-green-700">
+                      <FormatIcon size={20} weight="bold" />
+                    </div>
+                    <p className="text-sm font-medium text-ink">{f}</p>
+                  </div>
+                );
+              })}
+            </RevealStagger>
+            <p className="mx-auto mt-8 max-w-xl text-center text-sm text-ink-soft">
+              {section.note}
+            </p>
           </Section>
         );
       }

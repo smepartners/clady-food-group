@@ -14,7 +14,7 @@ export type IntroBlockSection = { _key: string; _type: "introBlock"; hidden?: bo
 export type SectorsBlockSection = { _key: string; _type: "sectorsBlock"; hidden?: boolean; heading?: string; sectors?: SectorData[] };
 export type OfferBlockSection = { _key: string; _type: "offerBlock"; hidden?: boolean; heading?: string; bullets?: string[]; image?: string };
 export type HowItWorksBlockSection = { _key: string; _type: "howItWorksBlock"; hidden?: boolean; heading?: string; intro?: string; steps?: StepData[] };
-export type ScaleStatsBlockSection = { _key: string; _type: "scaleStatsBlock"; hidden?: boolean };
+export type ScaleStatsBlockSection = { _key: string; _type: "scaleStatsBlock"; hidden?: boolean; heading?: string; intro?: string };
 export type InnovationBlockSection = { _key: string; _type: "innovationBlock"; hidden?: boolean; heading?: string; cards?: InnovationCardData[] };
 export type FormatsBlockSection = { _key: string; _type: "formatsBlock"; hidden?: boolean; heading?: string; formats?: string[]; note?: string };
 export type CrossSellBlockSection = { _key: string; _type: "crossSellBlock"; hidden?: boolean; heading?: string; body?: string; linkLabel?: string; href?: string };
@@ -58,18 +58,6 @@ const FALLBACK: WhiteLabelCoffeePageContent = {
       image: "/photo-produce-coffee.jpg",
     },
     {
-      _key: "fallback-sectors",
-      _type: "sectorsBlock",
-      heading: "If your customers drink coffee, we can make it for you",
-      sectors: [
-        { name: "Retailers & grocers", body: "Own-label range across price tiers", icon: "Storefront", tone: "gold" },
-        { name: "Cafés & hospitality", body: "A signature house blend", icon: "Coffee", tone: "green" },
-        { name: "Food service & caterers", body: "Consistent bulk supply", icon: "ForkKnife", tone: "olive" },
-        { name: "Start-ups & challengers", body: "Launching a first coffee product", icon: "Rocket", tone: "gold" },
-        { name: "Gift & subscription brands", body: "Quality product, no roastery needed", icon: "Gift", tone: "green" },
-      ],
-    },
-    {
       _key: "fallback-offer",
       _type: "offerBlock",
       heading: "What we can offer",
@@ -96,7 +84,24 @@ const FALLBACK: WhiteLabelCoffeePageContent = {
         { title: "Production & delivery", body: "Roasted, packed, dispatched on time, in full" },
       ],
     },
-    { _key: "fallback-scale-stats", _type: "scaleStatsBlock" },
+    {
+      _key: "fallback-sectors",
+      _type: "sectorsBlock",
+      heading: "If your customers drink coffee, we can make it for you",
+      sectors: [
+        { name: "Retailers & grocers", body: "Own-label range across price tiers", icon: "Storefront", tone: "gold" },
+        { name: "Cafés & hospitality", body: "A signature house blend", icon: "Coffee", tone: "green" },
+        { name: "Food service & caterers", body: "Consistent bulk supply", icon: "ForkKnife", tone: "olive" },
+        { name: "Start-ups & challengers", body: "Launching a first coffee product", icon: "Rocket", tone: "gold" },
+        { name: "Gift & subscription brands", body: "Quality product, no roastery needed", icon: "Gift", tone: "green" },
+      ],
+    },
+    {
+      _key: "fallback-scale-stats",
+      _type: "scaleStatsBlock",
+      heading: "Backed by group scale",
+      intro: "Part of the wider Clady Group, with the manufacturing footprint and track record to back a coffee launch of any size.",
+    },
     {
       _key: "fallback-innovation",
       _type: "innovationBlock",
