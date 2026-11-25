@@ -137,33 +137,39 @@ export default async function WhiteLabelCoffeePage() {
         const steps = section.steps ?? [];
         return (
           // How it works - dark, textured band matching CSR's "Our impact"
-          // treatment (gold leather texture + gold watermark on bg-green-900),
-          // per client feedback that the page needed more texture/colour
-          // variety rather than sitting on one flat tone throughout. Plain
-          // digits in a ring badge (not icons, not leading-zero step
-          // numbers) since these are sequential steps, not categorised
-          // features.
+          // treatment (gold leather texture + gold watermark on bg-green-900).
+          //
+          // Nov 2026 (George, 25th): "the horizontal numbered section needs
+          // to take on the vertical list style from the homepage" - was a
+          // 5-column grid of equal-width cards; rebuilt as the same
+          // divide-y stacked row layout as the homepage's "What drives us"
+          // band (values-section.tsx's ValuesDarkBand), a fixed-width
+          // label column (badge + title) on the left and the body copy on
+          // the right. Keeps the plain-digit ring badge rather than
+          // switching to an icon - unlike that values list, these are
+          // genuinely sequential steps, so the numbering stays.
           <Section key={section._key} className="relative overflow-hidden bg-green-900">
             <TextureOverlay texture="/texture-leather-gold.jpg" watermark="/logo-icon-watermark-gold.png" />
-            <Reveal className="relative">
-              <h2 className="text-center text-2xl font-semibold text-cream-100 sm:text-3xl">
-                {section.heading}
-              </h2>
-              <p className="mx-auto mt-4 max-w-xl text-center text-cream-100/75">
-                {section.intro}
-              </p>
-              <RevealStagger className="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-5">
-                {steps.map((s, i) => (
-                  <div key={s.title} className="flex flex-col gap-3">
-                    <span className="flex h-11 w-11 items-center justify-center rounded-full bg-gold-500/15 text-sm font-semibold text-gold-500">
+            <Reveal className="relative max-w-xl">
+              <h2 className="text-2xl font-semibold text-cream-100 sm:text-3xl">{section.heading}</h2>
+              <p className="mt-4 text-cream-100/75">{section.intro}</p>
+            </Reveal>
+            <RevealStagger className="relative mt-12 divide-y divide-cream-100/10 border-t border-cream-100/10">
+              {steps.map((s, i) => (
+                <div
+                  key={s.title}
+                  className="group flex flex-col gap-4 py-8 sm:flex-row sm:items-center sm:gap-10 sm:py-10"
+                >
+                  <div className="flex items-center gap-4 sm:w-64 sm:shrink-0">
+                    <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-gold-500/15 text-sm font-semibold text-gold-500 ring-1 ring-inset ring-gold-500/30 transition duration-300 group-hover:scale-105">
                       {i + 1}
                     </span>
-                    <h3 className="font-semibold text-cream-100">{s.title}</h3>
-                    <p className="text-sm leading-relaxed text-cream-100/75">{s.body}</p>
+                    <h3 className="text-xl font-semibold text-cream-100 sm:text-2xl">{s.title}</h3>
                   </div>
-                ))}
-              </RevealStagger>
-            </Reveal>
+                  <p className="max-w-xl text-cream-100/70 sm:text-lg">{s.body}</p>
+                </div>
+              ))}
+            </RevealStagger>
           </Section>
         );
       }
